@@ -12,7 +12,7 @@ Our first "challenge" used a preprocessor directive, specifically the #include d
 We will utilize the preprocessor to:
 create are own constants and macros with the #define statement
 build your own library files with the #include statement
-make more powerful programs with the conditional #ifdef, #endif, #else, and #ifndef Statements
+make more powerful programs with the conditional #ifdef, #endif, #else, and #ifndef Statements.
 ## The #include statement
 ### sytax
 ## Displaying Output
