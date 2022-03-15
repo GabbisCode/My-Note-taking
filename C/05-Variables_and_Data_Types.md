@@ -58,15 +58,15 @@ x=112;
 
 To initialize a variable means to assign it a starting, or initial, value. Initialization can be done as part of the declaration: follow the variable name with the assignment operator (=) and the value you want the variable to have
 
-```
+```c
 int x = 21;
 ```
 
-```
+```c
 int y = 32, z= 14;
 ```
 
-```
+```c
 int x, z = 94;   
 /* 
 valid, but poor, form 
@@ -90,7 +90,7 @@ Some examples of basic data types in C are: *int*; *float*; *double*; *char*; *_
 
 A variable of type *int* can be used to contain integral values only (values that do not contain decimal places). A minus sign preceding the data type and variable indicates that the value is negative. The int type is a **signed** integer. It must be an integer and it can be positive, negative, or zero. If an integer is preceded by a zero and the letter x (either lowercase or uppercase), the value is taken as being expressed in hexadecimal (base 16) notation.
 
-```
+```c
 int rgbColor = OxFFEFOD;
 ```
 
@@ -116,7 +116,7 @@ need to indicate a Boolean condition. A variable of this type might be used to i
 
 C89 _Bool; C99 bool
 
-```
+```c
 #include<stdio.h>
 #include<stdbool.h>
 
@@ -128,7 +128,7 @@ int main()
 
 ### Example
 
-```
+```c
 #include<stdio.h>
 
 int main(void)
@@ -151,13 +151,13 @@ C offers three adjective keywords to modify the basic integer type (can also be 
 memory and the amount of available memory is limited. The type long int, or long, may use more
 storage than int, thus enabling you to express larger integer values. The type long long int, or long long may use more storage than long. A constant value of type long int is formed by optionally appending the letter L (upper-or lowercase) onto the end of an integer constant.
 
-```
+```c
 long int numberOfPoints = 131071100L;
 ```
 
 Type specifiers can also be applied to doubles
 
-```
+```c
 long double US_deficit_2017;
 ```
 
@@ -187,19 +187,19 @@ Variables declared to be of this data type can be assigned the values red, yello
 * followed by the enumerated type name
 * followed by the variable list. So the statement
 
-```
+```c
 enum primaryColor myColor, gregsColor;
 ```
 
 It defines the two variables myColor and gregsColor to be of type primaryColor. The only permissible values that can be assigned to these variables are the names red, yellow, and blue.
 
-```
+```c
 myColor = red;
 ```
 
 Another example:
 
-```
+```c
 enum month { January, February, March, April, May, June, July, August, September, October, November, December };
 ```
 
@@ -207,7 +207,7 @@ enum month { January, February, March, April, May, June, July, August, September
 
 The compiler actually treats enumeration identifiers as integer constants. First name in list is 0.
 
-```
+```c
 enum month thisMonth;
 thisMonth = February;
 ```
@@ -216,7 +216,7 @@ The value 1 is assigned to thisMonth (and not the name February) because it is t
 
 If you want to have a specific integer value associated with an enumeration identifier, the integer can be assigned to the identifier when the data type is defined.
 
-```
+```c
 enum direction { up, down, left = 10, right};
 ```
 
