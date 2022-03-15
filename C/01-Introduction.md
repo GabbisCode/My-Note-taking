@@ -70,8 +70,6 @@ For the above steps, you may have to jump around steps and repeat steps e.g. whe
 
 ## Overview of C Language
 
-### Overview
-
 C is a general-purpose, imperative computer programming language that supports structured programming. It uses statements that change a program's state, focuses on how.
 
 C is a modern language, it has most basic control structures and features of modern languages
