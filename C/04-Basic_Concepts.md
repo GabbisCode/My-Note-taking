@@ -14,7 +14,7 @@ There are two ways to add comments into a C program.
 
 By using the two characters / and \* marks the beginning of the comment. These types of comments have to be terminated. To end the comment, the characters \* and / are used without any embedded spaces. All characters included between the opening /\* and the closing \*/ are treated as part of the comment.
 
-```
+```c
 /*
 *Written by Jason Fedin
 *Copyright 2017
@@ -23,7 +23,7 @@ By using the two characters / and \* marks the beginning of the comment. These t
 
 You can also embellish comments to make them stand out:
 
-```
+```c
 /*******************************************
 *This is a very important comment	*
 *so please read this.	*
@@ -36,13 +36,13 @@ By using two consecutive slash characters //. Any characters that follow these s
 
 You can add a comment at the end of a line of code
 
-```
+```c
 printf("Hello, nope!"); // This line displays a quotation
 ```
 
 ### Example
 
-```
+```c
 /* This program adds two integer values and displays the results */
 
 #include <stdio.h>
@@ -86,7 +86,7 @@ We will utilize the preprocessor to:
 
 the #include statement is a preprocessor directive
 
-```
+```c
 #include <stdio.h>
 ```
 
@@ -117,16 +117,16 @@ Two ways to #include header files in a program
 
 Every C compiler that conforms to the C11 standard will have a set of standard header files supplied with it. You should use *#ifndef* and *#define* to protect against multiple inclusions of a header file.
 
-```
+```c
 // some header
 ```
 
-```
+```c
 // typedefs
 typedef struct names_st names;
 ```
 
-```
+```c
 // function prototypes
 void get_names(names *);
 void show names(const names *);
@@ -143,7 +143,7 @@ Executable code normally goes into a source code file, not a header file.
 
 ## printf() Function
 
-```
+```c
 printf("Hi, my name is Jason"); //this line does end with a semicolon
 ```
 
@@ -173,14 +173,14 @@ The *scanf()* function uses whitespace (newlines, tabs, and spaces) to decide ho
 
 ### Example
 
-```
+```c
 #include <stdio.h>
 int main() {
 
   char str[100];
   int i;
 
-  printf( "Enter a value :");
+  printf("Enter a value :");
   scanf("%s %d", str, &i);
 
   printf( "\nYou entered: %s %d ", str, i);

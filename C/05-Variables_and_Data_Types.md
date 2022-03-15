@@ -23,9 +23,13 @@ The rules for naming variables in C is that all names must begin with a letter o
 0-9, e.g. Jason, myFlag, i, 15x7, my_data, _anotherVariable
 
 The below lists some examples of invalid variable names:
+
 ~~temp\$value~~ - $ is not a valid character
+
 ~~my flag~~ -  embedded spaces are not permitted
+
 ~~3Jason~~ - variable names cannot start with a number
+
 ~~int~~ - int is a reserved word
 
 Use meaningful names when selecting variable names, because they can dramatically increase the readability of a program and pay off in the debug and documentation phases.
@@ -40,18 +44,18 @@ Declaring a variable is when you specify the type of the variable followed by th
 
 For example, the keyword **int** is used to declare the basic integer variable. First comes int, and then the chosen name of the variable, and then a semicolon: *type-specifier variable-name;* to declare more than one variable, you can declare each variable separately, or you can follow the int with a list of names in which each name is separated from the next by a comma. C requires that all program variables be declared before they are used in a program.
 
-```
+```c
 int x;
 ```
 
-```
+```c
 int x, y, z;
 ```
 
 The above creates variables but does not provide values for them. We can assign a variable a value by using the = operator.
 
-```
-x=112;
+```c
+x = 112;
 ```
 
 ### Initializing Variables
@@ -228,7 +232,7 @@ Chars represent a single character such as the letter 'a', the digit character '
 
 #### Declaring a char
 
-```
+```c
 char broiled;		/* declare a char variable */
 broiled = 'T';		/* OK */
 ```
@@ -243,7 +247,7 @@ If you use double quotes, it thinks you are using a string
 
 You can also use the numerical code to assign values
 
-```
+```c
 char grade = 65;        /* ok for ASCII, but poor style */
 ```
 
@@ -257,7 +261,7 @@ C contains special characters that represent actions:
 
 We can represent these actions by using special symbol sequences, called **escape sequences**. Escape sequences must be enclosed in single quotes when assigned to a character variable.
 
-```
+```c
 char x = '\n';
 ```
 
@@ -269,7 +273,7 @@ And then print the variable x to advance the printer or screen one line.
 
 Format specifiers are used when displaying variables as output. They specify the type of data of the variable to be displayed.
 
-```
+```c
 int sum = 89;
 printf("The sum is %d\n", sum);
 ```
@@ -278,7 +282,7 @@ The printf() function can display as output the values of variables. It has two 
 
 ### Example
 
-```
+```c
 #include <stdio.h>
 
 int main (void)
@@ -300,7 +304,7 @@ int main (void)
 }
 ```
 
-```
+```c
 float x = 3.93232323;
 printf("%.5f", x); //3.93232
 ```
@@ -324,7 +328,7 @@ We know that the main() function is a special function in C. It is basically the
 
 The first entry in this array is a pointer to the name of the program that is executing.
 
-```
+```c
 int main (int argc, char *argvi[])
 {
   int numberOfArguements = argc;
