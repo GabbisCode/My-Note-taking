@@ -234,8 +234,11 @@ broiled = 'T';		/* OK */
 ```
 
 ~~broiled = T;~~		/\* NO! Thinks T is a variable \*/
+
 If you omit the quotes, the compiler thinks that T is the name of a variable
+
 ~~broiled = "T";~~		/\* NO! Thinks "T" is a string \*/
+
 If you use double quotes, it thinks you are using a string
 
 You can also use the numerical code to assign values
