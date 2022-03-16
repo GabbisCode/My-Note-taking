@@ -1,0 +1,15 @@
+{
+    // VS Code配置
+    "editor.fontSize": 20,
+    "files.associations": {
+        "*.c": "c",
+        "stdio.h": "c"
+    },
+    "terminal.integrated.profiles.windows": {
+        "Command Prompt": {
+            "path": "E:\\Cygwin64\\bin\\bash.exe"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Command Prompt" //默认的终端配置,
+    
+}
