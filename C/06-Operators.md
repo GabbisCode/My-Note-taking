@@ -131,7 +131,48 @@ Each position for a binary number has a value. For each digit, multiply the digi
 
 ![Bitwise_Operators](image/Bitwise_Operators.png)
 
-Truth Table
+There are  a couple key things you need to know, when you need to **shift left to right**. First of all we know that unsigned int means that it only can be positive, so if you store an nagetive value in there, the compiler's conversion- will be longer and takes up a lot of sizes.
+
+#### Binary AND&, Binary OR
+
+```c
+#include<stdio.h>
+
+int main()
+{
+  unsigned int a = 60; // 0011 1100
+  unsigned int b = 13; // 0000 1101
+  int result = 0;
+
+  result = a & b; // 0000 1100
+  printf("The result is %d.\n", result);
+
+  result = a | b; // 0011 1101
+  printf("The result is %d.", result);
+
+  return 0;
+}
+```
+
+#### Binary Left Shift<<, Binary Right Shift>>
+
+```c
+int main()
+{
+  unsigned int a = 60; // 0000 0000 0000 0000 0000 0000 0011 1100
+  int result = 0;
+
+  result = a << 2; // 1111 0000
+  printf("The result is %d.", result); //240
+
+  result = a >> 4; //0000 0011
+  printf("The result is %d.", result); //3
+
+  return 0;
+}
+```
+
+### Truth Table
 
 ![Truth_Table](image/Truth_Table.png)
 
