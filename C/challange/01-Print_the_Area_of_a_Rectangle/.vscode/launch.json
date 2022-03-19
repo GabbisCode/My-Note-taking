@@ -9,7 +9,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/challenge.exe",
+            "program": "${workspaceFolder}/01-Print_the_Area_of_a_Rectangle.exe",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",

@@ -9,7 +9,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/challenge.exe",
+            "program": "${workspaceFolder}/02-Create_and_use_an_enum_type.exe",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",

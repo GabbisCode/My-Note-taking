@@ -11,8 +11,8 @@
             "args": [
                 "-g",
                 "-o",
-                "challenge", //name the executable
-                "challenge.c"  //source file
+                "02-Create_and_use_an_enum_type", //name the executable
+                "02-Create_and_use_an_enum_type.c"  //source file
             ],
             "group": {
                 "kind": "build",

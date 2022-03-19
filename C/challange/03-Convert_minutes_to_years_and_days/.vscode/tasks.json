@@ -11,8 +11,8 @@
             "args": [
                 "-g",
                 "-o",
-                "challenge", //name the executable
-                "challenge.c"  //source file
+                "03-Convert_minutes_to_years_and_days", //name the executable
+                "03-Convert_minutes_to_years_and_days.c"  //source file
             ],
             "group": {
                 "kind": "build",

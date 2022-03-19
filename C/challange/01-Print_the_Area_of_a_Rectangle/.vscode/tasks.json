@@ -11,8 +11,8 @@
             "args": [
                 "-g",
                 "-o",
-                "challenge", //name the executable
-                "challenge.c"  //source file
+                "01-Print_the_Area_of_a_Rectangle", //name the executable
+                "01-Print_the_Area_of_a_Rectangle.c"  //source file
             ],
             "group": {
                 "kind": "build",

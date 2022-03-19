@@ -9,7 +9,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/challenge.exe",
+            "program": "${workspaceFolder}/03-Convert_minutes_to_years_and_days.exe",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
