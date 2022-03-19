@@ -9,7 +9,7 @@ variable separated by a newline. Correct output would be if XEROX, GOOGLE, and E
 * 0
 * 4
 
-# Answer
+# Code by Jason
 
 ```c
 #include <stdio.h>

@@ -9,7 +9,7 @@ In this challenge, you are to create a C program that converts the number of min
 
 Need to perform a calculation and use arithmetic operators. You have to figure out the conversions.
 
-# Answer
+# Code by Jason
 
 ```c
 #include <stdio.h>

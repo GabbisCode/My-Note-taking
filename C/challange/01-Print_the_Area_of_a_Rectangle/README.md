@@ -13,7 +13,7 @@ The program should display the height, width, and perimeter variables in the cor
 
 The program should display the height, width, and area variables in the correct format in one print statement.
 
-# Answer
+# Code by Jason
 
 ```c
 /* Author: Jason Fedin
