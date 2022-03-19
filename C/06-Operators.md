@@ -255,4 +255,4 @@ Operators == and != have same precedence. The associativity of both == and != is
 
 ### Table (highest to lowest) (tutorials point)
 
-![Table_highest_to_lowest01](image/Table_highest_to_lowest01.png)
+![Table_highest_to_lowest](image/Table_highest_to_lowest.png)
