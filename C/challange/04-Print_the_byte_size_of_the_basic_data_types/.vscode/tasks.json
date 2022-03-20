@@ -1,0 +1,23 @@
+{
+    // 编译任务 配置
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": " hello world",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "-o",
+                "04-Print_the_byte_size_of_the_basic_data_types", //name the executable
+                "04-Print_the_byte_size_of_the_basic_data_types.c"  //source file
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
