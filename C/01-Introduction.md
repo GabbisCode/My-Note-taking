@@ -1,10 +1,10 @@
 # 01-Introduction
 
-## Terminology
-
 The basic operations of a computer will form what is known as the computer's **instruction set**. To solve a problem using a computer, you must provide a solution to the problem by sending instructions to the instruction set.
 
 A computer **program** sends the instructions necessary to solve a specific problem, the approach or method that is used to solve the problem is known as an **algorithm**. If we were to create a program that tests if a number is odd or even, the statements that solve the problem becomes the program, the method that is used to test if the number is even or odd is the algorithm. To write a program, you need to write the instructions necessary to implement the algorithm these instructions would be expressed in the statements of a particular computer language, such as Java, C++, Objective-C, or C.
+
+## Terminology
 
 ### CPU
 
@@ -73,20 +73,21 @@ For the above steps, you may have to jump around steps and repeat steps e.g. whe
 C is a general-purpose, imperative computer programming language that supports structured programming. It uses statements that change a program's state, focuses on how.
 
 C is a modern language, it has most basic control structures and features of modern languages
-designed for **top-down** planning. it organized around the use of functions (modular design) structured programming. It's a very reliable and readable program.
+designed for **top-down** planning. It's organized around the use of functions (modular design) structured programming. It's a very reliable and readable program.
 
 C is used on everything from minicomputers, Unix/Linux systems to pc's and mainframes; C is the preferred language for producing word processing programs, spreadsheets and compilers; C has become popular for programming embedded systems, used to program microprocessors found in automobiles, cameras, DVD players, etc; C has and continues to play a strong role in the development of Linux.
 
-C programs are easy to modify and easy to adapt to new models or languages. In the 1990s, many software houses began turning to the C++ language for large programming projects. **C is a subset of C++** with object-oriented programming tools added, and any C program is a valid C++ program. By learning C, you also learn much of C++. C provides constructs that map efficiently to typical machine instructions and thus is used by programs that were previously implement in assembly language. It **provides low-level access to memory** (has many low-level capabilities)
-requires minimal run-time support.
+C programs are easy to modify and easy to adapt to new models or languages. In the 1990s, many software houses began turning to the C++ language for large programming projects. **C is a subset of C++** with object-oriented programming tools added, and any C program is a valid C++ program. By learning C, you also learn much of C++. C provides constructs that map efficiently to typical machine instructions and thus is used by programs that were previously implement in assembly language. It **provides low-level access to memory** (has many low-level capabilities). It requires minimal run-time support.
 
 ### History
 
-C was invented in 1972 by Dennis Ritchie of Bell Laboratories.Ritchie was working on the design of the UNIX operating System and C was created as a tool for working programmers. The main goal is to be a useful language with easy readability and writability. C initially became widely known as the development language of the UNIX operating system. Virtually all new major operating systems are written in C and/or C++.
+C was invented in 1972 by Dennis Ritchie of Bell Laboratories. Ritchie was working on the design of the UNIX operating System and C was created as a tool for working programmers. The main goal is to be a useful language with easy readability and writability. C initially became widely known as the development language of the UNIX operating system. Virtually all new major operating systems are written in C and/or C++.
 
 C evolved from a previous programming language named B.  It uses many of the important concepts of B while adding data typing and other powerful features. B was a "typeless" language - every data item occupied one "word" in memory, and the burden of typing variables fell on the shoulders of the programmer.
 
-C is available for most computers. C is also hardware independent.
+C is available for most computers. 
+
+C is also hardware independent.
 
 ### Standard
 
@@ -134,13 +135,10 @@ C implementations have a large library of useful C functions, they deal with com
 
 ### Other Features
 
-provides low level features that are generally provided by the Lower level languages
+C provides low level features that are generally provided by the Lower level languages: programs can be manipulated using bits: ability to manage memory representation at bit level, provides wide variety of bit manipulation operators.Pointers play a big role in C: direct access to memory; supports efficient use of pointers
 
-programs can be manipulated using bits: ability to manage memory representation at bit level, provides wide variety of bit manipulation operators
+#### Disadvantages
 
-pointers play a big role in C: direct access to memory; supports efficient use of pointers
-
-Disadvantages
 Flexibility and freedom also requires added responsibility. Use of pointers is problematic and abused. You can make programming errors that are difficult to trace. Sometimes because of its wealth of operators and its conciseness, it makes the language difficult to read and follow, there is an opportunity to write obscure code.
 
 ## Creating a C Program

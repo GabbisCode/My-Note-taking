@@ -92,7 +92,7 @@ Some examples of basic data types in C are: *int*; *float*; *double*; *char*; *_
 
 ### int
 
-A variable of type *int* can be used to contain integral values only (values that do not contain decimal places). A minus sign preceding the data type and variable indicates that the value is negative. The int type is a **signed** integer. It must be an integer and it can be positive, negative, or zero. If an integer is preceded by a zero and the letter x (either lowercase or uppercase), the value is taken as being expressed in hexadecimal (base 16) notation.
+A variable of type *int* can be used to contain integral values only (values that do not contain decimal places). A minus sign preceding the data type and variable indicates that the value is negative. The int type is a **signed** integer. It must be an integer and it can be positive, negative, or zero. If an integer is preceded by a zero and the letter x (either lowercase or uppercase), the value is taken as being expressed in **hexadecimal** (base 16) notation.
 
 ```c
 int rgbColor = OxFFEFOD;

@@ -189,4 +189,15 @@ int main() {
 }
 ```
 
+```c
+#include <stdio.h>
+
+int main ()
+{
+  double x;
+
+  scanf("%lf", &x);
+}
+```
+
 When a program uses scanf to gather input from the keyboard, it waits for you to input some text. When you enter some text and press enter, then program proceeds and reads the input. Remember, *scanf()* expects input in the same format as you provided %s and %d, you have to provide valid inputs like "string integer".
