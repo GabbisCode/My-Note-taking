@@ -119,7 +119,7 @@ Each position for a binary number has a value. For each digit, multiply the digi
 
 **From right to left: 1+8+32+64 = 105;**
 
-**from left to right: ((1+1\*2)\*2\*2+1)\*2\*2\*2+1 = 105**
+**from left to right: ((1+1\*2)\*2\*2+1)\*2\*2\*2+1 = 105** 想象我每往右看多1bit时都整体往左移动一位，那么就是整体×一个进制，这里的进制是2，则×2。
 
 ![Binary_Numbers02](image/Binary_Numbers02.png)
 
