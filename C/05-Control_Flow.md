@@ -319,283 +319,290 @@ if (ch != 'y')
 goto top;
 ```
 
+## for loop
 
-Overview
-•Lets discuss repeating code
-•the C programming language has a few constructs specifically designed to handle these situations
-when you need to use the same code repeatedly
-•you can repeat a block of statements until some condition is met or a specific number of times
-•repeating code without a condition is a forever/infinite loop
-• the number of times that a loop is repeated can be controlled simply by a count
-•repeating the statement block a given number of time (counter controlled loop)
-•the number of times that a loop is repeated can depend on when a condition is met
-•the user entering "quit"
+Repeating code: you can repeat a block of statements until some condition is met or a specific number of times. Repeating code without a condition is a forever/infinite loop.
 
-for loop
-• You typically use the for loop to execute a block of statements a given number of times
-• If you want to display the numbers from 1 to 10
-• Instead of writing ten statements that call printf(), you would use a for loop
+There are two types of loops:
+
+* Counter controlled loop: the number of times that a loop is repeated can be controlled simply by a count, repeating the statement block a given number of time
+* Sentiner control loop: the number of times that a loop is repeated can depend on when a condition is met or until the user entering "quit"
+
+### for loop
+
+Used to execute a block of statements a given number of times.
+
+If you want to display the numbers from 1 to 10, instead of writing ten statements that call printf(), you would use a for loop, eg.
+
+```c
 for(int count = 1 ; count <= 10 ; ++count)
 {
 printf(" %d", count);
 }
-• The for loop operation is controlled by what appears between the parentheses that follow the keyword for
-• the three control expressions that are separated by semicolons control the operation of the loop
-• The action that you want to repeat each time the loop repeats is the block containing the statement that calls printf()
-(body of the loop)
-•for single statements, you can omit the braces
+```
 
-For syntax (cont'd)
-• The general pattern for the for loop is:
-for(starting condition; continuation condition ; action per iteration)
+The for loop operation is controlled by what appears between the parentheses that follow the keyword for. The three control expressions that are separated by semicolons control the operation of the loop.The action that you want to repeat each time the loop repeats is the block containing the statement that calls printf() (body of the loop).For single statements, you can omit the braces.
+
+The general pattern for the for loop is:
+
+for(starting condition; continuation condition ; action_per_iteration)
 loop statement;
-• The statement to be repeated is represented by loop statement
-•could equally well be a block of several statements enclosed between braces
-•The starting_condition usually (but not always) sets an initial value to a loop control variable
-•the loop control variable is typically a counter of some kind that tracks how often the loop has been
-repeated
-•can also declare and initialize several variables of the same type here with the declarations
-separated by commas
-• variables will be local to the loop and will not exist once the loop ends
 
-Overview
-for(starting_condition; continuation_condition ; action_per_iteration)
-loop statement;
-• The continuation condition is a logical expression evaluating to true or false
-• determines whether the loop should continue to be executed
-• as long as this condition has the value true, the loop continues
-• typically checks the value of the loop control variable
-• you can put any logical or arithmetic expression here as long as you know what you are doing
-•the continuation condition is tested at the beginning of the loop rather than at the end
-• means that the loop statement will not be executed at all if the continuation condition starts out as false
-• The action per iteration is executed at the end of each loop iteration
-• usually an increment or decrement of one or more loop control variables
-•can modify several variables here, just need to use commas to separate
+The statement to be repeated is represented by loop_statement. It could equally well be a block of several statements enclosed between braces.
 
-Another Example
-for(inti=1,¡=2:1<=5; ++1, j=j+2)
-printf(" %5d", j*i);
-• The output produced by this fragment will be the values 2, 8, 18, 32, and 50 on a single line
+The starting_condition usually (but not always) sets an initial value to a loop control variable. The loop control variable is typically a counter of some kind that tracks how often the loop has been repeated. You can also declare and initialize several variables of the same type here with the declarations separated by commas. Variables will be local to the loop and will not exist once the loop ends.
+
+The continuation condition is a logical expression evaluating to true or false. It determines whether the loop should continue to be executed. As long as this condition has the value true, the loop continues. This will typically checks the value of the loop control variable. You can put any logical or arithmetic expression here as long as you know what you are doing. The continuation_condition is tested at the beginning of the loop rather than at the end. What this means is that the loop statement will not be executed at all if the continuation condition starts out as false.
+
+The action_per_iteration is executed at the end of each loop iteration. It is usually an increment or decrement of one or more loop control variables. You can modify several variables here, just need to use commas to separate.
+
+```c
+for(int i=1,j=2; i<=5; ++1, j=j+2)
+printf(" %5d", i*j);
+//The output produced by this fragment will be the values 2, 8, 18, 32, and 50 on a single line
+```
 
 ![1660052356292](image/Control_Flow03.png)
 
-for example (flexibility)
-unsigned long long sum = OLL;
-unsigned int count = 0;
-I/ Stores the sum of the integers
-I1 The number of integers to be summed
-I Read the number of integers to be summed
-printf(" nEnter the number of integers you want to sum: ");
-scanf(" %u", &count);
-I/ Sum integers from 1 to count
-for(unsigned int i = 1 ; i <= count; ++i)
-Sum += I:
-// OR
-for(unsigned int i = 1 ; i <= count; sum += i++);
-printf("In Total of the first %u numbers is %lluln", count, sum);
+```c
+unsigned long long sum = 0LL; //Stores the sum of the integers
+unsigned int count = 0; //The number of integers to be summed
 
-Infinite loop
-•you have no obligation to put any parameters in the for loop statement
-for(;: )
+//Read the number of integers to be summed
+printf("\nEnter the number of integers you want to sum: ");
+scanf(" %u", &count);
+
+//Sum integers from 1 to count
+for(unsigned int i = 1; i <= count; ++i)
+Sum += i;
+
+//OR
+//for(unsigned int i = 1 ; i <= count; sum += i++);
+//printf("\n Total of the first %u numbers is %llu\n", count, sum);
+```
+
+### Infinite loop
+
+You have no obligation to put any parameters in the for loop statement.
+
+for( ;; )
 {
 /* statements */
-•the condition for continuing the loop is absent, the loop will continue
-indefinitely
-•sometimes useful for monitoring data or listening for connections
+}
 
-While loop
-•the mechanism for repeating a set of statements allows execution to continue for as long as a
-specified logical expression evaluates to true
+The condition for continuing the loop is absent, the loop will continue indefinitely. Sometimes it is useful for monitoring data or listening for connections.
+
+## While and Do-While loops
+
+### While loop
+
+The While loop is the mechanism for repeating a set of statements allows execution to continue for as long as a specified logical expression evaluates to true.
+
 While this condition is true
 Keep on doing this
+
 OR
+
 While you are hungry
 Eat sandwiches
-• The general syntax for the while loop is as follows (one statement in body):
+
+The general syntax for the while loop is as follows (one statement in body):
+
 while( expression)
-statement1:
+statement1;
+
 or
+
 while (expression)
 {
-statement1:
-statement2:
+statement1;
+statement2;
+}
 
-While loop (cont'd)
-•the condition for continuation of the while loop is tested at the start (top of the loop)
-•pre-test loop
-•if expression starts out false, none of the loop statements will be executed
-•If you answer the first question "No, I'm not hungry,'
-" then you don't get to eat any sandwiches at
-all, and you move straight to the coffee
-•if the loop condition starts out as true, the loop body must contain a mechanism for changing this if
-the loop is to end
+pre-test loop: the condition for continuation of the while loop is tested at the start (top of the loop)
+
+If expression starts out false, none of the loop statements will be executed. If you answer the first question "No, I'm not hungry,' then you don't get to eat any sandwiches at all, and you move straight to the coffee. If the loop condition starts out as true, the loop body must contain a mechanism for changing this if the loop is to end.
 
 Counter Controlled While loop Example
-I/ Program to introduce the while statement
+
+```c
+//Program to introduce the while statement
+
 #include <stdio.h>
+
 int main (void)
 {
-int count = 1;
-while ( count <= 5 ) {
-printf ("%i\n", count);
-++count;
+	int count = 1;
+
+	while ( count <= 5 ) {
+		printf ("%i\n", count);
+		++count;
+	}
+
+	return O;
 }
-return O;
-}
+```
 
 Logic controlled while loop example
+
+```c
 int num = 0;
 scanf("%d", &num);
+
 while (num != -1)
 {
-/* loop actions */
-scanf("%d", &num);
+	/* loop actions */
+	scanf("%d", &num);
+}
+```
 
-do-while loop
-•In the while loop, the body is executed while the condition is true
-•the do-while loop is a loop where the body is executed for the first time unconditionally
-•always guaranteed to execute at least once
-•condition is at the bottom (post-test loop)
-• After initial execution, the body is only executed while the condition is true
+### do-while loop
+
+In the while loop, the body is executed while the condition is true, while the do-while loop is a loop where the body is executed for the first time unconditionally. The do-while loop, because the test is at the bottom, always guaranteed to execute at least once. The condition to test the exit is at the bottom (post-test loop / exit controlled loop). After initial execution, the body is only executed while the condition is true.
+
 do
-statement
+	statement
 while (expression);
+
+or
+
 do
 {
-prompt for password
-read user input
+	prompt for password
+	read user input
 } while (input not equal to password);
 
-do-while loop example
+```c
 do
-scanf("%d", &number);
+	scanf("%d", &number);
 while (number != 20);
-Or counter controlled
+
+//Or counter controlled
+
 int number = 4;
 do
 {
-printf("lnNumber = %d", number);
-number++:
+	printf("\nNumber = %d", number);
+	number++;
+}
 while (number < 4);
+```
 
-which loop to use??
-• First, decide whether you need an pre or post test loop
-• usually will be a pre test loop (for or while), a bit better option in most cases
-• it is better to look before you leap (or loop) than after
-• easier to read if the loop test is found at the beginning of the loop
-• in many uses, it is important that the loop be skipped entirely if the test is not initially
-met
-• So, should you use a for or a while
-• a matter of taste, because what you can do with one, you can do with the other
-• To make a for loop like a while, you can omit the first and third expressions
-for (;test; )
-is the same as
-while (test)
+### which loop to use
 
-do-while loop example
-•To make a while like a for, preface it with an initialization and include update
-statements
+First, decide whether you need an pre or post test loop. For the most part when you decide what loop to use, it usually will be a pre test loop (for or while), a bit better option in most cases. It is better to check that condition at the top before you leap (or loop) than after.  It is easier to read if the loop test is found at the beginning of the loop. In many uses, it is important that the loop be skipped entirely if the test is not initially met.
+
+So, should you use a for or a while? It is a matter of taste, because what you can do with one, you can do with the other.
+
+To make a for loop like a while, you can omit the first and third expressions:
+
+for ( ;test; )                              is the same as                         while (test)
+
+To make a while like a for, preface it with an initialization and include update statements
+
 initialize;
 while (test)
 {
-body;
-update;
+	body;
+	update;
 }
+
 is the same as
+
 for (initialize; test; update)
-body;
+	body;
 
-do-while loop example
-• a for loop is appropriate when the loop involves initializing and updating a
-variable
-•a while loop is better when the conditions are otherwise
-•I usually use the while loop for logic controlled loops and the for loop for
-counter controlled loops
-while (scanf("%)", &num) == 1)
+A for loop is appropriate when the loop involves initializing and updating a variable. A while loop is better when the conditions are otherwise. Jason usually uses the while loop for logic controlled loops and the for loop for counter controlled loops:
+
+```c
+while (scanf("%l)", &num) == 1)
+
 for (count = 1; count <= 100; count++)
+```
 
-Nested Loops
-• Sometimes you may want to place one loop inside another
-• You might want to count the number of occupants in each house on a street
-•step from house to house, and for each house you count the number of occupants
-•Going through all the houses could be an outer loop, and for each iteration of the outer loop you
-would have an inner loop that counts the occupants
+## Nested Loops
 
-Example
+Sometimes you may want to place one loop inside another.
+
+You might want to count the number of occupants in each house on a street. So what you would do is you wanna have an outer loop where you step from house to house, and for each house you count the number of occupants. Going through all the houses could be an outer loop, and for each iteration of the outer loop you would have an inner loop that counts the occupants.
+
+### for loop inside of a for loop
+
+```c
 for(int i = 1 ; i <= count; ++i)
 {
-sum = 0;
-// Initialize sum for the inner loop
+	sum = 0; // Initialize sum for the inner loop
+
 // Calculate sum of integers from 1 to i
-for(int j= 1;j<= i; ++j)
-sum +=j;
-printf("'\n%d\t%d", i, sum);
-// Output sum of 1 to i
+	for(int j= 1;j<= i; ++j)
+		sum +=j;
+	printf("'\n%d\t%d", i, sum); // Output sum of 1 to i
+}
+```
 
-Another Example (while inside a for)
+### while loop inside of a for loop
+
+```c
 for(int i = 1 ; i <= count; ++i)
 {
-sum = 1;
-=1:
-printf("\n1");
-I/ Initialize sum for the inner loop
-I/ Initialize integer to be added
-I/ Calculate sum of integers from 1 to i
-while(j<1)
-{
-sum += ++i;
-printf(" + %d", i);
-I/ Output + - on the same line
+	sum = 1;  // Initialize sum for the inner loop
+	j = 1;  // Initialize integer to be added
+	printf("\n1");
+
+// Calculate sum of integers from 1 to i
+	while(j<i)
+	{
+		sum += ++j;
+		printf(" + %d", j);  // Output +j - on the same line
+	}
+	printf(" = %d", sum);  // Output = sum
 }
-printf(" = %d", sum);
-// Output = sum
+```
 
-Continue statements
-•Sometimes a situation arises where you do not want to end a loop, but you want to skip the
-current iteration
-• The continue statement in the body of a loop does this
-• All you need to do is use the keyword "continue;" in the body of the loop
-• An advantage of using continue is that it can sometimes eliminate nesting or additional blocks of
-code
-•can enhance readability when the statements are long or are deeply nested already
+### Continue statements
 
-Continue Example
+Sometimes a situation arises where you do not want to end a loop, but you want to skip the current iteration. 
+
+The continue statement in the body of a loop does this. All you need to do is use the keyword "continue;" in the body of the loop.
+
+An advantage of using continue is that it can sometimes eliminate nesting or additional blocks of code. It can enhance readability when the statements are long or are deeply nested already. Don't use continue if it complicates rather than simplifies the code.
+
+```c
 enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
-for(enum Day day = Monday; day
-<= Sunday ; ++day)
+
+for(enum Day day = Monday; day<= Sunday ; ++day)
 {
-if(day == Wednesday)
-continue;
-printf("It's not Wednesday!In");
-/* Do something useful with day */
+	if(day == Wednesday)
+	continue;
 
-Break statement
-•normally, after the body of a loop has been entered, a program executes all the statements in the
-body before doing the next loop test
-•we learned how continue works
-•another statement named break alters this behavior
-•the break statement causes the program to immediately exit from the loop it is executing
-• statements in the loop are skipped, and execution of the loop is terminated
-•if the break statement is inside nested loops, it affects only the innermost loop containing it
-•use the keyword "break;"
-•break is often used to leave a loop when there are two separate reasons to leave
-•break is also used in switch statements
+	printf("It's not Wednesday!\n");
+	/* Do something useful with day */
+}
+```
 
-Break example
+### Break statement
+
+Normally, after the body of a loop has been entered, a program executes all the statements in the body before doing the next loop test. The break statement causes the program to immediately exit from the loop it is executing. Statements in the loop are skipped, and execution of the loop is terminated. If the break statement is inside nested loops, it affects only the innermost loop containing it.
+
+The break statement uses the keyword "break;". Break is often used to leave a loop when there are two separate reasons to leave.
+
+Break is also used in switch statements.
+
+```c
 while (p > 0)
 {
-printf("%d\n", p);
-scanf("%d", &q);
-while( q > 0)
-{
-printf("%dIn",p*q);
-if (q > 100)
-break:
-scanf("%d", &q);
-// break from inner loop
+	printf("%d\n", p);
+	scanf("%d", &q);
+	while( q > 0)
+	{
+		printf("%dIn",p*q);
+		if (q > 100)
+			break; // break from inner loop
+		scanf("%d", &q);
+
+	}
+	if (q > 100)
+		break; // break from outer l00p
+	scanf("%d", &p);
 }
-if (q > 100)
-break;
-scanf("%d", &p);
-// break from outer l00p
-}
+```
