@@ -61,7 +61,7 @@ int big = 90;
 
 // simple statement if, no brackets
 if (score > big)
-printf("Jackpot!l\n");
+printf("Jackpot!\n");
 
 // compound statement if, the curly brackets are required for compound statements inside the if block.
 if (score > big)
@@ -561,7 +561,7 @@ for(int i = 1 ; i <= count; ++i)
 
 ### Continue statements
 
-Sometimes a situation arises where you do not want to end a loop, but you want to skip the current iteration. 
+Sometimes a situation arises where you do not want to end a loop, but you want to skip the current iteration.
 
 The continue statement in the body of a loop does this. All you need to do is use the keyword "continue;" in the body of the loop.
 
