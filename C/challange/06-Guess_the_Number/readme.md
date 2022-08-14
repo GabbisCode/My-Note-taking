@@ -88,7 +88,7 @@ int main()
         if(guess == randomNumber)
         {
             printf("\nCongratulations.  You guessed it!\n");
-            break;
+            return; //这里需要用return而不是break，因为用后者无论是否答对都会出现最下面的printf，即你失败了。
         }
         else if(guess < 0 || guess > 20)  // checking for an invalid guess
             printf("I said the number is between 0 and 20.\n");
