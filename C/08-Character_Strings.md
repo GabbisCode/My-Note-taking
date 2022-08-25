@@ -1,1029 +1,670 @@
-Strings
+# converting_strings_to_numbers08-Character_Strings
 
-we have learned all about the char data type
+## Overview
 
-contains a single character.
+### Strings
 
-to assign a single character to a char variable, the character is enclosed within a pair of single quotation marks
+We have learned all about the char data type which contains a single character. To assign a single character to a char variable, the character is enclosed within a pair of single quotation marks:
 
-plusSign = 't';
+```c
+plusSign = '+';
+```
 
-you have also learned that there is a distinction made between the single quotation and double quotation marks
+You have also learned that there is a distinction made between the single quotation and double quotation marks.
 
+```c
 plusSign = "+"; // incorrect if plusSign is a char
+```
 
-a string constant or string literal is a sequence of characters or symbols between a pair of double-quote characters
+A string constant or string literal is a sequence of characters or symbols between a pair of double-quote characters. Anything between a pair of double quotes is interpreted by the compiler as a string, includes any special characters and embedded spaces.
 
-anything between a pair of double quotes is interpreted by the compiler as a string
+Every time you have displayed a message using the printf() function, you have defined the message as a string constant.
 
-includes any special characters and embedded spaces
-
-Strings (cont'd)
-
-every time you have displayed a message using the printf() function, you have defined the message as a string
-
-constant
-
+```c
 printf("This is a string.");
 
 printf("This is on\ntwo lines!");
 
-printf("For )" you write WI".");
+printf("For \" you write \\\".");
+```
 
-understand the difference between single quotation and double quotation marks
+Understand the difference between single quotation and double quotation marks. Both are used to create two different types of constants in C.
 
-both are used to create two different types of constants in C
+For the third example above, you must specify a double quote within a string as the escape sequence \\\", because the compiler will interpret an explicit double quote without a preceding backslash as a string delimiter. Also, you must also use the escape sequence \\\ when you want to include a backslash in a string. A backslash in a string always signals the start of an escape sequence to the compiler.
 
-for the third example above, you must specify a double quote within a string as the escape sequence I"
+### String in Memory
 
-the compiler will interpret an explicit double quote without a preceding backslash as a string delimiter
+![String_in_Memory](image/Character_string_String_in_Memory.jfif)
 
-also, you must also use the escape sequence I when you want to include a backslash in a string
+### Null Character
 
-a backslash in a string always signals the start of an escape sequence to the compiler
+A special character with the code value 0 is added to the end of each string to mark where it ends. This character is known as the null character and you write it as \0.
 
-String in Memory
+A string is always terminated by a null character, so the length of a string is always one greater than the number of characters in the string.
 
-![](https://app.yinxiang.com/shard/s46/res/a945fc70-cd39-44bf-aeea-d52d39436e0d/IMG_0167.JPEG?resizeSmall&width=813 "Attachment")
+Do not confuse the null character with NULL:
 
-Null Character
+* Null character is a string terminator
+* NULL is a symbol that represents a memory address that doesn't reference anything
 
-a special character with the code value O is added to the end of each string to mark where it ends
+You can add a \0 character to the end of a string explicitly. This will create two strings.
 
-this character is known as the null character and you write it as 10
-
-a string is always terminated by a null character, so the length of a string is always one greater than the number of
-
-characters in the string
-
-don't confuse the null character with NULL
-
-null character is a string terminator
-
-NULL is a symbol that represents a memory address that doesn't reference anything
-
-you can add a 10 character to the end of a string explicitly
-
-this will create two strings
-
-Null Character Example
-
+```c
 #include <stdio.h>
 
 int main(void)
-
 {
-
-printf("The character \0 is used to terminate a string.");
-
-return 0;
+	printf("The character \0 is used to terminate a string.");
+	return 0;
+}
+```
 
 If you compile and run this program, you'll get this output:
 
 The character
 
-only the first part of the string has been displayed
+Only the first part of the string has been displayed. Output ends after the first two words because the function stops outputting the string when it reaches the first null character. The second \0 at the end of the string will never be reached.
 
-output ends after the first two words because the function stops outputting the string when it reaches the first
+The first \0 that's found in a character sequence always marks the end of the string.
 
-null character
+## Creating a String
 
-the second 10 at the end of the string will never be reached
+C has no special variable type for strings, this means there are no special operators in the language for processing strings. The standard library provides an extensive range of functions to handle strings.
 
-The first 10 that's found in a character sequence always marks the end of the string
+Strings in C are stored in an array of type char. Characters in a string are stored in adjacent memory cells, one character per cell.
 
-Character Strings
+To declare a string in C, simply use the char type and the brackets to indicate the size:
 
-• C has no special variable type for strings
-
-• this means there are no special operators in the language for processing strings
-
-• the standard library provides an extensive range of functions to handle strings
-
-• strings in C are stored in an array of type char
-
-•characters in a string are stored in adjacent memory cells, one character per cell
-
-•to declare a string in C, simply use the char type and the brackets to indicate the size
-
+```c
 char myString[20];
+```
 
-• this variable can accommodate a string that contains up to 19 characters
+This variable can accommodate a string that contains up to 19 characters -- you must allow one element for the termination character (null character).
 
-• you must allow one element for the termination character (null character)
+When you specify the dimension of an array that you intend to use to store a string, it must be at least one greater than the number of characters in the string that you want to store. The compiler automatically adds \0 to the end of every string constant.
 
-• when you specify the dimension of an array that you intend to use to store a string, it must be at least one greater
+#### Initializing a String
 
-than the number of characters in the string that you want to store
+You can initialize a string variable when you declare it.
 
-• the compiler automatically adds 10 to the end of every string constant
+```c
+char word[] = {'H', 'e', 'l', 'l', 'o', '!'};
+```
 
-Initializing a String
+To initialize a string, it is the same as any other array initialization. In the absence of a particular array size, the C compiler automatically computes the number of elements in the array based upon the number of initializers.
 
-•You can initialize a string variable when you declare it
+This statement reserves space in memory for exactly seven characters. The null terminator is automatically added.
 
-char word (= ('H', 'e', "l', "I', 'o', "I"};
+![img](image/Character_string_initialize_a_string.JPEG "initialize_a_string")
 
-•to initialize a string, it is the same as any other array
+You can specify the size of the string explicitly, just make sure you leave enough space for the terminating null character.
 
-initialization
-
-•in the absence of a particular array size, the C compiler
-
-automatically computes the number of elements in the
-
-array
-
-•based upon the number of initializers
-
-•this statement reserves space in memory for exactly
-
-seven characters
-
-• automatically adds the null terminator
-
-![](https://app.yinxiang.com/shard/s46/res/f537f4cb-1b76-46ee-930e-0a55fb33c9ff/IMG_0168.JPEG?resizeSmall&width=813 "Attachment")
-
-Initializing a String (cont'd)
-
-• you can specify the size of the string explicitly, just make sure you leave enough space for the terminating null character
-
+```c
 char word[7] = { "Hello!" };
+```
 
-• If the size specified is too small, then the compiler can't fit a terminating null character at the end of the array, and it doesn't put one
+If the size specified is too small, then the compiler can't fit a terminating null character at the end of the array, and it doesn't put one there (and it doesn't complain about it either).
 
-there (and it doesn't complain about it either)
-
+```c
 char word[6] = { "Hello!" };
+```
 
-• So....., do not specify the size, let the compiler figure out, you can be sure it will be correct
+So....., do not specify the size, let the compiler figure out, you can be sure it will be correct.
 
-• you can initialize just part of an array of elements of type char with a string
+You can initialize just part of an array of elements of type char with a string.
 
-char str40] = "To be":
+```c
+char str[40] = "To be";
+```
 
-• the compiler will initialize the first five elements, str[0] to str[4], with the characters of the string constant
+The compiler will initialize the first five elements, str[0] to str[4], with the characters of the string constant. str[5] will contain the null character, '\0'.  Space is allocated for all 40 elements of the array.
 
-• str[5] will contain the null character, 10'
+### Assigning a value to a string after initializing
 
-• space is allocated for all 40 elements of the array
+Since you can not assign arrays in C, you can not assign strings either.
 
-Assigning a value to a string after initializing
+The following is an error:
 
-• since you can not assign arrays in C, you can not assign strings either
-
-• the following is an error:
-
+```c
 char s[100]; // declare
 
-S
+s = "hello"; // initalize - DOESN'T WORK ('Ivalue required' error)
+```
 
-: "hello"; I/ initalize - DOESN'T WORK ('Ivalue required' error)
+You are performing an assignment operation, and you cannot assign one array of characters to another array of characters like this. You have to use strncpy() to assign a value to a char array after it has been declared or initialized.
 
-• you are performing an assignment operation, and you cannot assign one array of characters to another array of characters like this
+The below is perfectly valid:
 
-• you have to use strncpy() to assign a value to a char array after it has been declared or initialized
-
-• The below is perfectly valid
-
-S[O] = "h';
-
+```c
+s[0] = 'h';
 s[1] = 'e';
+s[2] = 'l';
+s[3] = 'l';
+s[4] = 'o';
+s[5] = '\0';
+```
 
-s[2] = "l';
+### Displaying a string
 
-S[3] = "":
+When you want to refer to a string stored in an array, you just use the array name by itself.
 
-S[4] = 'o';
+To display a string as output using the printf function, you do the following
 
-S[5] = 10°
+```c
+print("'\nThe message is: %s", message);
+```
 
-Displaying a string
+The %s format specifier is for outputting a null-terminated string. The printf() function assumes when it encounters the %s format characters that the corresponding argument is a character string that is terminated by a null character.
 
-•when you want to refer to a string stored in an array, you just use the array name by itself
+### Inputting a string
 
-•to display a string as output using the printf function, you do the following
+To input a string via the keyboard, use the scan function:
 
-print("'InThe message is: %s", message);
-
-•the %s format specifier is for outputting a null-terminated string
-
-•the printf() function assumes when it encounters the %s format characters that the corresponding
-
-argument is a character string that is terminated by a null character
-
-Inputting a string
-
-•to input a string via the keyboard, use the scan function
-
+```c
 char input[10];
-
 printf("Please input your name: ");
-
 scanf("%s", input);
+```
 
-•the %s format specifier is for inputting string
+The %s format specifier is for inputting string. No need to use the & (address of operator) on a string.
 
-•no need to use the & (address of operator) on a string
+### Testing if two strings are equal
 
-Testing if two strings are equal
+You cannot directly test two strings to see if they are equal with a statement such as
 
-•you cannot directly test two strings to see if they are equal with a statement such as
+```c
+if ( string1 == string2 ) //error!!!
+```
 
-if ( string1 == string2 )
+The equality operator can only be applied to simple variable types, such as floats, ints, or chars and it does not work on structures or arrays.
 
-•the equality operator can only be applied to simple variable types, such as floats, ints, or chars
+To determine if two strings are equal, you must explicitly compare the two character strings character by character. we will discuss as easier way with the stremp function.
 
-•does not work on structures or arrays
+Reminder:
 
-•to determine if two strings are equal, you must explicitly compare the two character strings character by
-
-character
-
-•we will discuss as easier way with the stremp function
-
-• Reminder::
-
-•the string constant "x" is not the same as the character constant 'x'
-
-•'x' is a basic type (char)
-
-•"x" is a derived type, an array of char
-
-• "x" really consists of two characters, 'x' and '10', the null character
+* the string constant "x" is not the same as the character constant 'x'
+* 'x' is a basic type (char)
+* "x" is a derived type, an array of char
+* "x" really consists of two characters, 'x' and '10', the null character
 
 Example
 
-#include `<stdio h>`
+```c
+#include <stdio h>
 
 int main(void)
+{
+	char str1[] = "To be or not to be";
+	char str2[] = " that is the question";
+	unsigned int count = 0;     // Stores the string length
 
-char str1[1 = "To be or not to be":
+	while (str1[count] != '\0') // Increment count till we reach the
+		++count;            // terminating character.
 
-char str2l) = " that is the question"
+	printf("The length of the string \"%s\" is %d characters.\n", str1, count);
 
-unsigned int count = 0;
+	count = 0;                  // Reset count for next string
+	while (str2[count] != '\0') // Count characters in second string
+		++count:
 
-I Stores the string length
+	printf("The length of the string \"%s\" is %d characters. \n", str2, count);
+	return O;
+}
 
-while (str1(count] != '10')
 
-++count;
+```
 
-Il Increment count till we reach the
+## Constant Strings
 
-// terminating character.
+Sometimes you need to use a constant in a program:
 
-printf("The length of the string I"%s)" is %d characters.In", str1, count);
+```c
+circumference = 3.14159 * diameter;
+```
 
-count = 0:
+The constant 3.14159 represents the world-famous constant pi (π).
 
-while (str2[count] != '10')
+There are good reasons to use a symbolic constant instead of just typing in the number -- a name tells you more than a number does.
 
-++count:
-
-I Reset count for next string
-
-// Count characters in second string
-
-printf("The length of the string I"%s)" is %d characters. In", str2, count);
-
-return O;
-
-Constant Strings
-
-• sometimes you need to use a constant in a program
-
-circumference = 3.14159 * diameter:
-
-• the constant 3.14159 represents the world-famous constant pi (TT)
-
-• there are good reasons to use a symbolic constant instead of just typing in the number
-
-• a name tells you more than a number does
-
+```c
 owed = 0.015 * housevalue;
 
-owed = taxrate
+owed = taxrate * housevalue; //much more meaningful
+```
 
-* housevalue;
+If you read through a long program, the meaning of the second version is plainer.
 
-• If you read through a long program, the meaning of the second version is plainer.
+Suppose you have used a constant in several places, and it becomes necessary to change its value, you only need to alter the definition of the symbolic constant, rather than find and change every occurrence of the constant in the program.
 
-• suppose you have used a constant in several places, and it becomes necessary to change its value
+### #define
 
-• you only need to alter the definition of the symbolic constant, rather than find and change every occurrence of the
+The preprocessor lets you define constants
 
-constant in the program
-
-#define
-
-•the preprocessor lets you define constants
-
+```c
 #define TAXRATE 0.015
+```
 
-•when your program is compiled, the value 0.015 will be
+When your program is compiled, the value 0.015 will be substituted everywhere you have used TAXRATE. It's a compile-time substitution.
 
-substituted everywhere you have used TAXRATE
+A defined name is not a variable. You cannot assign a value to it.
 
-•compile-time substitution
+Notice that the #define statement has a special syntax: no equal sign used to assign the value 0.015 toTAXRATE, no semicolon.
 
-•a defined name is not a variable
+#define statements can appear anywhere in a program. No such thing as a local define. Most programmers group their #define statements at the beginning of the program (or inside an include file), where they can be quickly referenced and shared by more than one source file.
 
-•you cannot assign a value to it
+The #define statement helps to make programs more portable. It might be necessary to use constant values that are related to the particular computer on which the program is running.
 
-•notice that the #define statement has a special syntax
+The #define statement can be used for character and string constants:
 
-•no equal sign used to assign the value 0.015 to
-
-TAXRATE
-
-•no semicolon
-
-#define (cont'd)
-
-• #define statements can appear anywhere in a program
-
-• no such thing as a local define
-
-• most programmers group their #define statements at the beginning of the program (or inside an include file)
-
-where they can be quickly referenced and shared by more than one source file
-
-•the #define statement helps to make programs more portable
-
-• it might be necessary to use constant values that are related to the particular computer on which the program is
-
-running
-
-•the #define statement can be used for character and string constants
-
-#define BEEP 'la'
-
+```c
+#define BEEP '\la'
 #define TEE 'T'
-
 #define ESC '\033'
-
 #define OOPS "Now you have done it!"
+```
 
-const
+### const
 
-•C90 added a second way to create symbolic constants
+C90 added a second way to create symbolic constants: Using the const keyword to convert a declaration for a variable into a declaration for a constant.
 
-•using the const keyword to convert a declaration for a variable into a declaration for a constant
-
+```c
 const int MONTHS = 12; // MONTHS a symbolic constant for 12
+```
 
-•const makes MONTHS into a read-only value
+const makes MONTHS into a read-only value. You can display MONTHS and use it in calculations. You cannot alter the value of MONTHS.
 
-•you can display MONTHS and use it in calculations
+const is a newer approach and is more flexible than using #define: it lets you declare a type; it allows better control over which parts of a program can use the constant.
 
-•you cannot alter the value of MONTHS
+C has yet a third way to create symbolic constants -- enums.
 
-•const is a newer approach and is more flexible than using #define
+Initializing a char array and declaring it as constant is a good way of handling standard messages.
 
-•it lets you declare a type
+```c
+const char message[] = "The end of the world is nigh.";
+```
 
-•it allows better control over which parts of a program can use the constant
+Because you declare message as const, it's protected from being modified explicitly within the program. Any attempt to do so will result in an error message from the compiler. This technique for defining standard messages is particularly useful if they are used in many places within a program. It prevents accidental modification of such constants in other parts of the program.
 
-•C has yet a third way to create symbolic constants
+## Common String Functions
 
-•enums
+You already know that a character string is a char array terminated with a null character (\0). Character strings are commonly used. C provides many functions specifically designed to work with strings. Some of the more commonly performed operations on character strings include:
 
-const (cont'd)
+* getting the length of a string
 
-•initializing a char array and declaring it as constant is a good way of handling standard messages
+```c
+strlen
+```
 
-const char message!] = "The end of the world is nigh.";
+* copying one character string to another
 
-•because you declare message as const, it's protected from being modified explicitly within the
+```c
+strcpy()
+strncpy()
+```
 
-program
+* combining two character strings together (concatenation)
 
-•any attempt to do so will result in an error message from the compiler
+```c
+strcat() 
+strncat()
+```
 
-•this technique for defining standard messages is particularly useful if they are used in many places
+* determining if two character strings are equal
 
-within a program
+```c
+strcmp()
+strncmp()
+```
 
-•prevents accidental modification of such constants in other parts of the program
+The C library supplies these string-handling function prototypes in the string.h header file
 
-String Functions
+### Getting the length of a string
 
-•you already know that a character string is a char array terminated with a null character (10)
+The strlen() function finds the length of a string, returned as a size_t
 
-•character strings are commonly used
-
-•C provides many functions specifically designed to work with strings
-
-•some of the more commonly performed operations on character strings include
-
-•getting the length of a string
-
-•Strien
-
-•copying one character string to another
-
-• strcpy() and strncpy()
-
-•combining two character strings together (concatenation)
-
-•strcat() and strncat()
-
-•determining if two character strings are equal
-
-• stremp() and strncmp()
-
-• the C library supplies these string-handling function prototypes in the string.h header file
-
-Getting the length of a string
-
-•the strlen() function finds the length of a string
-
-• returned as a size t
-
+```c
 #include <stdio.h>
-
 #include <string.h>
 
-int main(X
+int main()
+{
+	char myString[] = "my string";
+	printf("The length of this string is: %d", strlen(myString));
 
-char my Stringll = "my string";
+	return 0;
+}
+```
 
-printf("The length of this string is: %d", strlen(myString));
+This function does change the string, so the function header does not use const in declaring the formal parameter string.
 
-return O:
+### Copying strings
 
-• this function does change the string
+Since you can not assign arrays in C, you can not assign strings either.
 
-• the function header does not use const in declaring the formal parameter string
-
-Copying strings
-
-•since you can not assign arrays in C, you can not assign strings either
-
+```c
 char s[100]; // declare
+s = "hello"; // initalize - DOESN'T WORK ('lvalue required' error)
+```
 
-s= "hello"; I/ initalize - DOESN'T WORK ('value required' error)
+You can use the strcpy() function to copy a string to an existing string. It's the string equivalent of the assignment operator.
 
-•you can use the strepy() function to copy a string to an existing string
+```c
+char src[50], dest[50];
 
-•the string equivalent of the assignment operator
+strcpy(src, "This is source");
+strcpy(dest, "This is destination");
+```
 
-char sc[50], dest[50];
+The strepy() function does not check to see whether the source string actually fits in the target string. Safer way to copy strings is to use strncpy().
 
-stropy(src,
+strncpy() takes a third argument, the maximum number of characters to copy.
 
-"This is source");
-
-stropy(dest, "This is destination");
-
-Copying strings (cont'd)
-
-•the strepy() function does not check to see whether the source string actually fits in the target string
-
-• safer way to copy strings is to use strncpy()
-
-• strncpy() takes a third argument
-
-•the maximum number of characters to copy
-
-char src|401:
-
+```c
+char src|40];
 char dest[12];
 
-memset(dest, '10', sizeof(dest));
-
-strepy(sc, "Hello how are you doing");
-
+memset(dest, '\0', sizeof(dest));
+strcpy(src, "Hello how are you doing");
 strncpy(dest, src, 10);
+```
 
-String concatenation
+### String concatenation
 
-• the streat() function takes two strings for arguments
+The strcat() function takes two strings for arguments. A copy of the second string is tacked onto the end of the first. This combined version becomes the new first string. The second string is not altered.
 
-• a copy of the second string is tacked onto the end of the first
+It returns the value of its first argument, the address of the first character of the string to which the second string is appended.
 
-• this combined version becomes the new first string
-
-• the second string is not altered
-
-• it returns the value of its first argument
-
-• the address of the first character of the string to which the second string is appended
-
-char myStringl] = "my string";
-
-char input 80];
+```c
+char myString[] = "my string";
+char input [80];
 
 printf("Enter a string to be concatenated: ");
-
 scanf("%s", input);
 
-printf("In The string %s concatenated with %s is.In", myString, input);
-
+printf("\n The string %s concatenated with %s is:::::\n", myString, input);
 printf("%s", strcat(input, myString));
+```
 
-String concatenation (cont'd)
+The strcat() function does not check to see whether the second string will fit in the first array. If you fail to allocate enough space for the first array, you will run into problems as excess characters overflow into adjacent memory locations, so use strncat() instead, which takes a second argument indicating the maximum number of characters to add.
 
-• the streat() function does not check to see whether the second string will fit in the first array
+For example, strncat(bugs, addon, 13) will add the contents of the addon string to bugs, stopping when it reaches 13 additional characters or the null character, whichever comes first.
 
-• if you fail to allocate enough space for the first array, you will run into problems as excess characters overflow into adjacent memory
+```c
+char src[50], dest[50];
 
-locations
-
-• use strncat() instead
-
-• takes a second argument indicating the maximum number of characters to add
-
-• for example, strncat(bugs, addon, 13) will add the contents of the addon string to bugs, stopping when it reaches 13 additional
-
-characters or the null character, whichever comes first
-
-char sc[50], dest[50];
-
-strepy(src,
-
-"This is source");
-
-strepy(dest, "This is destination");
+strcpy(src,"This is source");
+strcpy(dest, "This is destination");
 
 strncat(dest, src, 15);
 
-printf("Final destination string : [%sl", dest);
+printf("Final destination string : |%s|", dest);
+```
 
-comparing Strings
+### Comparing Strings
 
-•suppose you want to compare someone response to a stored string
+Suppose you want to compare someone response to a stored string, you cannot use ==, it will only check to see if the string has the same address.
 
-•cannot use ==, will only check to see if the string has the same address
+There is a function that compares string contents, not string addresses. It is the strcmp() (for string comparison) function. It does not compare arrays, so it can be used to compare strings stored in arrays of different sizes. It does not compare characters. You can use arguments such as "apples" and "A", but you cannot use character arguments, such as 'A'.
 
-•there is a function that compares string contents, not string addresses
+This function does for strings what relational operators do for numbers
 
-•it is the stremp() (for string comparison) function
+* it returns 0 if its two string arguments are the same and nonzero otherwise
+* if return value < 0 then it indicates str1 is less than str2
+* if return value > 0 then it indicates str2 is less than str1
 
-•does not compare arrays, so it can be used to compare strings stored in arrays of different sizes
+```c
+printf("strcmp(\"A\", \"A\") is");
+printf("%d\n", strcmp("A", "A"));  //0
 
-•does not compare characters
+printf("strcmp(\"A\", \"B\") is");
+printf("%d\n", strcmp("A", "B"));  //-1
 
-•you can use arguments such as
+printf("stremp(\"B\", \"A\") is");
+printf("%d\n", strcmp("B", "A"));  //1
 
-"apples" and "A", but you cannot use character arguments, such
+printf("stremp(\"C\", \"A\") is");
+printf("%d\n", strcmp("C", "A"));  //1
 
-as 'A'
+printf("strcmp(\"Z\", \"a\") is");
+printf("%d\n", strcmp("Z", "a"));  //-1
 
-•this function does for strings what relational operators do for numbers
+printf("strcmp(\"apples\", \"apple\") is");
+printf("%d\n", strcmp("apples", "apple"));  //1
+```
 
-•it returns O if its two string arguments are the same and nonzero otherwise
+The stremp() function compares strings until it finds corresponding characters that differ. It could take the search to the end of one of the strings.
 
-•if return value < 0 then it indicates str1 is less than str2
+The strncmp() function compares the strings until they differ or until it has compared a number of characters specified by a third argument. If you wanted to search for strings that begin with "astro", you could limit the search to the first five characters.
 
-•if return value > 0 then it indicates str2 is less than str1
-
-comparing strings (cont'd)
-
-•the stremp() function compares strings until it finds corresponding characters that differ
-
-• could take the search to the end of one of the strings
-
-• the strncmp() function compares the strings until they differ or until it has compared a number of characters
-
-specified by a third argument
-
-•if you wanted to search for strings that begin with "astro", you could limit the search to the first five characters
-
-if (strncmp ("astronomy", "astro", 5) =:
-
-= 0)
-
+```c
+if (strncmp ("astronomy", "astro", 5) == 0)
 {
-
-printf("Found: astronomy");
+	printf("Found: astronomy");
+}
 
 if (strncmp ("astounding" ,"astro", 5) == 0)
-
 {
-
 printf("Found: astounding");
+}
+```
 
-Overview
+## Searching, Tokenizing and Analyzing Strings
 
-•lets discuss some more string functions
+**searching a string**
 
-•searching a string
+The string.h header file declares several string-searching functions for finding a single character or a substring
 
-•the string.h header file declares several string-searching functions for finding a single character or
+```c
+strchr()
+strstr()
+```
 
-a substring
+**tokenizing a string**
 
-• strchr() and strstr()
+A token is a sequence of characters within a string that is bounded by a delimiter (space, comma, period, etc). Breaking a sentence into words is called tokenizing
 
-•tokenizing a string
+```c
+strtok()
+```
 
-•a token is a sequence of characters within a string that is bounded by a delimiter (space, comma,
+**analyzing strings**
 
-period, etc)
+```c
+islower()
+isupper()
+isalpha()
+isdigit()
+```
 
-•breaking a sentence into words is called tokenizing
+### concept of a pointer
 
-• Strtok()
+We are going to discuss in detail, the concept of a pointer in an upcoming section. However, in order to understand some of these string functions, I want to give you a quick peek on this concept.
 
-•analyzing strings
+C provides a remarkably useful type of variable called a pointer, a variable that stores an address. Its value is the address of another location in memory that can contain a value. We have used addresses in the past with the scanf() function.
 
-•slower(), supper(), isalpha(), isdigit(), etc.
-
-concept of a pointer
-
-• we are going to discuss in detail, the concept of a pointer in an upcoming section
-
-• however, in order to understand some of these string functions, I want to give you a quick peek on this concept
-
-• C provides a remarkably useful type of variable called a pointer
-
-• a variable that stores an address
-
-• its value is the address of another location in memory that can contain a value
-
-• we have used addresses in the past with the scanf() function
-
+```c
 int Number = 25;
+int *pNumber = &Number;
+```
 
-int *Number = &Number;
+Above, we declared a variable, Number, with the value 25. We declared a pointer, pNumber, which contains the address of Number. Asterisk is used in declaring a pointer.
 
-• above, we declared a variable, Number, with the value 25
+To get the value of the variable pNumber, you can use the asterisk to dereference the pointer
 
-• we declared a pointer, Number, which contains the address of Number
+```c
+*pNumber = 25
+```
 
-• asterisk used in declaring a pointer
+The asterisk is the dereference operator, and its effect is to access the data stored at the address specified by a pointer.
 
-• to get the value of the variable Number, you can use the asterisk to dereference the pointer
+![img](image/Character_string_pointer.JPEG)
 
-*Number = 25
+The value of &Number is the address where Number is located. This value is used to initialize Number in the second statement.
 
-• * is the dereference operator, and its effect is to access the data stored at the address specified by a pointer
+Many of the string functions return pointers. This is why I wanted to briefly mention them. Do not worry if this concept does not sink in right now, we are going to cover points in a ton of detail in an upcoming section.
 
-![](https://app.yinxiang.com/shard/s46/res/5a5c1891-1ad1-4cbe-8a2e-e13f8333a443/IMG_0169.JPEG?resizeSmall&width=813 "Attachment")
+### Searching a string for a character
 
-•the value of &Number is the address where
+The strchr() function searches a given string for a specified character. First argument to the function is the string to be searched (which will be the address of a char array). Second argument is the character that you are looking for.
 
-Number is located
+The function will search the string starting at the beginning and return a pointer to the first position in the string where the character is found. The address of this position in memory is of type char* described as the "pointer to char."
 
-•this value is used to initialize Number in the
+To store the value that's returned, you must create a variable that can store the address of a character, which is pointer.
 
-second statement
+If the character is not found, the function returns a special value NULL. NULL is the equivalent of 0 for a pointer and represents a pointer that does not point to anything.
 
-Value
+You can use the strchr() function like this
 
-25
+```c
+char str[] = "The quick brown fox"; //The string to be searched
+char ch = 'q';                      // The character we are looking for
+char *pGot_char = NULL;             // Pointer initialized to NULL
+pGot_char = strchr(str, ch);       // Stores address where ch is found -- "quick brown fox"
+```
 
-1000
+The first argument to strchr() is the address of the first location to be searched. Second argument is the character that is sought (ch, which is of type char). It expects its second argument to be of type int, so the compiler will convert the value of ch to this type. You could just as well define ch as type int (int ch = 'q';). pGot_char will point to the value ("quick brown fox").
 
-•many of the string functions return pointers
+### searching for a substring
 
-•this is why I wanted to briefly mention them
+The strstr() function is probably the most useful of all the searching functions. It searches one string for the first occurrence of a substring. It returns a pointer to the position in the first string where the substring is found. If no match, it returns NULL.
 
-• do not worry if this concept does not sink in
+The first argument is the string that is to be searched. The second argument is the substring you're looking for.
 
-right now, we are going to cover points in a ton
-
-of detail in an upcoming section
-
-Searching a string for a character
-
-•the strchr() function searches a given string for a specified character
-
-•first argument to the function is the string to be searched (which will be the address of a char array)
-
-•second argument is the character that you are looking for
-
-•the function will search the string starting at the beginning and return a pointer to the first position in
-
-the string where the character is found
-
-• the address of this position in memory
-
-•is of type char* described as the
-
-"pointer to char."
-
-•to store the value that's returned, you must create a variable that can store the address of a
-
-character
-
-•if the character is not found, the function returns a special value NULL
-
-•NULL is the equivalent of O for a pointer and represents a pointer that does not point to anything
-
-strehr()
-
-•you can use the strchr() function like this
-
-char stri] = "The quick brown fox":
-
-char ch = 'q';
-
-char *Got char = NULL;
-
-pGot_ char = strchr(str, ch);
-
-I1 The string to be searched
-
-I/ The character we are looking for
-
-I/ Pointer initialized to NULL
-
-I/ Stores address where ch is found
-
-•the first argument to strchr() is the address of the first location to be searched
-
-•second argument is the character that is sought (ch, which is of type char)
-
-• expects its second argument to be of type int, so the compiler will convert the value of ch to this
-
-type
-
-•could just as well define ch as type int (int ch = 'q':)
-
-•Got char will point to the value ("quick brown fox")
-
-searching for a substring
-
-• the strstr() function is probably the most useful of all the searching functions
-
-• searches one string for the first occurrence of a substring
-
-• returns a pointer to the position in the first string where the substring is found
-
-• if no match, returns NULL
-
-• the first argument is the string that is to be searched
-
-• the second argument is the substring you're looking for
-
-char text] = "Every dog has his day",
-
-char word] =
-
-"dog":
-
-char *Found = NULL;
-
+```c
+char text[] = "Every dog has his day";
+char word[] = "dog";
+char *pFound = NULL;
 pFound = strstr(text, word);
+```
 
-• searches text for the first occurrence of the string stored in word
+It searches text for the first occurrence of the string stored in word. The string "dog" appears starting at the seventh character in text. Found will be set to the address text + 6 ("dog has his day"). Search is case sensitive, "Dog" will not be found.
 
-• the string "dog" appears starting at the seventh character in text
+### Tokenizing a string
 
-• Found will be set to the address text + 6 ("dog has his day")
+A token is a sequence of characters within a string that is bound by a delimiter. A delimiter can be anything, but, should be unique to the string. Spaces, commas, and a period are good examples. Breaking a sentence into words is called tokenizing.
 
-• search is case sensitive, "Dog" will not be found
+The strtok() function is used for tokenizing a string. It requires two arguments: string to be tokenized and a string containing all the possible delimiter characters.
 
-Tokenizing a string
-
-• a token is a sequence of characters within a string that is bound by a delimiter
-
-• a delimiter can be anything, but, should be unique to the string
-
-•spaces, commas, and a period are good examples
-
-•breaking a sentence into words is called tokenizing
-
-•the strtok() function is used for tokenizing a string
-
-•It requires two arguments
-
-•string to be tokenized
-
-•a string containing all the possible delimiter characters
-
-strtok example
-
-int main () {
-
+```c
+int main() 
+{
 char str[80] = "Hello how are you - my name is - jason";
-
-const char s[2] = ".";
-
+const char s[2] = "-";
 char *token;
 
-I* get the first token */
-
+/* get the first token */
 token = strtok(str, s);
 
-I* walk through other tokens */
+/* walk through other tokens */
+while( token != NULL) 
+	{
+	printf(" %s\n", token);
 
-while( token != NULL) {
-
-printf(" %sln", token );
-
-token = strtok(NULL, s);
-
-1
+	token = strtok(NULL, s);
+	}
 
 return(0);
+}
+```
 
-![](https://app.yinxiang.com/shard/s46/res/2a8a711f-989e-46af-b21b-8cec151cc4e6/IMG_0170.JPEG?resizeSmall&width=813 "Attachment")
+### Analyzing strings
 
-• the argument to each of these
+![img](image/Character_string_analyzing_strings.JPEG)
 
-functions is the character to be tested
+The argument to each of these functions is the character to be tested.
 
-• all these functions return a nonzero
+All these functions return a nonzero value of type int if the character is within the set that's being tested for. These return values convert to true and false, respectively, so you can use them as Boolean values.
 
-value of type int if the character is
+```c
+char buf[100];     // Input buffer
+int nLetters = 0;  // Number of letters in input
+int nDigits = 0;   // Number of digits in input
+int nPunct = 0;    // Number of punctuation characters
 
-within the set that's being tested for
+printf("Enter an interesting string of less than %d characters: \n", 100);
+scanf("%s", buf);  // Read a string into buffer
 
-isblank()
+int i = 0;         // Buffer index
+while(buff[i])
+	{
+	if(isalpha(buff[i]))          // Increment letter count
+		++nLetters:
+	else if(isdigit(buff[i]))
+		++nDigits;
+	else if(ispunct(buff[i]))     // Increment digit count
+		++nPunct;
+	++i:
+	}
 
-• these return values convert to true
+}
+printf("\nYour string contained %d letters, %d digits and %d punctuation characters.\n", Letters, Digits, nPunct);
+```
 
-and false, respectively, so you can use
+## Converting Strings
 
-them as Boolean values.
+It is very common to convert character case to all upper case or all lower case. The toupper() function converts from lowercase to uppercase; The tolower() function converts from uppercase to lowercase.
 
-Converting Strings
+Both functions return either the converted character or the same character for characters that are already in the correct case or are not convertible such as punctuation characters.
 
-• it is very common to convert character case
+This is how you convert a string to uppercase
 
-• to all upper case or all lower case
+```c
+for(int i = 0 ; (buf[i] = (char)toupper(buf[i])) != '\0' ; ++i);
+```
 
-• the toupper() function converts from lowercase to uppercase
+This loop will convert the entire string in the buf array to uppercase by stepping through the string one character at a ti. Loop stops when it reaches the string termination character '\0'. The cast to type char is there because toupper() returns type int.
 
-• the tolower() function converts from uppercase to lowercase
+You can use the function topper() in combination with the strstr() function to find out whether one string occurs in another, ignoring case.
 
-• both functions return either the converted character or the same character for characters that are already in the correct case or are not
+```c
+char text[100];                // Input buffer for string to be searched
+char substring[40];            // Input buffer for string sought
 
-convertible such as punctuation characters
-
-• this is how you convert a string to uppercase
-
-for(int i = 0 ; (buffi] = (char)toupper(buffi])) != '10' ; ++i);
-
-• this loop will convert the entire string in the buf array to uppercase by stepping through the string one character at a ti
-
-• loop stops when it reaches the string termination character 10
-
-• the cast to type char is there because toupper() returns type int
-
-• you can use the function topper() in combination with the strstr() function to find out whether one string occurs in another, ignoring
-
-case
-
-Case conversion example
-
-char text[100];
-
-char substring[40];
-
-/l Input buffer for string to be searched
-
-I Input buffer for string sought
-
-printf("Enter the string to be searched (less than %d characters): In", 100);
-
+printf("Enter the string to be searched (less than %d characters):\n", 100);
 scanf("%s", text);
 
-printf("InEnter the string sought (less than %d characters): In", 40);
-
+printf("\nEnter the string sought (less than %d characters):\n", 40);
 scanf("%s", substring);
 
-printf("'InFirst string entered:In%sln", text);
+printf("\nFirst string entered:\n%s\n", text);
+print("Second string entered: \n%s\n", substring);
 
-print("Second string entered: In%sIn", substring);
+// Convert both strings to uppercase.
+for(i = 0 ; (text[i] = (char)toupper(text[i])) != '\0'; ++i);
+for(i = 0 ; (substring[i] = (char)toupper(substring[i])) != '\0'; ++i);
 
-I Convert both strings to uppercase.
-
-for(i = 0 ; (text[i] = (char )toupper(text[i])) != '10' ; ++i);
-
-for(i = 0 ; (substring[i] = (char )toupper(substring[i])) != '10' ; ++i);
-
-printf("The second string %s found in the first. In", ((strstr(text, substring) == NULL) ? "was not : "was"));
+printf("The second string %s found in the first.\n", ((strstr(text, substring) == NULL) ? "was not" : "was"));
+```
 
 the stdlib.h header file declares functions that you can use to convert a string to a numerical value
 
-![](https://app.yinxiang.com/shard/s46/res/e2c9c183-abc6-4aef-8bc6-d6aee0e880ba/IMG_0171.JPEG?resizeSmall&width=813 "Attachment")
+![img](image/Character_string_converting_strings_to_numbers.JPEG "Attachment")
 
-Taken from Beginning C,
+For all four functions, leading whitespace is ignored.
 
-Horton
+```c
+char value_str[] = "98.4";
+double value = atof(value_str);
+```
 
-For all four functions, leading
+![img](image/Character_string_converting_strings_to_numbers1.JPEG "Attachment")
 
-whitespace is ignored
-
-char value stril = "98.4";
-
-double value = atof(value str);
-
-![](https://app.yinxiang.com/shard/s46/res/e89b8a96-40b9-4304-acb9-5fe25f632257/IMG_0172.JPEG?resizeSmall&width=813 "Attachment")
-
-Example
-
+```c
 double value = 0;
-
-char stri] = "3.5 2.5 1.26".
-
-char *pstr = str;
-
-char *ptr = NULL;
-
-I The string to be converted
-
-I/ Pointer to the string to be converted
-
-/I Pointer to character position after conversion
+char str[] = "3.5 2.5 1.26";    // The string to be converted
+char *pstr = str;               // Pointer to the string to be converted
+char *ptr = NULL;               // Pointer to character position after conversion
 
 while (true)
-
 {
+	value = strtod(pstr, &ptr);   // Convert starting at pstr
+	if(pstr == ptr)               // pstr stored if no conversion.
+		break;                //..so we are done
 
-value = strtod(pstr, &ptr); // Convert starting at pstr
-
-if(pstr == ptr)
-
-/I pstr stored if no conversion.
-
-break;
-
-//..so we are done
-
-else
-
-{
-
-printf(" %f", value);
-
-pstr = ptr;
-
-I/ Output the resultant value
-
-I Store start for next conversion
-
-Requirements
-
-• In this challenge, you are going to write a program that tests your understanding of char arrays
-
-• write a function to count the number of characters in a string (length)
-
-• cannot use the strlen library function
-
-• function should take a character array as a parameter
-
-• should return an int (the length)
-
-• write a function to concatenate two character strings
-
-• cannot use the streat library function
-
-• function should take 3 parameters
-
-• char resulti
-
-• const char str1l
-
-• const char str20
-
-• can return void
-
-• write a function that determines if two strings are equal
-
-• cannot use stremp library function
-
-• function should take two const char arrays as parameters and return a Boolean of true if they are equal and false otherwise
-
-Requirements
-
-•this challenge will help you better understand how to use the most common string functions in the
-
-string library
-
-•write a program that displays a string in reverse order
-
-•should read input from the keyboard
-
-•need to use the strlen string function
-
-•write a program that sorts the strings of an array using a bubble sort
-
-•need to use the stremp and stropy functions
-
-Input number of strings :3
-
-Input string 3 :
-
-zero
-
-one
-
-two
-
-Expected Output :
-
-The strings appears after sorting:
-
-one
-
-two
-
-zero
+	else
+	{
+		printf(" %f", value);    // Output the resultant value
+		pstr = ptr;              // Store start for next conversion
+	}
+}
+```
