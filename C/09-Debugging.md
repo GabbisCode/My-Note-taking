@@ -1,344 +1,215 @@
-Overview
+# 09-Debugging
 
-•debugging is the process of finding and fixing errors in a program (usually logic errors,
+## Overview
 
-but, can also include compiler/syntax errors)
+Debugging is the process of finding and fixing errors in a program (usually logic errors, but, can also include compiler/syntax errors). For syntax errors, understand what the compiler is telling you. You'll always focus on fixing the first problem detected.
 
-•for syntax errors, understand what the compiler is telling you
+Debugging can range in complexity from fixing simple errors to collecting large amounts of data for analysis. The ability to debug by a programmer is an essential skill (problem solving) that can save you tremendous amounts of time (and money).
 
-• always focus on fixing the first problem detected
+The maintenance phase is the most expensive phase of the software life cycle.
 
-•can range in complexity from fixing simple errors to collecting large amounts of data for
+Understand though that bugs are unavoidable, all software have bugs. Nobody can write perfect code. And it's not even necessarily about writing perfect code, it's just things change over time, so that may result in bugs as well. You have to understand that just because software has bugs does not mean it's poorly written code, it's kind of unavoidable. So it's okay to have bugs. when you find and fix them, it's even greater because you actually feel like you're accomplishing something.
 
-analysis
+### Common Problems
 
-•the ability to debug by a programmer is an essential skill (problem solving) that can save
+* Logic Errors
+* Syntax Errors
+* Memory Corruption
+* Performance / Scalability
+* Lack of Cohesion
+* Tight Coupling (dependencies)
 
-you tremendous amounts of time (and money )
+### Debugging Process
 
-• maintenance phase is the most expensive phase of the software life cycle
+**Understand the problem**
 
-•understand that bugs are unavoidable
+sit down with tester, understand requirements
 
-Common Problems
+**Reproduce the problem**
 
-•Logic Errors
+Once you understand the bug, try to reproduce it. Sometimes very difficult as problems can be intermittent or only happen in very rare circumstances, e.g. Parallel processes or threading problems.
 
-• Syntax Errors
+**Simplify the problem / Divide and conquer / isolate the source**
 
-•Memory Corruption
+* Remove parts of the original test case
+* Comment out code / back out changes
+* Turn a large program into a lot of small programs (unit testing)
 
-•Performance / Scalability
+**Identify origin of the problem (in the code)**
 
-•Lack of Cohesion
+* Use Debugging Tools if necessary
 
-• Tight Coupling (dependencies)
+**Solve the problem**
 
-Debugging Process
+* Experience and practice
+* Sometimes includes redesign or refactor of code
 
-•Understand the problem (sit down with tester, understand requirements)
+**Test! Test! Test!**
 
-• Reproduce the problem
+### Techniques and Tools
 
-• Sometimes very difficult as problems can be intermittent or only happen in very rare
+**Tracing / using print statements**
 
-circumstances
+* Output values of variables at certain points of a program
+* Show the flow of execution
+* Can help isolate the error
 
-•Parallel processes or threading problems
+Debuggers, monitor the execution of a program, stop it, restart it, set breakpoints and watch variables in memory.
 
-•Simplify the problem / Divide and conquer / isolate the source
+Log Files can be used for analysis, add "good" log statements to your code.
 
-•Remove parts of the original test case
+Monitoring Software, run-time analysis of memory usage, network traffic, thread and obiect information.
 
-•Comment out code / back out changes
+### Common Debugging Tools
 
-• Turn a large program into a lot of small programs (unit testing)
+Exception Handling helps a great deal to identify catastrophic errors.
 
-Debugging Process (cont'd)
+Static Analyzers - analyze source code for specific set of known problems. It is a semantic checker and does not analyze syntax. It can detect things like uninitialized variables, memory leaks, unreachable code, deadlocks or race conditions.
 
-•Identify origin of the problem (in the code)
+Test Suites - run a set of comprehensive system end-to-end tests.
 
-•Use Debugging Tools if necessary
+Debugging the program after it has crashed:
 
-•Solve the problem
+* Analyze the call stack
+* Analyze memory dump (core file)
 
-•Experience and practice
+### Preventing Errors
 
-•Sometimes includes redesign or refactor of code
+Write high quality code (follow good design principles and good programming practices).
 
-•Test! Test! Test!
+Unit Tests - automatically executed when compiling. It helps avoid regression. Regression is when you write new code and you introduce a bug on something that was previously working. You broke old code. Unit test can help do that because unit tests will run on that old code and we'll say hey this was working now it's failing. It also finds errors in new code before it is delivered. TDD (Test Driven Development) is where you write your tests first and then you develop your code after. And the goal is when you write your first test, your test is failing. And then you write the code to get it to pass.
 
-Techniques and Tools
+Provide good documentation and proper planning (write down design on paper and utilize pseudocode).
 
-•Tracing / using print statements
+Work in small Steps and constantly test after each step:
 
-•Output values of variables at certain points of a program
+* Avoid too many changes at once
+* When making changes, apply them incrementally. Add one change, then test thoroughly before starting the next step
+* Helps reduce the possible sources of bugs, limits problem set
 
-• Show the flow of execution
+## Understanding the call stack
 
-•Can help isolate the error
+A stack trace (call stack) is generated whenever your app crashes because of a fatal error.
 
-•Debuggers
+A stack trace shows a list of the function calls that lead to the error. It includes the filenames and line numbers of the code that cause the exception or error to occur. Top of the stack contains the last call that caused the error (nested calls). Bottom of the stack contains the first call that started the chain of calls to cause the error. So you need to find the call in your application that is causing the crash.
 
-- monitor the execution of a program, stop it, restart it, set breakpoints and
+A programmer can also dump the stack trace.
 
-watch variables in memory
+## Common C Mistakes
 
-•Log Files - can be used for analysis, add "good" log statements to your code
+**1. Misplacing a semicolon**
 
-•Monitoring Software - run-time analysis of memory usage, network traffic, thread and
+```c
+if (j == 100);
+	j= 0;
+```
 
-obiect information
+In this case the value of j will always be set to 0 due to the misplaced semicolon after the closing parenthesis. Semicolon is syntactically valid (it represents the null statement), and, therefore, no error is produced by the compiler. Same type of mistake is frequently made in while and for loops.
 
-Common Debugging Tools
+**2. Confusing the operator = with the operator ==**
 
-•Exception Handling helps a great deal to identify catastrophic errors
+```c
+if (a = 2)  //should be a == 2
+	printf ("Your turn.\n");
+```
 
-•Static Analyzers - analyze source code for specific set of known problems
+Usually made inside an if, while, or do statement. Perfectly valid and has the effect of assigning 2 to a and then executing the printf() call. printf() function will always be called because the value of the expression contained in the if statement will always be nonzero.
 
-•Semantic checker, does not analyze syntax
+**3. omitting prototype declarations**
 
-•Can detect things like uninitialized variables, memory leaks, unreachable code,
-
-deadlocks or race conditions
-
-•Test Suites - run a set of comprehensive system end-to-end tests
-
-•Debugging the program after it has crashed
-
-• Analyze the call stack
-
-• Analyze memory dump (core file)
-
-Preventing Errors
-
-write high quality code (follow good design principles and good programming practices)
-
-• Unit Tests - automatically executed when compiling
-
-• Helps avoid regression
-
-• Finds errors in new code before it is delivered
-
-• TDD (Test Driven Development)
-
-Provide good documentation and proper planning (write down design on paper and utilize
-
-pseudocode)
-
-Work in Steps and constantly test after each step
-
-• Avoid too many changes at once
-
-• When making changes, apply them incrementally. Add one change, then test thoroughly before
-
-starting the next step
-
-• Helps reduce the possible sources of bugs, limits problem set
-
-Overview
-
-•A stack trace (call stack) is generated whenever your app crashes because of a fatal
-
-error
-
-• A stack trace shows a list of the function calls that lead to the error
-
-•Includes the filenames and line numbers of the code that cause the exception or error
-
-to occur
-
-• Top of the stack contains the last call that caused the error (nested calls)
-
-•Bottom of the stack contains the first call that started the chain of calls to cause the
-
-error
-
-• You need to find the call in your application that is causing the crash
-
-•A programmer can also dump the stack trace
-
-Common C Mistakes
-
-• misplacing a semicolon
-
-if (j==100);
-
-¡= 0;
-
-•the value of j will always be set to o due to the misplaced semicolon after the closing parenthesis
-
-•semicolon is syntactically valid (it represents the null statement), and, therefore, no error is produced by the
-
-compiler
-
-•same type of mistake is frequently made in while and for loops
-
-•confusing the operator = with the operator ==
-
-•usually made inside an if, while, or do statement
-
-•perfectly valid and has the effect of assigning 2 to a and then executing the printf() call
-
-•printf() function will always be called because the value of the expression contained in the if statement will
-
-always be nonzero
-
-if (a=2)
-
-printf ("Your turn.\n");
-
-Common C Mistakes
-
-•omitting prototype declarations
-
+```c
 result = squareRoot(2);
+```
 
-•If squareRoot is defined later in the program, or in another file, and is not explicitly declared
+In this example, if squareRoot is defined later in the program, or in another file, and is not explicitly declared otherwise, the compiler assumes that the function returns an int. It's always safest to include a prototype declaration for all functions that you call (either explicitly yourself or implicitly by including the correct header file in your program).
 
-otherwise
+**4. failing to include the header file that includes the definition for a C-programming library function being used in the program**
 
-•compiler assumes that the function returns an int
-
-•always safest to include a prototype declaration for all functions that you call (either explicitly
-
-yourself or implicitly by including the correct header file in your program)
-
-•failing to include the header file that includes the definition for a C-programming library function
-
-being used in the program
-
+```c
 double answer = sqrt(value1);
+```
 
-•if this program does not #include the <math.h> file, this will generate an error that sqrt() is
+If this program does not #include the <math.h> file, this will generate an error that sqrt() is undefined.
 
-undefined
+**5. confusing a character constant and a character string**
 
-Common C Mistakes
+```c
+text = 'a'; // a single character is assigned to text
 
-•confusing a character constant and a character string
+text = "a"; // a pointer to the character string "a" is assigned to text
+```
 
-text = a:
+In the first case, text is normally declared to be a char variable. In the second case, it should be declared to be of type "pointer to char".
 
-•a single character is assigned to text
+**6. using the wrong bounds for an array**
 
-text = "a":
-
-•a pointer to the character string "a" is assigned to text
-
-•in the first case, text is normally declared to be a char variable
-
-•in the second case, it should be declared to be of type "pointer to char"
-
-Common C Mistakes
-
-•using the wrong bounds for an array
-
+```c
 int a[100], i, sum = 0;
+...
+for (i=1; i <= 100; ++i)
+	sum += a[i];
+```
 
-for (i=1; i<=100; +ti)
+Valid subscripts of an array range from 0 through the number of elements minus one. The preceding loop is incorrect because the last valid subscript of a is 99 and not 100. It is also probably intended to start with the first element of the array; therefore, i should have been initially set to 0.
 
-sum += alil;
+**7. forgetting to reserve an extra location in an array for the terminating null character of a string**
 
-•valid subscripts of an array range from o through the number of elements minus one
+When declaring character arrays they need to be large enough to contain the terminating null character. The character string "hello" would require six locations in a character array if you wanted to store a null at the end.
 
-•the preceding loop is incorrect because the last valid subscript of a is 99 and not 100
+**8. confusing the operator > with the operator. when referencing structure members**
 
-•also probably intended to start with the first element of the array; therefore, i should have been initially
+The operator. is used for structure variables. The operator > is used for structure pointer variables.
 
-set to o
+**9. omitting the ampersand before nonpointer variables in a scanf() call**
 
-•forgetting to reserve an extra location in an array for the terminating null character of a string
-
-•when declaring character arrays they need to be large enough to contain the terminating null characte
-
-•the character string "hello" would require six locations in a character array if you wanted to store a null
-
-at the end
-
-Common C Mistakes
-
-•confusing the operator > with the operator. when referencing structure members.
-
-•the operator. is used for structure variables
-
-•the operator > is used for structure pointer variables
-
-•omitting the ampersand before nonpointer variables in a scanf0) call
-
+```c
 int number:
+scanf ("%i", number); // &number
+```
 
-scanf ("%i", number);
+All arguments appearing after the format string in a scanf() call must be pointers.
 
-•all arguments appearing after the format string in a scanf() call must be pointers
+**10. using a pointer variable before it's initialized**
 
-Common C Mistakes
+```c
+char *char_pointer;
+*char_pointer = 'X';
+```
 
-•using a pointer variable before it's initialized
+You can only apply the indirection operator to a pointer variable after you have set the variable pointing somewhere. char-pointer is never set pointing to anything, so the assignment is not meaningful.
 
-char
+**11. omitting the break statement at the end of a case in a switch statement**
 
-*char_pointer;
+If a break is not included at the end of a case, then execution continues into the next case.
 
-*char_pointer = 'X'.
+**12. inserting a semicolon at the end of a preprocessor definition**
 
-•you can only apply the indirection operator to a pointer variable after you have set the
+Usually happens because it becomes a matter of habit to end all statements with semicolons
 
-variable pointing somewhere
+```c
+#define END_OF_DATA 999;   //leads to a syntax error if used in an expression such as:
 
-•char-pointer is never set pointing to anything, so the assignment is not meaningful
-
-•omitting the break statement at the end of a case in a switch statement
-
-•if a break is not included at the end of a case, then execution continues into the next
-
-case
-
-Common C Mistakes
-
-•inserting a semicolon at the end of a preprocessor definition
-
-•usually happens because it becomes a matter of habit to end all statements with semicolons
-
-#define END_OF_DATA 999;
-
-•leads to a syntax error if used in an expression such as
-
-if (value == END_OF_DATA )
-
-•the compiler will see this statement after preprocessing
-
+if (value == END_OF_DATA ) 
+//the compiler will see this statement after preprocessing
 if (value == 999; )
+```
 
-Common C Mistakes
+**13. omitting a closing parenthesis or closing quotation marks on any statement**
 
-•omitting a closing parenthesis or closing quotation marks on any statement
-
-total_earning = (cash + (investments * inv _interest) + (savings * sav_interest);
-
+```c
+total_earning = (cash + (investments * inv_interest) + (savings * sav_interest);
 printf("Your total money to date is %.2f, total_earning);
+```
 
-•the use of embedded parentheses to set apart each portion of the equation makes for a more
+The use of embedded parentheses to set apart each portion of the equation makes for a more readable line of code. However, there is always the possibility of missing a closing parenthesis (or in some occasions, adding one too many).
 
-readable line of code
+The second line is missing a closing quotation mark for the string being sent to the printf() function.
 
-•however, there is always the possibility of missing a closing parenthesis (or in some occasions,
+Both of these will generate a compiler error. Sometimes the error will be identified as coming on a different line, depending on whether the compiler uses a parenthesis or quotation mark on a subsequent line to complete the expression which moves the missing character to a place later in the program.
 
-adding one too many)
+## Understanding Compiler Errors and Warning
 
-•the second line is missing a closing quotation mark for the string being sent to the printf() function
-
-• both of these will generate a compiler error
-
-•sometimes the error will be identified as coming on a different line
-
-• depending on whether the compiler uses a parenthesis or quotation mark on a subsequent line to
-
-complete the expression which moves the missing character to a place later in the program
-
-Overview
-
-•it is sometimes very hard to understand what the compiler is complaining about
+It is sometimes very hard to understand what the compiler is complaining about.
 
 •need to understand compiler errors in order to fix them
 

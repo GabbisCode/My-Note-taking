@@ -2,19 +2,16 @@
 
 ## Requirements
 
-•this challenge will help you better understand how to use the most common string functions in the
+This challenge will help you better understand how to use the most common string functions in the string library.
 
-string library
+Write a program that displays a string in reverse order
 
-•write a program that displays a string in reverse order
+* should read input from the keyboard
+* need to use the strlen string function
 
-•should read input from the keyboard
+Write a program that sorts the strings of an array using a bubble sort
 
-•need to use the strlen string function
-
-•write a program that sorts the strings of an array using a bubble sort
-
-•need to use the stremp and stropy functions
+* need to use the strcmp and strcpy functions
 
 Input number of strings :3
 
@@ -36,7 +33,7 @@ two
 
 zero
 
-Codes by Jason
+## Codes by Jason
 
 ```c
 #include <stdio.h>

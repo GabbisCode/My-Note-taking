@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo", //name ur application 
+            "label": "12-Utilizing_common_string_functions", //name ur application 
             "type": "shell",
             "command": "gcc",
             "args": [
                 "-g", //complication command for global
                 "-o", //to create an object file
-                "helloworld", //name the executable
-                "helloworld.c" //name ur sourcefile
+                "12-Utilizing_common_string_functions", //name the executable
+                "12-Utilizing_common_string_functions.c" //name ur sourcefile
             ],
             "group": {
                 "kind": "build",
