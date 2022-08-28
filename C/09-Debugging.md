@@ -209,120 +209,62 @@ Both of these will generate a compiler error. Sometimes the error will be identi
 
 ## Understanding Compiler Errors and Warning
 
-It is sometimes very hard to understand what the compiler is complaining about.
+It is sometimes very hard to understand what the compiler is complaining about. You need to understand compiler errors in order to fix them. It is sometimes difficult to identify the true reason behind a compiler error.
 
-•need to understand compiler errors in order to fix them
+The compiler makes decisions about how to translate the code that the programmer has not written in the code. This is convenient because the programs can be written more succinctly (only expert programmers take advantage of this feature).
 
-•it is sometimes difficult to identify the true reason behind a compiler error
+You should use an option for the compiler to notify all cases where there are implicit decisions. This option is -Wall.
 
-•the compiler makes decisions about how to translate the code that the programmer has
+The compiler shows two types of problems:
 
-not written in the code
+* **errors**
 
-•is convenient because the programs can be written more succinctly (only expert
+A condition that prevents the creation of a final program. No executable is obtained until all the errors have been corrected. The first errors shown are the most reliable because the translation is finished but there are some errors that may derive from previous ones. Fix the first errors are first, it is recommended to compile again and see if other later errors also disappeared.
 
-programmers take advantage of this feature)
+* **warnings**
 
-•you should use an option for the compiler to notify all cases where there are implicit
+Messages that the compiler shows about "special" situations in which an anomaly has been detected. They are non-fatal errors. The final executable program may be obtained with any number of warning.
 
-decisions
+Compile always with the -Wall option and do not consider the program correct until all warnings have been eliminated.
 
-•this option is -Wall
+### most common compiler messages
 
-Overview
+**'variable' undeclared (first use in this function)**
 
-•the compiler shows two types of problems
+This is one of the most common and easier to detect. The symbol shown at the beginning of the message is used but has not been declared.
 
-•errors
 
-•a condition that prevents the creation of a final program
 
-•no executable is obtained until all the errors have been corrected
+**warning: implicit declaration of function '...'**
 
-• The first errors shown are the most reliable because the translation is finished but there are some
+This warning appears when the compiler finds a function used in the code but no previous information has been given about it. To solve this, always declare a function prototype at the top.
 
-errors that may derive from previous ones
 
-•Fix the first errors are first, it is recommended to compile again and see if other later errors also
 
-disappeared.
+**warning: control reaches end of non-void function**
 
-•warnings
+This warning appears when a function has been defined as returning a result but no return statement has been included to return this result. Either the function is incorrectly defined or the statement is missing.
 
-•messages that the compiler shows about "special" situations in which an anomaly has been detected
 
-•non-fatal errors
 
-•the final executable program may be obtained with any number of warning
+**warning: unused variable '...'**
 
-•compile always with the -Wall option and do not consider the program correct until all warnings have
+This warning is printed by the compiler when a variable is declared but not used in the code. Message disappears if the declaration is removed.
 
-been eliminated
 
-most common compiler messages
 
-'variable' undeclared (first use in this function)
+**undefined reference to '...'**
 
-•this is one of the most common and easier to detect
+This appears when there is a function invoked in the code that has not been defined anywhere. The compiler is telling us that there is a reference to a function with no definition. Check which function is missing and make sure its definition is compiled.
 
-•the symbol shown at the beginning of the message is used but has not been declared
 
-•warning: implicit declaration of function
 
-.,
+**error: conflicting types for '...'**
 
-• this warning appears when the compiler finds a function used in the code but no
+Two definitions of a function prototype have been found. One is the prototype (the result type, name, parenthesis including the parameters, and a semicolon). The other is the definition with the function body. The information in both places is not identical, and a conflict has been detected. The compiler shows you in which line the conflict appears and the previous definition that caused the contradiction.
 
-previous information has been given about it
+### runtime errors
 
-•need to declare a function prototype
+The execution of C programs may terminate abruptly (crash) when a run-time error is detected.
 
-• warning: control reaches end of non-void function
-
-•this warning appears when a function has been defined as returning a result but no
-
-return statement has been included to return this result
-
-•either the function is incorrectly defined or the statement is missing
-
-most common compiler messages
-
-•warning: unused variable
-
-•this warning is printed by the compiler when a variable is declared but not used in the code
-
-•message disappears if the declaration is removed
-
-•undefined reference to
-
-•appears when there is a function invoked in the code that has not been defined anywhere
-
-•compiler is telling us that there is a reference to a function with no definition
-
-•check which function is missing and make sure its definition is compiled
-
-•error: conflicting types for
-
-•two definitions of a function prototype have been found
-
-•one is the prototype (the result type, name, parenthesis including the parameters, and a semicolon)
-
-•the other is the definition with the function body
-
-•the information in both places is not identical, and a conflict has been detected
-
-• the compiler shows you in which line the conflict appears and the previous definition that caused the
-
-contradiction
-
-runtime errors
-
-•the execution of C programs may terminate abruptly (crash) when a run-time error is
-
-detected
-
-•C programs only print the succinct message Segmentation fault
-
-•usually results in a core file depending on the signal that has been thrown
-
-•can analyze the core file and the call stack
+C programs only print the succinct message Segmentation fault. It usually results in a core file depending on the signal that has been thrown. You can analyze the core file and the call stack.
