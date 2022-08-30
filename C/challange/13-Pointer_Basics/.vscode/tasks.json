@@ -1,0 +1,22 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "13-Pointer_Basics", //name ur application 
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g", //complication command for global
+                "-o", //to create an object file
+                "13-Pointer_Basics", //name the executable
+                "13-Pointer_Basics.c" //name ur sourcefile
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
