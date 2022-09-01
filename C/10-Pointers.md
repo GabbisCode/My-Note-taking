@@ -210,741 +210,442 @@ it main(void)
 }
 ```
 
+## Using Pointers
 
+C offers several basic operations you can perform on pointers.
 
-Overview
+You can assign an address to a pointer. Assigned value can be an array name, a variable preceded by address operator (&), or another second pointer.
 
-•C offers several basic operations you can perform on pointers
+You can dereference a pointer. The * operator gives the value stored in the pointed-to location.
 
-•you can assign an address to a pointer
+You can take a pointer address. The & operator tells you where the pointer itself is stored.
 
-•assigned value can be an array name, a variable preceded by address operator (&), or another second pointer.
+You can perform pointer arithmetic. Use the + operator to add an integer to a pointer or a pointer to an integer (integer is multiplied by the number of bytes in the pointed-to type and added to the original address). Increment a pointer by one (useful in arrays when moving to the next element). Use the - operator to subtract an integer from a pointer (integer is multiplied by the number of bytes in the pointed-to type and subtracted from the original address). Decrementing a pointer by one (useful in arrays when going back to the previous element).
 
-•you can dereference a pointer
+You can find the difference between two pointers. You do this for two pointers to elements that are in the same array to find out how far apart the elements are.
 
-•the * operator gives the value stored in the pointed-to location
+You can use the relational operators to compare the values of two pointers. Pointers must be the same type.
 
-•you can take a pointer address
+Remember, there are two forms of subtraction. You can subtract one pointer from another to get an integer; You can subtract an integer from a pointer and get a pointer.
 
-•the & operator tells you where the pointer itself is stored
+Be careful when incrementing or decrementing pointers and causing an array "out of bounds" error. Computer does not keep track of whether a pointer still points to an array element.
 
-•you can perform pointer arithmetic
+### Pointers used in expressions
 
-•use the + operator to add an integer to a pointer or a pointer to an integer (integer is multiplied by the number
+The value referenced by a pointer can be used in an arithmetic expressions. If a variable is defined to be of type "pointer to integer" then it is evaluated using the rules of integer arithmetic.
 
-of bytes in the pointed-to type and added to the original address)
-
-•Increment a pointer by one (useful in arrays when moving to the next element)
-
-•use the - operator to subtract an integer from a pointer (integer is multiplied by the number of bytes in the
-
-pointed-to type and subtracted from the original address
-
-•decrementing a pointer by one (useful in arrays when going back to the previous element)
-
-Overview
-
-•you can find the difference between two pointers
-
-•you do this for two pointers to elements that are in the same array to find out how far
-
-apart the elements are
-
-•you can use the relational operators to compare the values of two pointers
-
-•pointers must be the same type
-
-•remember, there are two forms of subtraction
-
-•you can subtract one pointer from another to get an integer
-
-•you can subtract an integer from a pointer and get a pointer
-
-•be careful when incrementing or decrementing pointers and causing an array
-
-"out of
-
-bounds" error
-
-•computer does not keep track of whether a pointer still points to an array element
-
-pointers used in expressions
-
-• the value referenced by a pointer can be used in an arithmetic expressions
-
-• if a variable is defined to be of type "pointer to integer" then it is evaluated using the rules of
-
-integer arithmetic
-
-int number = o:
-
-int *number = NULL;
+```c
+int number = 0;          // A variable of type int initialized to 0
+int *pnumber = NULL;     // A pointer that can point to type int
 
 number = 10;
+pnumber = &number;       // Store the address of number in pnumber
 
-pnumber=&number;
+*pnumber += 25;
+```
 
-*number += 25;
+Increments the value of the number variable by 25. The * indicates you are accessing the contents to which the variable called pnumber is pointing to.
 
-// A variable of type int initialized to o
+If a pointer points to a variable x, that pointer has been defined to be a pointer to the same data type as is x. The use of *pointer in an expression is identical to the use of x in the same expression.
 
-// A pointer that can point to type int
+A variable defined as a "pointer to int" can store the address of any variable of type int.
 
-// Store the address of number in pnumber
-
-• increments the value of the number variable by 25
-
-• * indicates you are accessing the contents to which the variable called pnumber is pointing to
-
-•if a pointer points to a variable x
-
-•that pointer has been defined to be a pointer to the same data type as is x
-
-•use of *pointer in an expression is identical to the use of x in the same expression
-
-pointers in expressions (cont'd)
-
-•a variable defined as a "pointer to int" can store the address of any variable of type int
-
+```c
 int value = 999;
+pnumber = &value;
+*pnumber += 25;
+```
 
-pnumber = &value:
+The statement will operate with the new variable, value. The new contents of value will be 1024.
 
-*number += 25;
+A pointer can contain the address of any variable of the appropriate type. You can use one pointer variable to change the values of many different variables, as long as they are of a type compatible with the pointer type.
 
-•the statement will operate with the new variable, value
-
-•the new contents of value will be 1024
-
-•a pointer can contain the address of any variable of the appropriate type
-
-•you can use one pointer variable to change the values of many different variables
-
-•as long as they are of a type compatible with the pointer type
-
-Example
-
+```c
 int main(void)
-
 {
+	long num1 = 0L;
+	long num2 = 0L;
+	long *pnum = NULL;
 
-long num1 = oL;
+	pnum = &num1;          // Get address of num1
+	*pnum = 2L;            // Set num1 to 2
+	++num2;                // Increment num2
+	num2 += *pnum;         // Add num1 to num2
 
-long num2 = oL;
+	pnum = &num2;          // Get address of num2
+	++*pnum;               // Increment num2 indirectly
 
-long *num = NULL;
+	printf("num1 = %ld num2 = %ld *pnum = %ld *pnum + num2 = %ld\n", num1, num2, *pnum, *pnum + num2);
 
-pnum = &num1:
+	return 0;
+}
+```
 
-*pnum = zL;
+### When receiving Input
 
-++num2;
+When we have used scanf() to input values, we have used the & operator to obtain the address of a variable on the variable that is to store the input (second argument).
 
-num2 +=
+When you have a pointer that already contains an address, you can use the pointer name as an argument for scanf().
 
-*pnum;
-
-pnum = &num2;
-
-++*pnum;
-
-// Get address of num1
-
-// Set num1 to 2
-
-// Increment numa
-
-// Add num1 to num2
-
-// Get address of numz
-
-// Increment num indirectly
-
-printf("num1 = %ld num2 = %ld *num = %ld
-
-*pnum + num2 = %ld\n",
-
-num1, numz, *pnum, *pnum + num2);
-
-return o;
-
-1
-
-when receiving Input
-
-•when we have used scanf() to input values, we have used the & operator to obtain the
-
-address of a variable
-
-• on the variable that is to store the input (second argument)
-
-•when you have a pointer that already contains an address, you can use the pointer name
-
-as an argument for scanf()
-
+```c
 int value = 0;
+int *pvalue = &value;                   // Set pointer to refer to value
 
-int *value = &value;
+printf ("Input an integer:");
+scanf(" %d", pvalue);                   // Read into value via the pointer
 
-// Set pointer to refer to value
+printf("You entered %d. \n", value);    // Output the value entered
+```
 
-printf ("Input an integer: ");
+### Testing for NULL
 
-scanf(" %d", pvalue);
+There is one rule you should burn into your memory: **DO NOT dereference an uninitialized pointer.**
 
-// Read into value via the pointer
-
-printf("You entered %d. \n", value);
-
-// Output the value entered
-
-Testing for NULL
-
-•there is one rule you should burn into your memory
-
-•do not dereference an uninitialized pointer
-
+```c
 int * pt; // an uninitialized pointer
-
 *pt = 5; // a terrible error
+```
 
-•second line means store the value 5 in the location to which pt points
+Second line means store the value 5 in the location to which pt points. pt has a random value, there is no knowing where the 5 will be placed. 
 
-•pt has a random value, there is no knowing where the 5 will be placed
+It might go somewhere harmless, it might overwrite data or code, or it might cause the program to crash.
 
-•It might go somewhere harmless, it might overwrite data or code, or it might cause the program to crash
+Creating a pointer only allocates memory to store the pointer itself. It does not allocate memory to store data. Before you use a pointer, it should be assigned a memory location that has already been allocated, so that you can assign the address of an existing variable to the pointer. Or you can use the malloc() function to allocate memory first.
 
-•creating a pointer only allocates memory to store the pointer itself
+We already know that when declaring a pointer that does not point to anything, we should initialize it to NULL.
 
-•it does not allocate memory to store data
+```c
+int *pvalue = NULL;
+```
 
-•before you use a pointer, it should be assigned a memory location that has already been allocated
+NULL is a special symbol in C that represents the pointer equivalent to 0 with ordinary numbers. The below also sets a pointer to null using 0:
 
-•assign the address of an existing variable to the pointer
-
-• or you can use the malloc() function to allocate memory first
-
-Testing for NULL (cont'd)
-
-•we already know that when declaring a pointer that does not point to anything, we should initialize it to
-
-NULL
-
-int *value = NULL;
-
-•NULL is a special symbol in C that represents the pointer equivalent to o with ordinary numbers
-
-•the below also sets a pointer to null using o
-
+```c
 int *pvalue = 0;
+```
 
-•because NULL is the equivalent of zero, if you want to test whether pvalue is NULL, you can do this:
+Because NULL is the equivalent of zero, if you want to test whether pvalue is NULL, you can do this, or you can do it explicitly by using == NULL
 
-•or you can do it explicitly by using == NULL
+```c
+if(!pvalue)......
+```
 
-if(!pvalue)
+You want to check for NULL before you dereference a pointer often when pointers are passed to functions.
 
-•you want to check for NULL before you dereference a pointer
+## Pointers and const
 
-•often when pointers are passed to functions
+When we use the const modifier on a variable or an array it tells the compiler that the contents of the variable/array will not be changed by the program. With pointers, we have to consider two things when using the const modifier:
 
-Keep practicing
+* whether the pointer will be changed
+* whether the value that the pointer points to will be changed
 
-•stay with me
+You can use the const keyword when you declare a pointer to indicate that the value pointed to must not be changed.
 
-•pointers can be confusing :)
-
-•you can work with addresses
-
-•you can work with values
-
-•you can work with pointers
-
-•you can work with variables
-
-•sometimes it is hard to work out what exactly is going on
-
-•the best thing to understand this concept of a pointer is to keep writing short programs that use
-
-pointers
-
-•getting values using pointers
-
-•changing values using pointers
-
-•printing addresses, etc.
-
-•this is the only way to really get confident about using pointers, practice!!!!
-
-Overview
-
-•when we use the const modifier on a variable or an array it tells the compiler that the contents of the variable/array
-
-will not be changed by the program
-
-•with pointers, we have to consider two things when using the const modifier
-
-•whether the pointer will be changed
-
-•whether the value that the pointer points to will be changed
-
-•you can use the const keyword when you declare a pointer to indicate that the value pointed to must not be changed
-
+```c
 long value = 9999L;
+const long *pvalue = &value;       // defines a pointer to a constant
+```
 
-const long *value = &value;
+You have declared the value pointed to by pvalue to be const. The compiler will check for any statements that attempt to modify the value pointed to by pvalue and flag such statements as an error.
 
-/I defines a pointer to a constant
+The following statement will now result in an error message from the compiler
 
-•you have declared the value pointed to by pvalue to be const
+```c
+*pvalue = 8888L;   // Error - attempt to change const location
+```
 
-•the compiler will check for any statements that attempt to modify the value pointed to by pvalue and flag such
+### pointers to constants
 
-statements as an error
+You can still modify value (you have only applied const to the pointer)
 
-•the following statement will now result in an error message from the compiler
+```c
+value = 7777L;
+```
 
-•*value = 8888L;
+The value pointed to has changed, but you did not use the pointer to make the change. The pointer itself is not constant, so you can still change what it points to:
 
-// Error - attempt to change const location
-
-pointers to constants
-
-•you can still modify value (you have only applied const to the pointer)
-
-value = 7777L
-
-•the value pointed to has changed, but you did not use the pointer to make the change
-
-•the pointer itself is not constant, so you can still change what it points to:
-
+```c
 long number = 8888L;
+pvalue = &number;        // OK - changing the address in pvalue
+```
 
-value = &number;
+We will change the address stored in pvalue to point to number and still cannot use the pointer to change the value that is stored. You can change the address stored in the pointer as much as you like. Using the pointer to change the value pointed to is not allowed, even after you have changed the address stored in the pointer.
 
-// OK - changing the address in pvalue
+### constant pointers
 
-• will change the address stored in pvalue to point to number
+You might also want to ensure that the address stored in a pointer cannot be changed. You can do this by using the const keyword in the declaration of the pointer:
 
-• still cannot use the pointer to change the value that is stored
-
-•you can change the address stored in the pointer as much as you like
-
-•using the pointer to change the value pointed to is not allowed, even after you have changed the address
-
-stored in the pointer.
-
-constant pointers
-
-•you might also want to ensure that the address stored in a pointer cannot be changed
-
-•you can do this by using the const keyword in the declaration of the pointer
-
+```c
 int count = 43;
+int *const pcount = &count;       // Defines a constant pointer
+```
 
-int *const pcount = &count;
+The above ensures that a pointer always points to the same thing. It indicates that the address stored must not be changed. The compiler will check that you do not inadvertently attempt to change what the pointer points to elsewhere in your code.
 
-// Defines a constant pointer
-
-•the above ensures that a pointer always points to the same thing
-
-•indicates that the address stored must not be changed
-
-•compiler will check that you do not inadvertently attempt to change what the pointer points to elsewhere in
-
-your code
-
+```c
 int item = 34;
+pcount = &item;      // Error - attempt to change a constant pointer
+```
 
-pcount = &item;
+It is all about where you place the const keyword, either before the type or after the type:
 
-// Error - attempt to change a constant pointer
+```c
+const int * ......        // value can not be changed
 
-•it is all about where you place the const keyword, either before the type or after the type
+int *const ......         // pointer address cannot change
+```
 
-•const int
+You can still change the value that pcount points to using pcount:
 
-// value can not be changed
+```c
+*pcount = 345;     // OK - changes the value of count
+```
 
-•int *const
+It references the value stored in count through the pointer and changes its value to 345.
 
-// pointer address cannot change
+You can create a constant pointer that points to a value that is also constant:
 
-constant pointers (cont'd)
-
-•you can still change the value that pcount points to using pcount
-
-*count = 345;
-
-// OK - changes the value of count
-
-•references the value stored in count through the pointer and changes its value to 345
-
-•you can create a constant pointer that points to a value that is also constant:
-
+```c
 int item = 25;
-
 const int *const pitem = &item;
+```
 
-•the pitem is a constant pointer to a constant so everything is fixed
+The pitem is a constant pointer to a constant so everything is fixed. You cannot change the address stored in pitem; You cannot use pitem to modify what it points to. However, you can still change the value of item directly. If you wanted to make everything not change, you could specify item as const as well.
 
-•cannot change the address stored in pitem
+## void pointers
 
-•cannot use pitem to modify what it points to
+The type name void means absence of any type
 
-•you can still change the value of item directly
+A pointer of type void* can contain the address of a data item of any type. void* is often used as a parameter type or return value type with functions that deal with data in a type-independent way. So you can allow your function to be more flexible if it takes void star pointers. It basically means that your function can take more than one type of variable except it's not completely flexible because you have to cast it some way when you dereference it.
 
-•if you wanted to make everything not change, you could specify item as const as well
+Any kind of pointer can be passed around as a value of type void* . The void pointer does not know what type of object it is pointing to, so, it cannot be dereferenced directly. The void pointer must first be explicitly cast to another pointer type before it is dereferenced. 
 
-Overview
+The address of a variable of type int can be stored in a pointer variable of type void*. When you want to access the integer value at the address stored in the void* pointer, you must first cast the pointer to type int*
 
-•the type name void means absence of any type
-
-• a pointer of type void* can contain the address of a data item of any type
-
-• void* is often used as a parameter type or return value type with functions that deal with
-
-data in a type-independent way
-
-•any kind of pointer can be passed around as a value of type void*
-
-•the void pointer does not know what type of object it is pointing to, so, it cannot be
-
-dereferenced directly
-
-•the void pointer must first be explicitly cast to another pointer type before it is
-
-dereferenced
-
-• the address of a variable of type int can be stored in a pointer variable of type void*
-
-• when you want to access the integer value at the address stored in the void* pointer, you
-
-must first cast the pointer to type int*
-
-Example
-
-int i= 10;
-
-float {= 2.34;
-
-char ch = 'k'.
+```c
+int i = 10;
+float f = 2.34;
+char ch = 'k';
 
 void *vptr;
 
-votr=&i;
-
+votr = &i;
 printf("Value of i = %d\n", *(int *)vptr);
 
-votr=&f:
-
+vptr = &f;
 printf("Value of f = %.2f\ n", *(float *)vptr);
 
-votr=&ch:
-
+vptr = &ch;
 printf("Value of ch = %c\n", *(char *)vptr);
+```
 
-Overview
+## Pointers and Arrays
 
-• an array is a collection of objects of the same type that you can refer to using a single name
+An array is a collection of objects of the same type that you can refer to using a single name.
 
-• a pointer is a variable that has as its value a memory address that can reference another variable or
+A pointer is a variable that has as its value a memory address that can reference another variable or constant of a given type. You can use a pointer to hold the address of different variables at different times (must be same type).
 
-constant of a given type
-
-• you can use a pointer to hold the address of different variables at different times (must be same
-
-type)
-
-• arrays and pointers seem quite different, but, they are very closely related and can sometimes be used
-
-interchangeably
-
-• one of the most common uses of pointers in C is as pointers to arrays
-
-•the main reasons for using pointers to arrays are ones of notational convenience and of program
-
-efficiency
-
-•pointers to arrays generally result in code that uses less memory and executes faster
+Arrays and pointers seem quite different, but, they are very closely related and can sometimes be used interchangeably. One of the most common uses of pointers in C is as pointers to arrays. The main reasons for using pointers to arrays are ones of notational convenience and of program efficiency. Pointers to arrays generally result in code that uses less memory and executes faster.
 
 Arrays and Pointers
 
-• if you have an array of 100 integers
+If you have an array of 100 integers
 
+```c
 int values[100];
+```
 
-• you can define a pointer called valuesPtr, which can be used to access the integers contained in this array
+You can define a pointer called valuesPtr, which can be used to access the integers contained in this array
 
+```c
 int *valuesPtr;
+```
 
-• when you define a pointer that is used to point to the elements of an array, you do not designate the pointer as type "pointer to
+When you define a pointer that is used to point to the elements of an array, you do not designate the pointer as type "pointer to array". You designate the pointer as pointing to the type of element that is contained in the array.
 
-array"
+To set valuesPtr to point to the first element in the values array, you write
 
-• you designate the pointer as pointing to the type of element that is contained in the array
-
-• to set valuesPtr to point to the first element in the values array, you write
-
-valuesPtr = values:
-
-• the address operator is not used
-
-• the C compiler treats the appearance of an array name without a subscript as a pointer to the array
-
-• specifying values without a subscript has the effect of producing a pointer to the first element of values
-
-Arrays and Pointers
-
-•an equivalent way of producing a pointer to the start of values is to apply the address
-
-operator to the first element of the array
-
-valuesPtr=&values[0];
-
-•So, you can use the above example or the one on the previous slide
-
+```c
 valuesPtr = values;
+```
 
-Summary
+The address operator is not used. The C compiler treats the appearance of an array name without a subscript as a pointer to the array. Specifying values without a subscript has the effect of producing a pointer to the first element of values.
 
-•the two expressions ar[i] and *(ar+i) are equivalent in meaning
+An equivalent way of producing a pointer to the start of values is to apply the address operator to the first element of the array:
 
-• both work if ar is the name of an array, and both work if ar is a pointer variable
+```c
+valuesPtr = &values[0];
+```
 
-•using an expression such as ar++ only works if ar is a pointer variable
+The two expressions ar[i] and *(ar+i) are equivalent in meaning. Both work if ar is the name of an array, and both work if ar is a pointer variable. Using an expression such as ar++ only works if ar is a pointer variable.
 
-pointer arithmetic
+## Pointer Arithmetic
 
-•the real power of using pointers to arrays comes into play when you want to sequence through the elements of
+The real power of using pointers to arrays comes into play when you want to sequence through the elements of an array.
 
-an array
+```
+*valuesPtr // can be used to access the first integer of the values array, that is, values[0]
+```
 
-*valuesPtr // can be used to access the first integer of the values array, that is, values[o]
+To reference values[3] through the valuesPtr variable, you can add 3 to valuesPtr and then apply the indirection operator
 
-•to reference values[3] through the valuesPtr variable, you can add 3 to valuesPtr and then apply the indirection
-
-operator
-
+```c
 *(valuesPtr + 3)
+```
 
-•the expression, *(valuesPtr + i) can be used to access the value contained in values[ i]
+The expression, *(valuesPtr + i) can be used to access the value contained in values[i]. To set values[10] to 27, you could do the following:
 
-•to set values[10] to 27, you could do the following
-
+```c
 values[10] = 27;
+```
 
-•or, using valuesPtr, you could
+or, using valuesPtr, you could
 
+```c
 *(valuesPtr + 10) = 27;
+```
 
-pointer arithmetic (cont'd)
+To set valuesPtr to point to the second element of the values array, you can apply the address operator to values[1] and assign the result to valuesPtr:
 
-•to set valuesPtr to point to the second element of the values array, you can apply the
+```c
+valuesPtr = &values[1];
+```
 
-address operator to values[1] and assign the result to valuesptr
+If valuesPtr points to values[0], you can set it to point to values[1] by simply adding 1 to the value of valuesPtr:
 
-valuesPtr = &values 11:
+```c
+valuesPtr += 1;
+```
 
-•If valuesPtr points to values[ o], you can set it to point to values[1] by simply adding 1 to
+This is a perfectly valid expression in C and can be used for pointers to any data type.
 
-the value of valuesPtr
+The increment and decrement operators ++ and -- are particularly useful when dealing with pointers. Using the increment operator on a pointer has the same effect as adding one to the pointer; using the decrement operator has the same effect as subtracting one from the pointer.
 
-valuesPtr += 1:
-
-•this is a perfectly valid expression in C and can be used for pointers to any data type
-
-pointer arithmetic (cont'd)
-
-•the increment and decrement operators ++ and -- are particularly useful when dealing with
-
-pointers
-
-•using the increment operator on a pointer has the same effect as adding one to the pointer
-
-•using the decrement operator has the same effect as subtracting one from the pointer
-
+```c
 ++valuesPtr;
+```
 
-•sets valuesPtr pointing to the next integer in the values array (values[1])
+It sets valuesPtr pointing to the next integer in the values array (values[1])
 
+```
 --textPtr;
+```
 
-•sets valuesPtr pointing to the previous integer in the values array, assuming that valuesPtr was
+It sets valuesPtr pointing to the previous integer in the values array, assuming that valuesPtr was not pointing to the beginning of the values array
 
-not pointing to the beginning of the values array
-
-Example
-
+```c
 int arraySum (int array[], const int n)
-
 {
+	int sum = 0, *ptr;
+	int * const arrayEnd = array + n;
 
-int sum = o, *ptr;
+	for (ptr = array; ptr < arrayEnd; ++ptr )
+		sum += *ptr;
 
-int * const arrayEnd = array + n;
-
-for (ptr = array; ptr < arrayEnd; ++ptr )
-
-sum +=
-
-*ptr;
-
-return sum;
-
-7
-
-void main (void)
-
-{
-
-int arraySum (int array[], const int n);
-
-int values[10] = {3, 7, -9, 3, 6, -1, 7, 9, 1, -5 };
-
-printf ("The sum is %i\n", arraySum (values, 10));
-
+	return sum;
 }
 
-Example (cont'd)
-
-•to pass an array to a function, you simply specify the name of the array
-
-•to produce a pointer to an array, you need only specify the name of the array
-
-• this implies that in the call to the array Sum() function, what was passed to the function was actually a pointer to the array
-
-values
-
-• explains why you are able to change the elements of an array from within a function
-
-•so, you might wonder why the formal parameter inside the function is not declared to be a pointer
-
-int arraySum (int *array, const int n)
-
-•the above is perfectly valid
-
-•pointers and arrays are intimately related in C
-
-•this is why you can declare array to be of type "array of ints" inside the array Sum function or to be of type "pointer to int."
-
-•if you are going to be using index numbers to reference the elements of an array that is passed to a function, declare the
-
-corresponding formal parameter to be an array
-
-•more correctly reflects the use of the array by the function
-
-Example with pointer notation
-
-int arraySum (int *array, const int n)
-
+void main (void)
 {
+	int arraySum (int array[], const int n);
+	int values[10] = {3, 7, -9, 3, 6, -1, 7, 9, 1, -5 };
 
-int sum= 0;
+	printf ("The sum is %i\n", arraySum (values, 10));
+}
+```
 
-int * const arrayEnd = array + n;
+To pass an array to a function, you simply specify the name of the array. To produce a pointer to an array, you need only specify the name of the array.
 
-for (; array < arrayEnd; ++array )
+This implies that in the call to the arraySum() function, what was passed to the function was actually a pointer to the array values. And this explains why you are able to change the elements of an array from within a function.
 
-sum +=
+So, you might wonder why the formal parameter inside the function is not declared to be a pointer.
 
-*array;
+```c
+int arraySum (int *array, const int n)
+```
 
-return sum;
+The above is perfectly valid. Pointers and arrays are intimately related in C. This is why you can declare array to be of type "array of ints" inside the arraySum function or to be of type "pointer to int."
 
-7
+If you are going to be using index numbers to reference the elements of an array that is passed to a function, declare the corresponding formal parameter to be an array, which more correctly reflects the use of the array by the function
+
+If you are using the argument as a pointer to the array, declare it to be of type pointer.
+
+```c
+int arraySum (int *array, const int n)
+{
+	int sum = 0;
+	int * const arrayEnd = array + n;
+
+	for ( ; array < arrayEnd; ++array)
+		sum += *array;
+
+	return sum;
+}
 
 void main (void)
-
 {
+	int arraySum (int *array, const int n);
+	int values[10] = {3, 7, -9, 3, 6, -1, 7, 9, 1, -5 };
 
-int arraySum (int
+	printf ("The sum is %i\n", arraySum (values, 10));
+}
+```
 
-*array, const int n);
+### Summary
 
-int values[10] = {3, 7, -9, 3, 6, -1, 7, 9, 1, -5 };
+```c
+int urn[3];
+int * ptr1, * ptr2;
+```
 
-printf ("The sum is %i\n", arraySum (values, 10));
+![](image/Pointers02.png)
 
-1
+Functions that process arrays actually use pointers as arguments. 
 
-Summary
+You have a choice between array notation and pointer notation for writing array processing functions. Using array notation makes it more obvious that the function is working with arrays. Array notation has a more familiar look to programmers versed in FORTRAN, Pascal, Modula-2, or BASIC. Other programmers might be more accustomed to working with pointers and might find the pointer notation more natural. It's closer to machine language and, with some compilers, leads to more efficient code.
 
-int urn[ 3];
-
-int * ptr1, * ptra;
-
-![](https://app.yinxiang.com/shard/s46/res/30302f3d-b8be-4d9f-8bc4-18a2a4c9319d/Image%2020220829%20141302.png?resizeSmall&width=813 "Attachment")
-
-Summary (cont'd)
-
-•functions that process arrays actually use pointers as arguments
-
-•you have a choice between array notation and pointer notation for writing array.
-
-processing functions
-
-•using array notation makes it more obvious that the function is working with arrays
-
-•array notation has a more familiar look to programmers versed in FORTRAN, Pascal,
-
-Modula-2, or BASIC
-
-•other programmers might be more accustomed to working with pointers and might find
-
-the pointer notation more natural
-
-•closer to machine language and, with some compilers, leads to more efficient code
-
-Example
+### Pointers and Arrays Example
 
 This program demonstrates the effect of adding an integer value to a pointer.
 
+```c
 #include <stdio.h>
-
 #include <string.h>
 
 int main(void)
+{
+	char multiple[] = "a string";
+	char *p = multiple;
 
-char multiple[1 =
+	for(int i = 0; i < strnlen(multiple, sizeof(multiple)) ; ++i)
+		printf ("multiple[%d] = %c *(p+%d) = %c &multiple[%d] = %p p+%d = %p\n", 
+		i, multiple[i], i, *(p+i), i, &multiple[i], i, p+i);
 
-"a string";
-
-char *p = multiple;
-
-for(int i = o; i < strnlen(multiple, sizeof(multiple)) ; ++i)
-
-printf ("multiple[%d] = %C *(p+%d) = %c &multiple[%d] = %p p+%d = %p\n"',
-
-i, multiple[i], i, *(p+i), i, &multiple[i], i, p+i);
-
-return o;
+	return 0;
+}
+```
 
 Another Example
 
+```c
 #include <stdio.h>
 
 int main(void)
-
 {
+	long multiple[] = {15L, 25L, 35L, 45L};
+	long *p = multiple:
 
-long multiple[] = {154, 25L, 35L, 45L};
+	for(int i = 0 ; i < sizeof(multiple)/sizeof(multiple[0]) ; ++i)
+		printf("address p+%d (&multiple[%d]): %llu    *(p+%d) value: %d\n",
+		i, i, (unsigned long long)(p+i), i, *(p+i));
 
-long
+	printf("\n Type long occupies: %d bytes\n", (int)sizeof(long));
 
-*p = multiple:
+	return 0;
+}
+```
 
-for(int i = o ; i < sizeof(multiple)/sizeof(multiple[o]) ; ++i)
-
-printf("address p+%d (&multiple[%d]): %llu
-
-i, i, (unsigned long long)(p+i), i, *(p+i));
-
-*(p+%d) value: %d\n".
-
-printf("\n Type long occupies: %d bytes\n", (int)sizeof(long));
-
-return O:
+## Pointers  and Strings
 
 Overview
 
