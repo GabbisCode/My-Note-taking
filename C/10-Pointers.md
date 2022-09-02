@@ -306,7 +306,7 @@ int * pt; // an uninitialized pointer
 *pt = 5; // a terrible error
 ```
 
-Second line means store the value 5 in the location to which pt points. pt has a random value, there is no knowing where the 5 will be placed. 
+Second line means store the value 5 in the location to which pt points. pt has a random value, there is no knowing where the 5 will be placed.
 
 It might go somewhere harmless, it might overwrite data or code, or it might cause the program to crash.
 
@@ -418,7 +418,7 @@ The type name void means absence of any type
 
 A pointer of type void* can contain the address of a data item of any type. void* is often used as a parameter type or return value type with functions that deal with data in a type-independent way. So you can allow your function to be more flexible if it takes void star pointers. It basically means that your function can take more than one type of variable except it's not completely flexible because you have to cast it some way when you dereference it.
 
-Any kind of pointer can be passed around as a value of type void* . The void pointer does not know what type of object it is pointing to, so, it cannot be dereferenced directly. The void pointer must first be explicitly cast to another pointer type before it is dereferenced. 
+Any kind of pointer can be passed around as a value of type void* . The void pointer does not know what type of object it is pointing to, so, it cannot be dereferenced directly. The void pointer must first be explicitly cast to another pointer type before it is dereferenced.
 
 The address of a variable of type int can be stored in a pointer variable of type void*. When you want to access the integer value at the address stored in the void* pointer, you must first cast the pointer to type int*
 
@@ -600,7 +600,7 @@ int * ptr1, * ptr2;
 
 ![](image/Pointers02.png)
 
-Functions that process arrays actually use pointers as arguments. 
+Functions that process arrays actually use pointers as arguments.
 
 You have a choice between array notation and pointer notation for writing array processing functions. Using array notation makes it more obvious that the function is working with arrays. Array notation has a more familiar look to programmers versed in FORTRAN, Pascal, Modula-2, or BASIC. Other programmers might be more accustomed to working with pointers and might find the pointer notation more natural. It's closer to machine language and, with some compilers, leads to more efficient code.
 
@@ -647,289 +647,215 @@ int main(void)
 
 ## Pointers  and Strings
 
-Overview
+We now know how arrays relate to pointers and the concept of pointer arithmetic. These concepts can be very useful when applied to character arrays (strings).
 
-•we now know how arrays relate to pointers and the concept of pointer arithmetic
+One of the most common applications of using a pointer to an array is as a pointer to a character string. The reasons are one of notational convenience and efficiency. Using a variable of type pointer to char to reference a string gives you a lot of flexibility.
 
-•these concepts can be very useful when applied to character arrays (strings)
+Lets look at an example that uses an array to copy a string:
 
-•one of the most common applications of using a pointer to an array is as a pointer to a character
-
-string
-
-•the reasons are one of notational convenience and efficiency
-
-•using a variable of type pointer to char to reference a string gives you a lot of flexibility
-
-•lets look at an example that uses an array to copy a string
-
-Example (array parameter vs char * parameter)
-
+```c
+// array parameter
 void copyString (char to[], char from[l)
-
 {
+	int i;
 
-int i
+	for (i =0; from[i] != '\0'; ++i)
+		to[i] = from[i];
 
-for (i =0; from[i] != '10'; ++i)
-
-toll = fromi;
-
-to[i] = 10';
-
-void copyString (char *to, char
-
-*from)
-
-{
-
-for;
-
-*from != '10'; ++from, ++to)
-
-*to = *from;
-
-*to = '10':
-
-char arrays as pointers
-
-•if you have an array of characters called text, you could similarly define a pointer to be used to
-
-point to elements in text
-
-char *textPtr:
-
-•if textPtr is set pointing to the beginning of an array of chars called text
-
-++textPtr:
-
-•the above sets textPtr pointing to the next character in text, which is text[1]
-
---textPtr;
-
-•the above sets textPtr pointing to the previous character in text, assuming that textPtr was not
-
-pointing to the beginning of text prior to the execution of this statement
-
-Example optimized
-
-void copyString (char *to, char *from)
-
-{
-
-while (*from ) // the null character is equal to the value O, so will jump out then
-
-*to++ = *from+t:
-
-*to = 10'
-
-int main (void)
-
-{
-
-char string1[] = "A string to be copied.";
-
-char string2[50];
-
-copyString (string2, string1);
-
-printf ("%s\n", string2);
-
-Requirements
-
-• In this challenge, you are going to write a program that tests your understanding of pointer
-
-arithmetic and the const modifier
-
-•write a function that calculates the length of a string
-
-•the function should take as a parameter a const char pointer
-
-•the function can only determine the length of the string using pointer arithmetic
-
-•incrementation operator (++pointer) to get to the end of the string
-
-•you are required to use a while loop using the value of the pointer to exit
-
-•the function should subtract two pointers (one pointing to the end of the string and one
-
-pointing to the beginning of the string)
-
-•the function should return an int that is the length of the string passed into the function
-
-pass by value
-
-•there are a few different ways you can pass data to a function
-
-•pass by value
-
-•pass by reference
-
-•pass by value is when a function copies the actual value of an argument into the formal parameter of
-
-the function
-
-•changes made to the parameter inside the function have no effect on the argument
-
-•C programming uses call by value to pass arguments
-
-•means the code within a function cannot alter the arguments used to call the function
-
-•there are no changes in the values, though they had been changed inside the function
-
-Example, pass by value
-
-/* function definition to swap the values */
-
-void swap(int x, int y) {
-
-int temp;
-
-temp = x; /* save the value of x */
-
-X = Y;
-
-/* put y into x */
-
-y = temp; /* put temp into y */
-
-return;
-
+	to[i] = '\0';
 }
 
-Example (cont'd)
+// char * parameter
+void copyString (char *to, char *from)
+{
+	for( ; *from != '\0'; ++from, ++to)
+		*to = *from;
+	*to = '\n';
+}
+```
 
-int main () {
+### char arrays as pointers
 
-/* local variable definition */
+If you have an array of characters called text, you could similarly define a pointer to be used to point to elements in text
 
-int a = 100;
+```c
+char *textPtr;
+```
 
-int b = 200;
+If textPtr is set pointing to the beginning of an array of chars called text
 
-printf("Before swap, value of a : %dn", a );
+```c
+++textPtr;
+```
 
-printf("Before swap, value of b : %din", b );
+The above sets textPtr pointing to the next character in text, which is text[1]
 
-/* calling a function to swap the values */
+```c
+--textPtr;
+```
 
-swap(a, b);
+The above sets textPtr pointing to the previous character in text, assuming that textPtr was not pointing to the beginning of text prior to the execution of this statement
 
-printf("After swap, value of a : %din", a );
+### Example optimized
 
-printf("After swap, value of b : %din", b );
+```c
+void copyString (char *to, char *from)
+{
+	while (*from ) // the null character is equal to the value O, so will jump out then
+		*to++ = *from++;
 
-return O;
+	*to = \0';
+}
 
-Passing data using copies of pointers
+int main (void)
+{
+	char string1[] = "A string to be copied.";
+	char string2[50];
 
-•pointers and functions get along quite well together
+	copyString (string2, string1);
+	printf ("%s\n", string2);
+}
+```
 
-•you can pass a pointer as an argument to a function and you can also have a function return a
+## Pass by Reference
 
-pointer as its result
+There are a few different ways you can pass data to a function:
 
-•pass by reference copies the address of an argument into the formal parameter
+* pass by value
+* pass by reference
 
-•the address is used to access the actual argument used in the call
+Pass by value is when a function copies the actual value of an argument into the formal parameter of the function. Changes made to the parameter inside the function have no effect on the argument.
 
-•means the changes made to the parameter affect the passed argument
+C programming uses call by value to pass arguments. This means the code within a function cannot alter the arguments used to call the function. There are no changes in the values, though they had been changed inside the function.
 
-•to pass a value by reference, argument pointers are passed to the functions just like any other
+```c
+/* function definition to swap the values */
+void swap(int x, int y) 
+{
+	int temp;
 
-value
+	temp = x;      /* save the value of x */
+	x = y;         /* put y into x */
+	y = temp;      /* put temp into y */
 
-•you need to declare the function parameters as pointer types
+	return;
+}
 
-•changes inside the function are reflected outside the function as well
+int main()
+{
+	/* local variable definition */
+	int a = 100;
+	int b = 200;
 
-•unlike call by value where the changes do not reflect outside the function
+	printf("Before swap, value of a : %d\n", a); // 100
+	printf("Before swap, value of b : %d\n", b); // 200
 
-Example using pointers to pass data (cont'd)
+	/* calling a function to swap the values */
+	swap(a, b);
 
-int main () {
+	printf("After swap, value of a : %d\n", a); //100
+	printf("After swap, value of b : %d\n", b); //200
 
-/* local variable definition */
+	return 0;
+}
+```
 
-int a = 100;
+### Passing data using copies of pointers
 
-int b = 200;
+Pointers and functions get along quite well together. You can pass a pointer as an argument to a function and you can also have a function return a pointer as its result.
 
-printf("Before swap, value of a : %dIn",
+Pass by reference copies the address of an argument into the formal parameter. The address is used to access the actual argument used in the call. This means the changes made to the parameter affect the passed argument.
 
-, a);
+To pass a value by reference, argument pointers are passed to the functions just like any other value. You need to declare the function parameters as pointer types. Unlike call by value where the changes do not reflect outside the function, changes inside the function are reflected outside the function as well.
 
-printf("Before swap, value of b : %dIn", b );
+```c
+/* function definition to swap the values */
+void swap(int *x, int *y) 
+{
+	int temp;
 
-swap(&a, &b);
+	temp = *x;      /* save the value at address x */
+	*x = *y;         /* put y into x */
+	*y = temp;      /* put temp into y */
 
-printf("After swap, value of a : %dln", a );
+	return;
+}
 
-printf("After swap, value of b : %din", b );
+int main() 
+{
+	/* local variable definition */
+	int a = 100;
+	int b = 200;
 
-return O:
+	printf("Before swap, value of a : %d\n", a); // 100
+	printf("Before swap, value of b : %d\n", b); // 200
 
-Summary of syntax
+	swap(&a, &b);
 
-•you can communicate two kinds of information about a variable to a function
+	printf("After swap, value of a : %d\n", a); // 200
+	printf("After swap, value of b : %d\n", b); // 100
 
-function1(x);
+	return 0;
+}
+```
 
-•you transmit the value of x and the function must be declared with the same type as x
+### Summary of syntax
 
-int function 1 (int num)
+You can communicate two kinds of information about a variable to a function
 
-function2(&x);
+* function1(x);
 
-• you transmit the address of x and requires the function definition to include a pointer to the correct
+You transmit the value of x and the function must be declared with the same type as x
 
-type
+```
+int function1(int num)
+```
 
+* function2(&x);
+
+You transmit the address of x and requires the function definition to include a pointer to the correct type
+
+```c
 int function2(int * ptr)
+```
 
-cost pointer parameters
+### cost pointer parameters
 
-• you can qualify a function parameter using the const keyword
+You can qualify a function parameter using the const keyword. This indicates that the function will treat the argument that is passed for this parameter as a constant. It's only useful when the parameter is a pointer. Because if you're passing by value and you're not passing in pointers, it doesn't matter because it's not going to affect the change on the outside the function. **The only reason you make a pointer constant is because you don't want to have outside the function values changing.**
 
-• indicates that the function will treat the argument that is passed for this parameter as a constant
+You apply the const keyword to a parameter that is a pointer to specify that a function will not change the value to which the argument points.
 
-• only useful when the parameter is a pointer
-
-• you apply the const keyword to a parameter that is a pointer to specify that a function will not change the value to which the argument points
-
+```c
 bool SendMessage(const char* pmessage)
+{
+	// Code to send the message
+	return true;
+}
+```
 
-I Code to send the message
+The type of the parameter, pmessage, is a pointer to a const char. It is the char value that's const, not its address. You could specify the pointer itself as const too, but this makes little sense because the address is passed by value and you cannot change the original pointer in the calling function.
 
-return true;
+The compiler knows that an argument that is a pointer to constant data will be safe.
 
-• the type of the parameter, pmessage, is a pointer to a const char.
+If you pass a pointer to constant data as the argument for a parameter then the parameter must be a use the above.
 
-• it is the char value that's const, not its address.
+### returning pointers from a function
 
-• you could specify the pointer itself as const too, but this makes little sense because the address is passed by value
+Returning a pointer from a function is a particularly powerful capability. It provides a way for you to return not just a single value, but a whole set of values!
 
-• you cannot change the original pointer in the calling function
+You would have to declare a function returning a pointer
 
-• the compiler knows that an argument that is a pointer to constant data will be safe
+```c
+int * myFunction() {
+.
+.
+.
+}
+```
 
-• If you pass a pointer to constant data as the argument for a parameter then the parameter must be a use the above
+Be careful though, there are specific hazards related to returning a pointer. **Use local variables to avoid interfering with the variable that the argument points to.**
 
-returning pointers from a function
-
-•returning a pointer from a function is a particularly powerful capability
-
-•it provides a way for you to return not just a single value, but a whole set of values
-
-•you would have to declare a function returning a pointer
-
-int * myFunction0) {
-
-•be careful though, there are specific hazards related to returning a pointer
-
-•use local variables to avoid interfering with the variable that the argument points to
-
-Requirements
+## Requirements
 
 • In this challenge, you are going to write a program that tests your understanding of pass by
 

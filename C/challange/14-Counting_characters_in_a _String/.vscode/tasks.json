@@ -1,0 +1,22 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "14-Counting_characters_in_a _String", //name ur application 
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g", //complication command for global
+                "-o", //to create an object file
+                "14-Counting_characters_in_a _String", //name the executable
+                "14-Counting_characters_in_a _String.c" //name ur sourcefile
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
