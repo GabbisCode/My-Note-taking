@@ -346,7 +346,7 @@ long value = 9999L;
 const long *pvalue = &value;       // defines a pointer to a constant
 ```
 
-You have declared the value pointed to by pvalue to be const. The compiler will check for any statements that attempt to modify the value pointed to by pvalue and flag such statements as an error.
+**You have declared the value pointed to by pvalue to be const.** The compiler will check for any statements that attempt to modify the value pointed to by pvalue and flag such statements as an error.
 
 The following statement will now result in an error message from the compiler
 
@@ -380,7 +380,7 @@ int count = 43;
 int *const pcount = &count;       // Defines a constant pointer
 ```
 
-The above ensures that a pointer always points to the same thing. It indicates that the address stored must not be changed. The compiler will check that you do not inadvertently attempt to change what the pointer points to elsewhere in your code.
+**The above ensures that a pointer always points to the same thing.** It indicates that the address stored must not be changed. The compiler will check that you do not inadvertently attempt to change what the pointer points to elsewhere in your code.
 
 ```c
 int item = 34;
@@ -855,310 +855,159 @@ int * myFunction() {
 
 Be careful though, there are specific hazards related to returning a pointer. **Use local variables to avoid interfering with the variable that the argument points to.**
 
-## Requirements
+## Dynamic memory  allocation
 
-• In this challenge, you are going to write a program that tests your understanding of pass by
+Whenever you define a variable in C, the compiler automatically allocates the correct amount of storage for you based on the data type.
 
-reference
+It is frequently desirable to be able to dynamically allocate storage while a program is running.
 
-•write a function that squares a number by itself
+If you have a program that is designed to read in a set of data from a file into an array in memory, you have three choices:
 
-•the function should define as a parameter an it pointer
+* define the array to contain the maximum number of possible elements at compile time
+* use a variable-length array to dimension the size of the array at runtime
+* allocate the array dynamically using one of C's memory allocation routines
 
-Overview
+With the first approach, you have to define your array to contain the maximum number of elements that would be read into the array:
 
-•whenever you define a variable in C, the compiler automatically allocates the correct amount of
+```c
+Int dataArray [1000];
+```
 
-storage for you based on the data type
+The data file cannot contain more that 1000 elements, if it does, your program will not work. If it is larger that 1000 you must go back to the program, change the size to be larger and recompile it. No matter what value you select, you always have the chance of running into the same problem again in the future.
 
-•it is frequently desirable to be able to dynamically allocate storage while a program is running
+Using the dynamic memory allocation functions, you can get storage as you need it. This approach enables you to allocate memory as the program is executing.
 
-•if you have a program that is designed to read in a set of data from a file into an array in memory, you
+Dynamic memory allocation allows memory for storing data to be allocated dynamically when your program executes. Allocating memory dynamically is possible only because you have pointers available.
 
-have three choices
+The majority of production programs will use dynamic memory allocation.
 
-•define the array to contain the maximum number of possible elements at compile time
+Allocating data dynamically allows you to create pointers at runtime that are just large enough to hold the amount of data you require for the task.
 
-•use a variable-length array to dimension the size of the array at runtime
+### Heap vs. Stack
 
-• allocate the array dynamically using one of C's memory allocation routines
+Dynamic memory allocation reserves space in a memory area called the heap.
 
-Dynamic memory allocation
+The stack is another place where memory is allocated. Function arguments and local variables in a function are stored here. When the execution of a function ends, the space allocated to store arguments and local variables is freed.
 
-• with the first approach, you have to define your array to contain the maximum number of
+The memory in the heap is different in that it is controlled by you. When you allocate memory on the heap, it is up to you to keep track of when the memory you have allocated is no longer required. You must free the space you have allocated to allow it to be reused.
 
-elements that would be read into the array
+## malloc, calloc and realloc
 
-Int dataArray [10001;
+### malloc
 
-•the data file cannot contain more that 1000 elements, if it does, your program will not work
+The simplest standard library function that allocates memory at runtime is called malloc(). You need to include the stdlib.h header file. You specify the number of bytes of memory that you want allocated as the argument. The function returns the address of the first byte of memory that it allocated. Because you get an address returned, a pointer is the only place to put it.
 
-•If it is larger that 1000 you must go back to the program, change the size to be larger and
+```c
+int *pNumber = (int*)malloc(100);
+// malloc only returns a address, you have to cast it to an end pointer,
+// because that address is storing an int pointer.
+```
 
-recompile it
+In the above, you have requested 100 bytes of memory and assigned the address of this memory block to pNumber. pNumber will point to the first int location at the beginning of the 100 bytes that were allocated. It can hold 25 int values on my computer, because they require 4 bytes each. This assumes that type int requires 4 bytes.
 
-•no matter what value you select, you always have the chance of running into the same
+It would be better to remove the assumption that ints are 4 bytes
 
-problem again in the future
+```c
+int *pNumber = (int*)malloc(25*sizeof(int));
+```
 
-•using the dynamic memory allocation functions, you can get storage as you need it
+The argument to malloc() above is clearly indicating that sufficient bytes for accommodating 25 values of type int should be made available.
 
-•this approach enables you to allocate memory as the program is executing
+Also notice the cast (int*), which converts the address returned by the function to the type pointer to int, malloc returns a pointer of type pointer to void, so you have to cast.
 
-Dynamic memory allocation
+You can request any number of bytes.
 
-• dynamic memory allocation depends on the concept of a pointer and provides a strong incentive
+If the memory that you requested can not be allocated for any reason, malloc() returns a pointer with the value NULL. It is always a good idea to check any dynamic memory request immediately using an if statement to make sure the memory is actually there before you try to use it.
 
-to use pointers in your code
-
-• dynamic memory allocation allows memory for storing data to be allocated dynamically when your
-
-program executes
-
-•allocating memory dynamically is possible only because you have pointers available
-
-•the majority of production programs will use dynamic memory allocation
-
-•allocating data dynamically allows you to create pointers at runtime that are just large enough to
-
-hold the amount of data you require for the task
-
-Heap vs. Stack
-
-• dynamic memory allocation reserves space in a memory area called the heap
-
-•the stack is another place where memory is allocated
-
-•function arguments and local variables in a function are stored here
-
-•when the execution of a function ends, the space allocated to store arguments and local
-
-variables is freed
-
-•the memory in the heap is different in that it is controlled by you
-
-•when you allocate memory on the heap, it is up to you to keep track of when the memory you
-
-have allocated is no longer required
-
-•you must free the space you have allocated to allow it to be reused
-
-malloc
-
-• the simplest standard library function that allocates memory at runtime is called malloc()
-
-• need to include the stdlib.h header file
-
-• you specify the number of bytes of memory that you want allocated as the argument
-
-• returns the address of the first byte of memory that it allocated
-
-• because you get an address returned, a pointer is the only place to put it
-
-int *Number = (int*)malloc(100);
-
-• in the above, you have requested 100 bytes of memory and assigned the address of this memory block to pNumber
-
-• Number will point to the first int location at the beginning of the 100 bytes that were allocated.
-
-• can hold 25 int values on my computer, because they require 4 bytes each
-
-• assumes that type int requires 4 bytes
-
-• it would be better to remove the assumption that ints are 4 bytes
-
-int *Number = (int*)malloc(25*sizeof(int));
-
-• the argument to malloc() above is clearly indicating that sufficient bytes for accommodating 25 values of type int should be made available
-
-• also notice the cast (int*), which converts the address returned by the function to the type pointer to int
-
-• malloc returns a pointer of type pointer to void, so you have to cast
-
-malloc (cont'd)
-
-• you can request any number of bytes
-
-• if the memory that you requested can not be allocated for any reason
-
-• malloc() returns a pointer with the value NULL
-
-• It is always a good idea to check any dynamic memory request immediately using an if statement to make
-
-sure the memory is actually there before you try to use it
-
-int *Number = (int*)malloc(25*sizeof(int));
-
+```c
+int *pNumber = (int*)malloc(25*sizeof(int));
 if(!pNumber)
-
 {
+	// code to deal with memory allocation failure
+}
+```
 
-Il code to deal with memory allocation failure
+You can at least display a message and terminate the program. It's much better than allowing the program to continue and crash when it uses a NULL address to store somethir
 
-• you can at least display a message and terminate the program
+### releasing memory
 
-• much better than allowing the program to continue and crash when it uses a NULL address to store somethir
+When you allocate memory dynamically, you should always release the memory when it is no longer required.
 
-releasing memory
+Memory that you allocate on the heap will be automatically released when your program ends. It's better to explicitly release the memory when you are done with it, even if it's just before you exit from the program.
 
-•when you allocate memory dynamically, you should always release the memory when it is no
+A memory leak occurs when you allocate some memory dynamically and you do not retain the reference to it, so you are unable to release the memory. It often occurs within a loop. Because you do not release the memory when it is no longer required, your program consumes more and more of the available memory on each loop iteration and eventually may occupy it all.
 
-longer required
+To free memory that you have allocated dynamically, you must still have access to the address that references the block of memory.
 
-•memory that you allocate on the heap will be automatically released when your program ends
+To release the memory for a block of dynamically allocated memory whose address you have stored in a pointer:
 
-• better to explicitly release the memory when you are done with it, even if it's just before you exit
-
-from the program
-
-• a memory leak occurs when you allocate some memory dynamically and you do not retain the
-
-reference to it, so you are unable to release the memory
-
-•often occurs within a loop
-
-•because you do not release the memory when it is no longer required, your program consumes
-
-more and more of the available memory on each loop iteration and eventually may occupy it all
-
-•to free memory that you have allocated dynamically, you must still have access to the address
-
-that references the block of memory
-
-releasing memory (cont'd)
-
-•to release the memory for a block of dynamically allocated memory whose address you have
-
-stored in a pointer
-
+```c
 free(pNumber);
+pNumber = NULL;
+```
 
-Number = NULL;
+The free() function has a formal parameter of type void*, so you can pass a pointer of any type as the argument.
 
-•the free() function has a formal parameter of type void*
+As long as pNumber contains the address that was returned when the memory was allocated, the entire block of memory will be freed for further use.
 
-•you can pass a pointer of any type as the argument
+You should always set the pointer to NULL after the memory that it points to has been freed.
 
-• as long as Number contains the address that was returned when the memory was allocated, the
+### calloc
 
-entire block of memory will be freed for further use
+The calloc() function offers a couple of advantages over malloc(). It allocates memory as a number of elements of a given size. It initializes the memory that is allocated so that all bytes are zero. The function is declared in the stdlib.h header.
 
-calloc
+calloc() function requires two argument values:
 
-•the calloc() function offers a couple of advantages over malloc()
+* number of data items for which space is required
+* size of each data item
 
-•it allocates memory as a number of elements of a given size
+```c
+int *pNumber = (int*) calloc(75, sizeof(int));
+```
 
-•it initializes the memory that is allocated so that all bytes are zero
+The return value will be NULL if it was not possible to allocate the memory requested. It's very similar to using malloc(), but the big plus is that you know the memory area will be initialized to 0.
 
-•calloc() function requires two argument values
+### realloc
 
-• number of data items for which space is required
+The realloc() function enables you to reuse or extend memory that you previously allocated using malloc() or calloc().
 
-•size of each data item
+It expects two argument values:
 
-•is declared in the stdlib.h header
+* a pointer containing an address that was previously returned by a call to malloc(), calloc()
+* the size in bytes of the new memory that you want allocated
 
-int *Number = (int*) calloc(75, sizeof(int));
+It allocates the amount of memory you specify by the second argument. It transfers the contents of the previously allocated memory referenced by the pointer that you supply as the first argument to the newly allocated memory. It returns a void* pointer to the new memory or NULL if the operation fails for some reason.
 
-•the return value will be NULL if it was not possible to allocate the memory requested
+The most important feature of this operation is that realloc() preserves the contents of the original memory area.
 
-• very similar to using malloc(), but the big plus is that you know the memory area will be initialized
+```c
+int main() 
+{
+	char *str = NULL;
 
-to 0
+	/* Initial memory allocation */
+	str = (char *) malloc(15 * sizeof(char));
+	strcpy(str, "jason");
+	printf("String = %s, Address = %u\n", str, str);
 
-realloc
+	/* Reallocating memory */
+	str = (char *) realloc(str, 25 * sizeof(char));
 
-•the realloc() function enables you to reuse or extend memory that you previously allocated using
+	strcat(str,".com");
+	printf("String = %S, Address = %u\n", str, str);
 
-malloc() or calloc()
+	free(str);
 
-• expects two argument values
+	return(0);
+}
+```
 
-• a pointer containing an address that was previously returned by a call to malloc(), calloc()
+### guidelines
 
-•the size in bytes of the new memory that you want allocated
+Avoid allocating lots of small amounts of memory. Allocating memory on the heap carries some overhead with it. Allocating many small blocks of memory will carry much more overhead than allocating fewer larger blocks.
 
-•allocates the amount of memory you specify by the second argument
+Only hang on to the memory as long as you need it. As soon as you are finished with a block of memory on the heap, release the memory.
 
-transfers the contents of the previously allocated memory referenced by the pointer that you
+Always ensure that you provide for releasing memory that you have allocated. Decide where in your code you will release the memory when you write the code that allocates it.
 
-supply as the first argument to the newly allocated memory
-
-•returns a void* pointer to the new memory or NULL if the operation fails for some reason
-
-•the most important feature of this operation is that realloc() preserves the contents of the original
-
-memory area
-
-Example
-
-int main () {
-
-char *str:
-
-/* Initial memory allocation */
-
-str = (char *) malloc(15);
-
-strcpy(str, "jason");
-
-printf(" String = %s, Address = %uln", str, str);
-
-/* Reallocating memory */
-
-str = (char *) realloc(str, 25);
-
-strcat(str,
-
-".com");
-
-printf("String = %S, Address = %uln", str, str);
-
-free(str);
-
-return(0);
-
-quidelines
-
-•avoid allocating lots of small amounts of memory
-
-•allocating memory on the heap carries some overhead with it
-
-•allocating many small blocks of memory will carry much more overhead than allocating fewer
-
-larger blocks
-
-•only hang on to the memory as long as you need it
-
-•as soon as you are finished with a block of memory on the heap, release the memory
-
-•always ensure that you provide for releasing memory that you have allocated
-
-•decide where in your code you will release the memory when you write the code that allocates it
-
-•make sure you do not inadvertently overwrite the address of memory you have allocated on the
-
-heap before you have released it
-
-•will cause a memory leak
-
-•be especially careful when allocating memory within a loop
-
-Requirements
-
-•In this challenge, you are going to write a program that tests your understanding of dynamic
-
-memory allocation
-
-•write a program that allows a user to input a text string. The program will print the text that
-
-was inputted. The program will utilize dynamic memory allocation.
-
-•the user can enter the limit of the string they are entering
-
-•you can use this limit when invoking malloc
-
-•the program should create a char pointer only, no character arrays
-
-•be sure to release the memory that was allocated
+Make sure you do not inadvertently overwrite the address of memory you have allocated on the heap before you have released it. It will cause a memory leak. Be especially careful when allocating memory within a loop.
