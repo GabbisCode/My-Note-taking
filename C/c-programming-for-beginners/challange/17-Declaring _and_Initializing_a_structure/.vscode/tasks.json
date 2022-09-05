@@ -1,0 +1,22 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "17-Declaring _and_Initializing_a_structure", //name ur application 
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g", //complication command for global
+                "-o", //to create an object file
+                "17-Declaring _and_Initializing_a_structure", //name the executable
+                "17-Declaring _and_Initializing_a_structure.c" //name ur sourcefile
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

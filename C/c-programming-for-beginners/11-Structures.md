@@ -149,7 +149,7 @@ You can also specify the member names in the initialization list, which enables 
 ```c
 //.member = value
 
-struct date date1 = { .month = 12, day = 10 };
+struct date date1 = { .month = 12, .day = 10 };
 ```
 
 This set just the year member of the date structure variable today to 2015:
@@ -600,9 +600,9 @@ bool siblings(struct Family *pmember1, struct Family *member2)
 You can also use the const modifier to not allow any modification of the members of the struct (what the struct is pointing to):
 
 ```c
-bool siblings(Family const *pmember1, Family const *pmember2)
+bool siblings( struct Family const *pmember1, Family const *pmember2)
 {
-	if(stremp(pmember1->mother, pmember2->mother) == 0)
+	if(strcmp(pmember1->mother, pmember2->mother) == 0)
 		return true;
 	else
 		return false;
@@ -667,7 +667,7 @@ int main(void)
 
 You should always use pointers when passing structures to a function. It works on older as well as newer C implementations and that it is quick (you just pass a single address).
 
-However, you have less protection for your data. Some operations in the called function could inadvertently affect data in the original structure. You can use const qualifier solves that problem. 
+However, you have less protection for your data. Some operations in the called function could inadvertently affect data in the original structure. You can use const qualifier solves that problem.
 
 Advantages of passing structures as arguments:
 
@@ -680,51 +680,3 @@ Older implementations might not handle the code. It wastes time and space. and i
 **Programmers use structure pointers as function arguments for reasons of efficiency and use const when necessary.**
 
 Passing structures by value is most often done for structures that are small.
-
-## Requirements
-
-•write a program that declares a structure and prints out it's content
-
-•create an employee structure with 3 members
-
-•name (character array)
-
-•hireDate (int)
-
-•salary (float)
-
-•declare and initialize an instance of an employee type
-
-•read in a second employee from the console and store it in a structure of type employee
-
-•print out the contents of each employee
-
-Requirements
-
-• write a C program that creates a structure pointer and passes it to a function
-
-• create a structure named item with the following members
-
-•itemName - pointer
-
-•quantity - int
-
-• price - float
-
-• amount - float (stores quantity * price)
-
-• create a function named readltem that takes a structure pointer of type item as a parameter
-
-• this function should read in (from the user) a product name, price, and quantity
-
-• the contents read in should be stored in the passed in structure to the function
-
-• create a function named print item that takes as a parameter a structure pointer of type item
-
-• function prints the contents of the parameter
-
-•the main function should declare an item and a pointer to the item
-
-• you will need to allocate memory for the itemName pointer
-
-• the item pointer should be passed into both the read and print item functions
