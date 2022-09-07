@@ -1,861 +1,571 @@
-Overview
+# 12-File_Input_and_Output
 
-• up until this point, all data that our program accesses is via memory
+## Overview
 
-•scope and variety of applications you can create is limited
+Up until this point, all data that our program accesses is via memory, however, the scope and variety of applications you can create is limited.
 
-• all serious business applications require more data than would fit into main memory
+All serious business applications require more data than would fit into main memory and also depend on the ability to process data that is persistent and stored on an external device such as a disk drive.
 
-• also depend on the ability to process data that is persistent and stored on an external device
+C provides many functions in the header file stdio.h for writing to and reading from external devices. The external device you would use for storing and retrieving data is typically a disk drive. However, the library will work with virtually any external storage device.
 
-such as a disk drive
+With all the examples up to now, any data that the user enters is lost once the program ends. If the user wants to run the program with the same data, he or she must enter it again each time. It's very inconvenient and limits programming. This referred to as volatile memory.
 
-•C provides many functions in the header file stdio.h for writing to and reading from external devices
+### Files
 
-• the external device you would use for storing and retrieving data is typically a disk drive
+Programs need to store data on permanent storage. This refers to non-volatile memory, which continues to be maintained after your computer is turned off.
 
-•however, the library will work with virtually any external storage device
+A file can store non-volatile data and is usually stored on a disk or a solid-state device. It's a named section of storage. stdio.h is a file containing useful information.
 
-• with all the examples up to now, any data that the user enters is lost once the program ends
+C views a file as a continuous sequence of bytes. And each byte can be read individually. This corresponds to the file structure in the Unix environment.
 
-• if the user wants to run the program with the same data, he or she must enter it again each time
+![image](image/File_Input_and_Output1.png)
 
-• very inconvenient and limits programming
+A file has a beginning and an end and a current position (defined as so many bytes from the
 
-• referred to as volatile memory
+beginning). The current position is where any file action (read/write) will take place. You can move the current position to any point in the file (even the end).
 
-Files
+### Text and binary files
 
-•programs need to store data on permanent storage
+There are two ways of writing data to a stream that represents a file: text and binary.
 
-•non-volatile
+Text data is written as a sequence of characters organized as lines (each line ends with a newline).
 
-• continues to be maintained after your computer is turned off
+Binary data is written as a series of bytes exactly as they appear in memory. Example files are image data, music encoding. Binary file is not readable.
 
-• a file can store non-volatile data and is usually stored on a disk or a solid-state device
+You can write any data you like to a file. Once a file has been written, it just consists of a series of bytes.
 
-•a named section of storage
+You have to understand the format of the file in order to read it. A sequence of 12 bytes in a binary file could be 12 characters, 12 8-bit signed integers, 12 8-bit unsigned integers, etc. In binary mode, each and every byte of the file is accessible.
 
-•stdio.h is a file containing useful information
+### Streams
 
-•C views a file as a continuous sequence of bytes
+A stream can represent a file, but a stream is a more generic term that can represent any kind of input. So it could represent the keyboard, it could represent the console, it could represent a file, it could represent a socket. If you're used to networking, streams are a more generic term.
 
-•each byte can be read individually
+C programs automatically open three files (streams) on your behalf.
 
-•corresponds to the file structure in the Unix environment
+* standard input - the normal input device for your system, usually your keyboard
+* standard output - usually your display screen
+* standard error - usually your display screen
 
-![](https://app.yinxiang.com/shard/s46/res/a4d149bf-1bc8-4338-ab80-8cfc85cdc9f5/Image%2020220906%20113200.png?resizeSmall&width=813 "Attachment")
+Standard input is the file that is read by getchar() and scanf(). Standard output is used by putchar(), puts(), and printf().
 
-• a file has a beginning and an end and a current position (defined as so many bytes from the
+You can also redirect files on the system to be recognized as a standard input and output. This is redirection, this is an operating system concept where you can redirect data, send the output to a file, for example, or get input from a file as opposed to standard archive. Redirection causes other files to be recognized as the standard input or standard output.
 
-beginning)
+The purpose of the standard error output file is to provide a logically distinct place to send error messages.
 
-• the current position is where any file action (read/write) will take place
+A stream is an abstract representation of any external source or destination for data, the keyboard, the command line on your display, and files on a disk are all examples of things you can work with as streams. The C library provides functions for reading and writing to or from data streams. You use the same input/output functions for reading and writing any external device that is mapped to a stream.
 
-• you can move the current position to any point in the file (even the end)
+## Accessing Files
 
-Text and binary files
+Files on disk have a name and the rules for naming files are determined by your operating system. You may have to adjust the names depending on what OS your program is running.
 
-•there are two ways of writing data to a stream that represents a file
+A program references a file through a file pointer (or stream pointer, since it works on more than a file). You associate a file pointer with a file programmatically when the program is run. Pointers can be reused to point to different files on different occasions.
 
-•text
+A file pointer points to a struct of type FILE that represents a stream, which contains information about the file, whether you want to read or write or update the file; the address of the buffer in memory to be used for data; a pointer to the current position in the file for the next operation. The above is all set via input/output file operations.
 
-• binary
+If you want to use several files simultaneously in a program, you need a separate file pointer for each file. There is a limit to the number of files you can open at one time, which defined as FOPEN_MAX in stdio.h.
 
-•text data is written as a sequence of characters organized as lines (each line ends with a newline)
+### Opening a File
 
-•binary data is written as a series of bytes exactly as they appear in memory
+You associate a specific external file name with an internal file pointer variable through a process referred to as opening a file via the fopen() function. It returns the file pointer for a specific external file. The fopen() function is defined in stdio.h
 
-•image data, music encoding - not readable
+```c
+FILE *fopen(const char * restrict name, const char * restrict mode);
+```
 
-• you can write any data you like to a file
+The 1st argument to the function is a pointer to a string that is the name of the external file you want to process. You can specify the name explicitly or use a char pointer that contains the address of the character string that defines the file name. You can obtain the file name through the command line, as input from the user, or defined as a constant in your program.
 
-• once a file has been written, it just consists of a series of bytes
+The 2nd argument to the fopen() function is a character string that represents the file mode This specifies what you want to do with the file. A file mode specification is a character string between double quotes.
 
-• you have to understand the format of the file in order to read it
+Sssuming the call to fopen() is successful, the function returns a pointer of type FILE* that you can use to reference the file in further input/output operations using other functions in the library. If the file cannot be opened for some reason, fopen() returns NULL
 
-• a sequence of 12 bytes in a binary file could be 12 characters, 12 8-bit signed integers, 12 8-bit
+### File Modes (only apply to text files)
 
-unsigned integers, etc.
+| Mode | Description                                                                                                                                        |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "w"  | Open a text file for write operations. If the file exists, its current contents are discarded.                                                    |
+| "a"  | Open a text file for append operations. All writes are to the end of the file.                                                                    |
+| "r"  | Open a text file for read operations.                                                                                                              |
+| "w+" | Open a text file for update (reading and writing), first truncating the file to zero length if it exists or creating the file it it does not exist |
+| "a+" | Open a text file for update (reading and writing) appending to the end of the existing file, or creating the file if it does not yet exist.        |
+| "r+" | Open a text file for update (for both reading and writing)                                                                                         |
 
-•in binary mode, each and every byte of the file is accessible
+### Write Mode
 
-Streams
+If you want to write to an existing text file with the name myfile.txt
 
-• C programs automatically open three files on your behalf
-
-• standard input - the normal input device for your system, usually your keyboard
-
-• standard output - usually your display screen
-
-• standard error - usually your display screen
-
-• standard input is the file that is read by getchar() and scanf()
-
-• standard output is used by putchar(), puts(), and printf()
-
-• redirection causes other files to be recognized as the standard input or standard output.
-
-• the purpose of the standard error output file is to provide a logically distinct place to send error messages
-
-• a stream is an abstract representation of any external source or destination for data
-
-• the keyboard, the command line on your display, and files on a disk are all examples of things you can work with
-
-as streams
-
-• the C library provides functions for reading and writing to or from data streams
-
-• you use the same input/output functions for reading and writing any external device that is mapped to a stream
-
-Accessing Files
-
-• files on disk have a name and the rules for naming files are determined by your operating system
-
-• You may have to adjust the names depending on what OS your program is running
-
-• a program references a file through a file pointer (or stream pointer, since it works on more than a file)
-
-• you associate a file pointer with a file programmatically when the program is run
-
-• pointers can be reused to point to different files on different occasions
-
-• a file pointer points to a struct of type FILE that represents a stream
-
-• contains information about the file
-
-•whether you want to read or write or update the file
-
-• the address of the buffer in memory to be used for data
-
-• a pointer to the current position in the file for the next operation
-
-•the above is all set via input/output file operations
-
-• if you want to use several files simultaneously in a program, you need a separate file pointer for each file
-
-• there is a limit to the number of files you can have open at one time
-
-• defined as FOPEN MAX in stdio.h
-
-Opening a File
-
-• you associate a specific external file name with an internal file pointer variable through a process referred to as opening a file
-
-• via the fopen() function
-
-• returns the file pointer for a specific external file
-
-• the fopen() function is defined in stdio.h
-
-FILE *open(const char * restrict name, const char * restrict mode);
-
-• The first argument to the function is a pointer to a string that is the name of the external file you want to process
-
-• you can specify the name explicitly or use a char pointer that contains the address of the character string that defines the file name
-
-• you can obtain the file name through the command line, as input from the user, or defined as a constant in your program
-
-• the second argument to the fopen() function is a character string that represents the file mode
-
-• specifies what you want to do with the file
-
-• a file mode specification is a character string between double quotes
-
-• assuming the call to fopen() is successful, the function returns a pointer of type FILE* that you can use to reference the file in further
-
-input/output operations using other functions in the library
-
-• if the file cannot be opened for some reason, fopen() returns NULL
-
-![](https://app.yinxiang.com/shard/s46/res/53883153-f60d-4159-bf8e-e904a58f7eb5/Image%2020220906%20113529.png?resizeSmall&width=813 "Attachment")
-
-Write Mode
-
-• If you want to write to an existing text file with the name myfile.txt
-
+```c
 FILE *pfile = NULL;
-
-char *filename = "myfile.text".
-
+char *filename = "myfile.text";
 pfile = fopen(filename, "W"); // Open myfile. txt to write it
-
 If(pfile != NULL)
+	printf("Failed to open %s.\n", filename);
+```
 
-printf("Failed to open %s.In", filename);
+It opens the file and associates the file with the name myfile.txt with your file pointer pfile. The mode as "w" means you can only write to the file and you cannot read it.
 
-• opens the file and associates the file with the name myfile.txt with your file pointer pfile
+If a file with the name myfile.txt does not exist. the call to fopen() will create a new file with this name.
 
-• the mode as "w" means you can only write to the file
+If you only provide the file name without any path specification, the file is assumed to be in the current directory. You can also specify a string that is the full path and name for the file.
 
-• you cannot read it
+On opening a file for writing, the file length is truncated to zero and the position will be at the beginning of any existing data for the first operation. Any data that was previously written to the file will be lost and overwritten by any write operations.
 
-• If a file with the name myfile.txt does not exist. the call to fopen() will create a new file with this name
+### Append Mode
 
-• if you only provide the file name without any path specification, the file is assumed to be in the current directory
+If you want to add to an existing text file rather than overwrite it, you can specify mode "a", the append mode of operation.
 
-• you can also specify a string that is the full path and name for the file
+This positions the file at the end of any previously written data. If the file does not exist, a new file will be created.
 
-• on opening a file for writing, the file length is truncated to zero and the position will be at the beginning of any existing data for the first operation
-
-• any data that was previously written to the file will be lost and overwritten by any write operations
-
-Append Mode
-
-•If you want to add to an existing text file rather than overwrite it
-
-•specify mode "a"
-
-•the append mode of operation.
-
-•this positions the file at the end of any previously written data
-
-•If the file does not exist, a new file will be created
-
+```c
 pFile = fopen("myfile.txt", "a"); // Open myfile. txt to add to it
+```
 
-• do not forget that you should test the return value for null each time
+Do not forget that you should test the return value for null each time.
 
-•when you open a file in append mode
+When you open a file in append mode, all write operations will be at the end of the data in the file on each write operation. All write operations append data to the file and you cannot update the existing contents in this mode.
 
-•all write operations will be at the end of the data in the file on each write operation
+### Read Mode
 
-• all write operations append data to the file and you cannot update the existing contents in this
+If you want to read a file, open it with mode argument as "r". You can not write to this file.
 
-mode
-
-Read Mode
-
-•if you want to read a file
-
-•open it with mode argument as "p"
-
-•you can not write to this file
-
+```c
 pFile = fopen("myfile.txt", "r"):
+```
 
-•this positions the file to the beginning of the data
+This positions the file to the beginning of the data
 
-•if you are going to read the file
+If you are going to read the file, it must already exist. If you try to open a file for reading that does not exist, fopen() will return a file pointer of NULL.
 
-•it must already exist
+You always want to check the value returned from fopen.
 
-•If you try to open a file for reading that does not exist, fopen() will return a file pointer of NULL
+### Renaming a file
 
-•you always want to check the value returned from fopen
+Renaming a file is very easy. You just use the rename() function.
 
-Renaming a file
-
-• renaming a file is very easy
-
-• use the rename() function
-
+```c
 int rename(const char *oldname, const char *newname);
+```
 
-• the integer that is returned will be O if the name change was successful and nonzero otherwise
+The integer that is returned will be 0 if the name change was successful and nonzero otherwise. The file must not be open when you call rename(), otherwise the operation will fail.
 
-• the file must not be open when you call rename(), otherwise the operation will fail
-
-if(rename ( "C:Iltempllmyfile.txt", "C:Iltempl\myfile_copy.txt"))
-
-printf("Failed to rename file.");
-
+```c
+if(rename ( "C:\\temp\\myfile.txt", "C:\\temp\\myfile_copy.txt"))
+	printf("Failed to rename file.");
 else
+	printf("File renamed successfully.");
+```
 
-printf("File renamed successfully.");
+This will change the name of myfile. txt in the temp directory on drive C to myfile copy.txt. If the file path is incorrect or the file does not exist, the renaming operation will fail.
 
-• this will change the name of myfile. txt in the temp directory on drive C to myfile copy.txt
+### Closing a file
 
-• if the file path is incorrect or the file does not exist, the renaming operation will fail
+When you have finished with a file, you need to tell the operating system so that it can free up the file. You can do this by calling the fclose() function.
 
-Closing a file
+fclose() accepts a file pointer as an argument. It returns EOF (int) if an error occurs. EOF is a special character called the end-of-file character. It is defined in stdio.h as a negative integer that is usually equivalent to the value -1. It return 0 if it's successful.
 
-• when you have finished with a file, you need to tell the operating system so that it can free up the file
+```c
+fclose(pfile);  // Close the file associated with pfile
+pfile = NULL;
+```
 
-• you can do this by calling the close() function
+The result of calling close() is that the connection between the pointer, pfile, and the physical file is broken. pfile can no longer be used to access the file.
 
-• close() accepts a file pointer as an argument
+If the file was being written, the current contents of the output buffer are written to the file to ensure that data is not lost.
 
-• returns EOF (int) if an error occurs
+It is good programming practice to close a file as soon as you have finished with it, because it protects against output data loss. You must also close a file before attempting to rename it or remove it.
 
-• OF is a special character called the end-of-file character
+### Deleting a file
 
-• defined in stdio.h as a negative integer that is usually equivalent to the value -1
+You can delete a file by invoking the remove() function. It is declared in stdio.h
 
-• O if successful
-
-fclose(pfile);
-
-pfile = NULL:
-
-I Close the file associated with pfile
-
-• the result of calling close() is that the connection between the pointer, pfile, and the physical file is broken
-
-• pfile can no longer be used to access the file
-
-• if the file was being written, the current contents of the output buffer are written to the file to ensure that data is not lost
-
-• It is good programming practice to close a file as soon as you have finished with it
-
-• protects against output data loss
-
-Deleting a file
-
-•you can delete a file by invoking the remove() function
-
-•declared in stdio.h
-
+```c
 remove("myfile.txt");
+```
 
-• will delete the file that has the name myfile. txt from the current directory
+This will delete the file that has the name myfile. txt from the current directory. The file cannot be open when you try to delete it.
 
-•the file cannot be open when you try to delete it
+You should always double check with operations that delete files. You could wreck your system if you do not.
 
-•you should always double check with operations that delete files
+## Reading from a file
 
-•you could wreck your system if you do not
+### Reading characters from a text file
 
-Reading characters from a text file
+The fgetc() function reads a character from a text file that has been opened for reading.
 
-• the fgetc() function reads a character from a text file that has been opened for reading
+The fgetc() function takes a file pointer as its only argument and returns the character read as type int.
 
-•takes a file pointer as its only argument and returns the character read as type int
+```c
+int mchar = fgetc(pfile);  // Reads a character into mchar with pfile a File pointer
+```
 
-int mchar = fgetc(pfile);
+The mchar is type int because EOF will be returned if the end of the file has been reached.
 
-// Reads a character into mchar with pfile a File pointer
+The function getc(), which is equivalent to fgetc(), is also available. It requires an argument of type FILE* and returns the character read as type int. It's virtually identical to fgetc(). The only difference between them is that getc() may be implemented as a macro, whereas fgetc() is a function.
 
-• the mchar is type int because EOF will be returned if the end of the file has been reached
+You can read the contents of a file again when necessary. You can use the rewind() function, which positions the file that is specified by the file pointer argument at the beginning:
 
-• the function getc(), which is equivalent to fgetc(), is also available
-
-• requires an argument of type FILE* and returns the character read as type int
-
-• virtually identical to fgetc()
-
-• only difference between them is that getc() may be implemented as a macro, whereas fgetc() is a function
-
-• you can read the contents of a file again when necessary
-
-• the rewind() function positions the file that is specified by the file pointer argument at the beginning
-
+```c
 rewind (pfile);
+```
 
 Example
 
+```c
 #include <stdio.h>
-
 int main () {
+	FILE *fp;
+	int c;
 
-FILE *fp;
+	fp=fopen("file.txt","r");
 
-int C;
+	if(fp == NULL){
+		perror("Error in opening file");
+		return(-1);
+		} // return from main
 
-fp=fopen("file.txt","'");
+	// read a single char
+	while((c = fgetc(fp)) != EOF)
+		printf("%c", c);
 
-if(fp == NULL)
+	fclose(fp);
+	fp = NULL;
 
-perror("Error in opening file");
+	return(0);
+```
 
-return(-1);
+### Reading a string from a text file
 
-Il read a single char
+You can use the fgets() function to read from any file or stream.
 
-while((c = fgetc(p)) != EOF)
-
-printf("%c", C);
-
-fclose(fp);
-
-fp = NULL;
-
-return(0);
-
-} // return from main
-
-Reading a string from a text file
-
-•you can use the gets() function to read from any file or stream
-
+```c
 char *gets(char *str, int nchars, FILE *stream)
+```
 
-•the function reads a string into the memory area pointed to by str, from the file specified by stream
+The function reads a string into the memory area pointed to by str, from the file specified by stream. Characters are read until either a '\n' is read or nchars-1 characters have been read from the stream, whichever occurs first.
 
-•characters are read until either a '\n' is read or nchars-1 characters have been read from the
+If a newline character is read, it's retained in the string. A '\0' character will be appended to the end of the string. If there is no error, fgets() returns the pointer, str. If there is an error, NULL is returned. Reading EOF causes NULL to be returned.
 
-stream, whichever occurs first
-
-•if a newline character is read, it's retained in the string
-
-• a 10' character will be appended to the end of the string
-
-•if there is no error, fgets) returns the pointer, str
-
-•if there is an error, NULL is returned
-
-•reading EOF causes NULL to be returned
-
-Example
-
+```c
 #include <stdio.h>
 
 int main () {
+	FILE *fp;
+	char str[60];
 
-FILE *fp;
+	/* opening file for reading */
+	fp = fopen("file.txt", "r");
 
-char str[601;
+	if(fp == NULL) {
+		perror("Error opening file");
+		return(-1);
 
-/* opening file for reading */
+	if(fgets (str, 60, fp)!=NULL){
+		/* writing content to stdout*/
+		printf("%s", str);
+		}
 
-fp = fopen("file.txt", "r");
+	fclose(fp);
+	fp = NULL:
+	return(0);
 
-if(fp == NULL) f
+	} // end main
+```
 
-perror("Error opening file");
+### Reading formatted input from a file
 
-return(-1);
+You can get formatted input from a file by using the standard fscanf() function
 
-if( gets (str, 60, fp)!=NULL)f
-
-/* writing content to stdout*/
-
-printf("%S", Str);
-
-1
-
-fclose(fp);
-
-fo = NULL:
-
-return(0);
-
-1 // end main
-
-Reading formatted input from a file
-
-•you can get formatted input from a file by using the standard fscanf() function
-
+```c
 int fscanf(FILE *stream, const char *format, ...)
+```
 
-• the first argument to this function is the pointer to a FILE object that identifies the stream
+The first argument to this function is the pointer to a FILE object that identifies the stream.
 
-•the second argument to this function is the format
+The second argument to this function is the format. A C string that contains one or more of the following items:
 
-•a C string that contains one or more of the following items
+* whitespace character
+* non-whitespace character
+* format specifiers
+* usage is similar to scanf, but, from a file
 
-•whitespace character
-
-• non-whitespace character
-
-•format specifiers
-
-•usage is similar to scanf, but, from a file
-
-Overview
-
+```c
 #include <stdio.h>
-
 #include <stdlib.h>
 
 int main () {
+	char str1[10], str2[10], str3[10];
+	int year;
+	FILE * fp;
 
-char str1[10], str2[10], str3[10];
+	fp = fopen ("file.txt", "w+");
+	if (fp != NULL)
+		fputs("Hello how are you", fp);
 
-int year;
+	rewind(fp);
 
-FILE * fp;
+	fscanf(fp, "%s %s %s %d", str1, str2, str3, &year);
 
-fp = fopen ("file.txt", "w+");
+	printf("Read String1 |%s|\n", str1 );
+	printf("Read String2 |%s|\n", str2 );
+	printf("Read String3 |%s|\n", str3 );
+	printf("Read Integer |%d|\n", year );
 
-if (fp != NULL)
+	fclose(fp);
 
-fputs("Hello how are you", fp);
+	return(0);
+	} // end of main
+```
 
-rewind(fp);
+## Writing to a file
 
-fscanf(fp, "%s %s %s %d", str1, str2, str3, &year);
+### Writing characters to a text file
 
-printf("Read String1 (%s/In", str1 );
+The simplest write operation is provided by the function fputc(), which writes a single character to a text file.
 
-printf("Read String2 I%s/In", str2 );
-
-printf("Read String3 I%s/In", str3 );
-
-printf("Read Integer I%d/In", year );
-
-fclose(fp);
-
-return(0);
-
-} // end of main
-
-Writing characters to a text file
-
-the simplest write operation is provided by the function fputc()
-
-writes a single character to a text file
-
+```
 int fputc(int ch, FILE *pfile);
+```
 
-the function writes the character specified by the first argument to the file identified by the second argument (file pointer)
+The function writes the character specified by the first argument to the file identified by the second argument (file pointer). It returns the character that was written if successful and returns EOF if failure.
 
-returns the character that was written if successful
+In practice, characters are not usually written to a physical file one by one. It is extremely inefficient.
 
-Return OF if failure
+The putc() function is equivalent to fputc(). It requires the same arguments and the return type is the same. Thedifference between them is that putc() may be implemented in the standard library as a macro, whereas fputc() is a function.
 
-In practice, characters are not usually written to a physical file one by one
-
-extremely inefficient
-
-the putc() function is equivalent to fputc()
-
-requires the same arguments and the return type is the same
-
-difference between them is that putc() may be implemented in the standard library as a macro, whereas fputc() is a
-
-function
-
-Example
-
+```c
 #include <stdio.h>
 
-int main 0) {
+int main () {
+	FILE *fp;
+	int ch;
 
-FILE *fp;
+	fp = fopen("file.txt", "w+");
 
-int ch;
+	for( ch = 33; ch <= 100; ch++ ) {
+		fputc(ch, fp);
+	}
 
-fp = fopen("file.txt", "W+");
+	fclose(fp);
 
-for( ch = 33; ch <= 100; ch++ ) {
-
-fputc(ch, fp);
-
+	return(0);
 }
+```
 
-fclose(fp);
+### Writing a string to a text file
 
-return(0);
+You can use the fputs() function to write to any file or stream.
 
-Writing a string to a text file
-
-• you can use the fputs() function to write to any file or stream
-
+```c
 int fputs(const char * str, FILE * pfile);
+```
 
-• the first argument is a pointer to the character string that is to be written to the file
+The first argument is a pointer to the character string that is to be written to the file. The second argument is the file pointer.
 
-• the second argument is the file pointer
+This function will write characters from a string until it reaches a '\0' character. It does not write the null terminator character to the file. It can complicate reading back variable-length strings from a file that have been written by fputs(). It is expected to write a line of text that has a newline character at the end.
 
-• this function will write characters from a string until it reaches a '10' character
-
-• does not write the null terminator character to the file
-
-can complicate reading back variable-length strings from a file that have been
-
-written by fouts()
-
-• expecting to write a line of text that has a newline character at the end
-
-Example
-
+```c
 #include <stdio.h>
 
 int main 0) {
+	FILE *filePointer;
 
-FILE *filePointer:
+	filePointer = fopen("file.txt", "w+");
 
-filePointer = fopen("file.txt", "W+");
+	fputs("This is Jason Fedin Course.", filePointer);
+	fputs("I am happy to be here", filePointer);
 
-puts("This is Jason Fedin Course.", filePointer);
+	fclose(filePointer);
 
-fputs("I am happy to be here", filePointer);
+	return(0);
+}
+```
 
-fclose(filePointer);
+### Writing formatted output to a file
 
-return(O);
+The standard function for formatted output to a stream is fprintf().
 
-Writing formatted output to a file
-
-the standard function for formatted output to a stream is forintf()
-
+```c
 int fprintf(FILE *stream, const char *format, ...)
+```
 
-the first argument to this function is the pointer to a FILE object that identifies the stream
+The first argument to this function is the pointer to a FILE object that identifies the stream. The second argument to this function is the format.
 
-the second argument to this function is the format
+A C string that contains one or more of the following items:
 
-a C string that contains one or more of the following items
+* whitespace character
+* non-whitespace character
+* format specifiers
+* usage is similar to printf, but, to a file
 
-whitespace character
+If successful, the total number of characters written is returned otherwise, a negative number is returned.
 
-non-whitespace character
-
-format specifiers
-
-usage is similar to printf, but, to a file
-
-if successful, the total number of characters written is returned otherwise, a negative number is returned
-
-Example
-
+```c
 #include <stdio.h>
-
 #include <stdlib.h>
 
 int main () {
+	FILE * fp = NULL;
 
-FILE * fp;
+	fp = fopen ("file.txt", "w+");
 
-fp = fopen ("file.txt", "W+");
+	if(fp != NULL)
+		fprintf(fp, "%s %s %s %s %d", "Hello", "my", "number", "is", 555);
 
-fprintf(fp, "%s %s %s %s %d", "Hello", "my", "number", "is", 555);
+	fclose(fp);
 
-fclose(fp);
+	return(0);
+}
+```
 
-return(0);
+## File Positioning
 
-File Positioning
+For many applications, you need to be able to access data in a file other than sequential order. There are various functions that you can use to access data in random sequence.
 
-•for many applications, you need to be able to access data in a file other than sequential
+There are two aspects to file positioning:
 
-order
+* finding out where you are in a file
+* moving to a given point in a file
 
-•there are various functions that you can use to access data in random sequence
+You can access a file at a random position regardless of whether you opened the file.
 
-•there are two aspects to file positioning
+### Finding out where you are
 
-•finding out where you are in a file
+You have two functions to tell you where you are in a file: ftell() or fgetpos()
 
-•moving to a given point in a file
+#### ftell()
 
-•you can access a file at a random position regardless of whether you opened the file
+```c
+long ftell(FILE *pfile);
+```
 
-Finding out where you are
+This function accepts a file pointer as an argument and returns a long integer value that specifies the current position in the file.
 
-•you have two functions to tell you where you are in a file
+```c
+long fpos = ftell (pfile);
+```
 
-•ftell®)
+The fpos variable now holds the current position in the file and you can use this to return to this position at any subsequent time. Value is the offset in bytes from the beginning of the file.
 
-•fgetpos()
-
-long fell(FILE *pfile);
-
-•this function accepts a file pointer as an argument and returns a long integer value
-
-that specifies the current position in the file
-
-long fpos = fell (pfile);
-
-•the fpos variable now holds the current position in the file and you can use this to
-
-return to this position at any subsequent time
-
-•value is the offset in bytes from the beginning of the file
-
-fell() example
-
+```c
 FILE *fp;
-
 int len;
 
 fp = fopen("file.txt", "r");
-
 if( fp == NULL) {
+	perror ("Error opening file");
+	return(-1);
 
-perror ("Error opening file");
+fseek(fp, 0, SEEK_END);
 
-return(-1);
-
-fseek(fp, 0, SEEK END);
-
-len = (tell(tp);
+len = ftell(fp);
 
 fclose(fp);
 
-printf/"Total size of file. txt = %d bytesIn", len);
+printf("Total size of file.txt = %d bytes\n", len);
+```
 
-getpos()
+#### fgetpos()
 
-• the second function providing information on the current file position is a little more complicated
+The second function providing information on the current file position is a little more complicated.
 
-int fgetpos(FILE * pfile, fpos_‡* position);
+```c
+int fgetpos(FILE * pfile, fpos_t* position);
+```
 
-• the first parameter is a file pointer
+The first parameter is a file pointer. The second parameter is a pointer to a type that is defined in stdio.h. fpos_t is a type that is able to record every position within a file.
 
-• the second parameter is a pointer to a type that is defined in stdio.h
+The fgetpos() function is designed to be used with the positioning function fsetpos().
 
-• fpos t- a type that is able to record every position within a file
+The fgetpos() function stores the current position and file state information for the file in position and returns 0 if the operation is successful and returns a nonzero integer value for failure.
 
-• the fgetpos() function is designed to be used with the positioning function fsetpos()
+```c
+fpos_t here;
+fgetpos(pfile, &here);
+```
 
-• the fgetpos() function stores the current position and file state information for the file in position and returns 0 if the operation is successful
+The above records the current file position in the variable **here**. You must declare a variable of type fpos_t. You cannot declare a pointer of type fpos_t* because there will not be any memory allocated to store the position data.
 
-• returns a nonzero integer value for failure
-
-fpos there;
-
-fgetpos(pfile,&here);
-
-• the above records the current file position in the variable here
-
-• you must declare a variable of type fpos_t
-
-• cannot declare a pointer of type fpost* because there will not be any memory allocated to store the position data
-
-fgetpos() example
-
+```c
 FILE *fp:
+fpos_t position;
 
-fpos t position;
-
-fp = fopen("file.txt" ."W+");
-
-fgetpos(fp,&position);
-
+fp = fopen("file.txt" ."w+");
+fgetpos(fp, &position);
 fputs("Hello, World!", fp);
 
 fclose(fp);
+```
 
-Setting a position in a file
+### Setting a position in a file
 
-• as a complement to fell(), you have the seek() function
+#### fseek()
 
+As a complement to ftell(), you have the fseek() function.
+
+```c
 int fseek(FILE *pfile, long offset, int origin);
+```
 
-• the first parameter is a pointer to the file you are repositioning
+The first parameter is a pointer to the file you are repositioning. The second and third parameters define where you want to go in the file. The second parameter is an offset from a reference point specified by the third parameter. The reference point can be one of three values that are specified by the predefined names
 
-• the second and third parameters define where you want to go in the file
+* SEEK_SET - defines the beginning of the file
+* SEEK_CUR - defines the current position in the file
+* SEEK_END - defines the end of the file
 
-• second parameter is an offset from a reference point specified by the third parameter
+For a text mode file, the second argument must be a value returned by ftell().
 
-• reference point can be one of three values that are specified by the predefined names
+The third argument for text mode files must be SEEK_SET. For text files, all operations with fseek() are performed with reference to the beginning of the file. For binary files, the offset argument is simply a relative byte count. You can therefore supply positive or negative values for the offset when the reference point is specified as SEEK_CUR.
 
-• SEEK_SET - defines the beginning of the file
+```c
+#include <stdio.h>
+int main () {
+	FILE *fp;
 
-• SEEK CUR - defines the current position in the file
+	fp = fopen("file.txt"."w+");
+	fputs ("This is Jason", fp);
 
-• SEEK END - defines the end of the file
+	fseek( fp, 7, SEEK_SET );
+	fputs(" Hello how are you", fp);
+	fclose(fp);
 
-• for a text mode file, the second argument must be a value returned by ftell()
+	return(0);
+}
+```
 
-• the third argument for text mode files must be SEEK SET.
+#### fsetpos()
 
-• for text files, all operations with seek() are performed with reference to the beginning of the file
+You have the fsetpos() function to go with fgetpos().
 
-• for binary files, the offset argument is simply a relative byte count
+```c
+int fsetpos(FILE *pfile, const fpos_t *position);
+```
 
-• can therefore supply positive or negative values for the offset when the reference point is specified as SEEK CUR
+The first parameter is a pointer to the open file. The second is a pointer of the fpos_t type. The position that is stored at the address was obtained by calling fgetpos().
 
-seek() example
+```c
+fsetpos(pfile, &here);
+```
 
+The variable **here** was previously set by a call to fgetpos().
+
+The fsetpos() returns a nonzero value on error or 0 when it succeeds.
+
+This function is designed to work with a value that is returned by fgetpos(). You can only use it to get to a place in a file that you have been before. fseek() allows you to go to any position just by specifying the appropriate offset.
+
+```c
 #include <stdio.h>
 
 int main () {
+	FILE *fp;
+	fpos_t position;
 
-FILE *fp;
+	fp = fopen("file.txt","w+");
+	fgetpos(fp, &position);
+	fputs("Hello, World!", fp);
 
-fo = fopen("file.txt"."W+");
+	fsetpos(fp, &position);
+	fputs("This is going to override previous content", fp);
+	fclose(fp);
 
-fouts ("This is Jason", fp);
-
-fseek( fp, 7, SEEK SET );
-
-fouts(" Hello how are you", fp);
-
-fclose(fp);
-
-return(0);
-
-fsetpos()
-
-• you have the fsetpos() function to go with fgetpos()
-
-int fsetpos(FILE *pfile, const fpos t *position);
-
-• the first parameter is a pointer to the open file
-
-• the second is a pointer of the fpos_t type
-
-• the position that is stored at the address was obtained by calling fgetpos()
-
-fsetpos(pfile,&here);
-
-• the variable here was previously set by a call to fgetpos()
-
-•the fsetpos() returns a nonzero value on error or 0 when it succeeds
-
-• this function is designed to work with a value that is returned by fgetpos()
-
-• you can only use it to get to a place in a file that you have been before
-
-• seek() allows you to go to any position just by specifying the appropriate offset
-
-fgetpos() example
-
-#include <stdio.h>
-
-int main () {
-
-FILE *fp;
-
-fpos_t position;
-
-p = fopen("file.txt","W+");
-
-fgetpos(fp,&position);
-
-fouts("Hello, World!", fp);
-
-fsetpos(fp,&position);
-
-fouts("This is going to override previous content", fp);
-
-fclose(fp);
-
-return(0);
-
-Requirements
-
-•write a program to find the total number of lines in a text file
-
-•create a file that contains some lines of text
-
-•open your test file
-
-•use the fetc function to parse characters in a file until you get to the EOF
-
-•If EOF increment counter
-
-•display as output the total number of lines in the file
-
-Requirements
-
-•write a program that converts all characters of a file to uppercase and write the results out to a
-
-temporary file. Then rename the temporary file to the original filename and remove the temporary
-
-filename
-
-•use the fgetc and fputc functions
-
-•use the rename and remove functions
-
-•use the slower function
-
-•can covert a character to upper case by subtracting 32 from it
-
-•display the contents of the original file to standard output
-
-•in uppercase
-
-Requirements
-
-•write a program that will print the contents of a file in reverse order
-
-• use the seek function to seek to the end of the file
-
-•use the fell function to get the position of the file pointer
-
-•display as output the file in reverse order
+	return(0);
+}
+```
