@@ -1,16 +1,13 @@
+# 19-Find_the_number_of_lines_in_a_file
+
 ## Requirements
 
-•write a program to find the total number of lines in a text file
+Write a program to find the total number of lines in a text file
 
-•create a file that contains some lines of text
-
-•open your test file
-
-•use the fetc function to parse characters in a file until you get to the EOF
-
-•If EOF increment counter
-
-•display as output the total number of lines in the file
+* create a file that contains some lines of text
+* open your test file
+* use the fgetc function to parse characters in a file until you get to the EOF. If EOF increment counter
+* display as output the total number of lines in the file.
 
 ## Codes by Jason
 

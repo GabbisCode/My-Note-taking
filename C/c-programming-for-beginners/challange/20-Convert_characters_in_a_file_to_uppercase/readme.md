@@ -1,24 +1,15 @@
-Requirements
+# 20-Convert_characters_in_a_file_to_uppercase
 
-•write a program that converts all characters of a file to uppercase and write the results out to a
+## Requirements
 
-temporary file. Then rename the temporary file to the original filename and remove the temporary
+Write a program that converts all characters of a file to uppercase and write the results out to a temporary file. Then rename the temporary file to the original filename and remove the temporary filename.
 
-filename
+* use the fgetc and fputc functions
+* use the rename and remove functions
+* use the islower function, which can covert a character to upper case by subtracting 32 from it
+* display the contents of the original file to standard output in uppercase
 
-•use the fgetc and fputc functions
-
-•use the rename and remove functions
-
-•use the slower function
-
-•can covert a character to upper case by subtracting 32 from it
-
-•display the contents of the original file to standard output
-
-•in uppercase
-
-Codes by Jason
+## Codes by Jason
 
 ```c
 #include <stdio.h>

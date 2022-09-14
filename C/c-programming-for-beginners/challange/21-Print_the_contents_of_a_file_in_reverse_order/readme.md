@@ -1,14 +1,14 @@
-Requirements
+# 21-Print_the_contents_of_a_file_in_reverse_order
 
-•write a program that will print the contents of a file in reverse order
+## Requirements
 
-• use the seek function to seek to the end of the file
+Write a program that will print the contents of a file in reverse order
 
-•use the fell function to get the position of the file pointer
+* use the fseek function to seek to the end of the file
+* use the ftell function to get the position of the file pointer
+* display as output the file in reverse order
 
-•display as output the file in reverse order
-
-Codes by Jason
+## Codes by Jason
 
 ```c
 #include <stdio.h>

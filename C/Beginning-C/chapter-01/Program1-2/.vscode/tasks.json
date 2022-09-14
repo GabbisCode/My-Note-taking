@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "20-Convert_characters_in_a_file_to_uppercase", //name ur application 
+            "label": "Program1-2", //name ur application 
             "type": "shell",
             "command": "gcc",
             "args": [
                 "-g", //complication command for global
                 "-o", //to create an object file
-                "20-Convert_characters_in_a_file_to_uppercase", //name the executable
-                "20-Convert_characters_in_a_file_to_uppercase.c" //name ur sourcefile
+                "Program1-2", //name the executable
+                "Program1-2.c" //name ur sourcefile
             ],
             "group": {
                 "kind": "build",

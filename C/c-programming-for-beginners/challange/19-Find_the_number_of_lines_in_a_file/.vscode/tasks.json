@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo", //name ur application 
+            "label": "19-Find_the_number_of_lines_in_a_file", //name ur application 
             "type": "shell",
             "command": "gcc",
             "args": [
                 "-g", //complication command for global
                 "-o", //to create an object file
-                "helloworld", //name the executable
-                "helloworld.c" //name ur sourcefile
+                "19-Find_the_number_of_lines_in_a_file", //name the executable
+                "19-Find_the_number_of_lines_in_a_file.c" //name ur sourcefile
             ],
             "group": {
                 "kind": "build",

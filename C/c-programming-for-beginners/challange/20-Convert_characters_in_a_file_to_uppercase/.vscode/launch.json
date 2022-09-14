@@ -4,7 +4,7 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": " ${workspaceFolder}/helloworld.exe",//enter program name, for example
+        "program": " ${workspaceFolder}/20-Convert_characters_in_a_file_to_uppercase.exe",//enter program name, for example
         "args": [],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",

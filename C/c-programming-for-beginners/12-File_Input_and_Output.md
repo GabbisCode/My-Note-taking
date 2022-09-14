@@ -96,8 +96,8 @@ If you want to write to an existing text file with the name myfile.txt
 ```c
 FILE *pfile = NULL;
 char *filename = "myfile.text";
-pfile = fopen(filename, "W"); // Open myfile. txt to write it
-If(pfile != NULL)
+pfile = fopen(filename, "w"); // Open myfile. txt to write it
+if(pfile == NULL)
 	printf("Failed to open %s.\n", filename);
 ```
 
@@ -453,6 +453,7 @@ fp = fopen("file.txt", "r");
 if( fp == NULL) {
 	perror ("Error opening file");
 	return(-1);
+	}
 
 fseek(fp, 0, SEEK_END);
 

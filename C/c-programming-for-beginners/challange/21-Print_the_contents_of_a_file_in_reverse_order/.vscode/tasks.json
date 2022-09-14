@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo", //name ur application 
+            "label": "21-Print_the_contents_of_a_file_in_reverse_order", //name ur application 
             "type": "shell",
             "command": "gcc",
             "args": [
                 "-g", //complication command for global
                 "-o", //to create an object file
-                "helloworld", //name the executable
-                "helloworld.c" //name ur sourcefile
+                "21-Print_the_contents_of_a_file_in_reverse_order", //name the executable
+                "21-Print_the_contents_of_a_file_in_reverse_order.c" //name ur sourcefile
             ],
             "group": {
                 "kind": "build",

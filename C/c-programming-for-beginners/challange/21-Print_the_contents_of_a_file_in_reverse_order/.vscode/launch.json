@@ -4,7 +4,7 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": " ${workspaceFolder}/helloworld.exe",//enter program name, for example
+        "program": " ${workspaceFolder}/21-Print_the_contents_of_a_file_in_reverse_order.exe",//enter program name, for example
         "args": [],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
