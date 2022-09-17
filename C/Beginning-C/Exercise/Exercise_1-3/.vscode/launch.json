@@ -4,7 +4,7 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": " ${workspaceFolder}/Program1-1.exe",//enter program name, for example
+        "program": " ${workspaceFolder}/Exercise_1-3.exe",//enter program name, for example
         "args": [],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
